@@ -1,0 +1,56 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# auto color for ls
+alias ls='ls --color=auto'
+alias la='ls --color=auto -la -hN'
+
+PS1='[\u@\h \W]\$ '
+
+# fzf config
+# export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# set default browser
+export BROWSER='firefox'
+
+# set default text editor
+export VISUAL='nvim'
+export EDITOR="$VISUAL"
+
+# source ~/.cargo/env
+
+# fix ugly terminal color
+export LS_COLORS="$LS_COLORS:ow=1;35;100:tw=1;35;100:"
+# initialize pyenv
+# eval "$(pyenv init -)"
+
+# for convenient history searching
+alias shistory='history | grep'
+
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# IBus setup
+# export GTK_IM_MODULE=ibus
+# export XMODIFIERS=@im=ibus
+# export QT_IM_MODULE=ibus
+
+# tmux aliases
+alias t="tmux"
+alias ta="t a -t"
+alias tls="t ls"
+alias tn="t new -t"
+alias dotdrop="~/Projects/dotfiles/dotdrop.sh --cfg=~/Projects/dotfiles/config.yaml"
+
+alias gdrv="grive -p ~/Projects/google-drive -P"
+
+# path export for ruby and gems
+# export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
+# export PATH="$HOME/.local/bin/:$PATH"
+# export DOTDROP_PROFILE="nguyenston"

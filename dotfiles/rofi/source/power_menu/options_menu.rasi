@@ -1,0 +1,139 @@
+@import "../colors.rasi"
+configuration {
+    hover-select:    true;
+    me-select-entry: "";
+    me-accept-entry: [ MousePrimary, MouseSecondary ];
+    kb-custom-1:     [ "l" ]; // lock
+    kb-custom-2:     [ "e" ]; // exit
+    kb-custom-3:     [ "u" ]; // users
+    kb-custom-4:     [ "s" ]; // suspend
+    kb-custom-5:     [ "r" ]; // reboot
+    kb-custom-6:     [ "S" ]; // shutdown
+}
+/*****----- Main Window -----*****/
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       400px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               22px;
+    border-color:                @selected;
+    background-color:            @background;
+    cursor:                      "default";
+    font:                        "JetBrains Mono 10";
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     10px;
+    border:                      0px solid;
+    border-radius:               0px 0px 0px 0px;
+    border-color:                @selected;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                transparent;
+    background-color:            transparent;
+    children:                    [ "prompt", "dummy" ];
+}
+
+dummy {
+    expand:           true;
+    background-color: inherit;
+}
+
+prompt {
+    content:                     "Select an option:";
+    enabled:                     true;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               12px;
+    border-color:                @selected;
+    background-color:            inherit;
+    text-color:                  @foreground;
+}
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    columns:                     3;
+    lines:                       2;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     5px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @selected;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     5px;
+    border:                      0px solid;
+    border-radius:               12px;
+    border-color:                @selected;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+    orientation:                 vertical;
+    children:                    [ element-icon, element-text ];
+}
+element normal.normal {
+    background-color:            @background;
+    text-color:                  @foreground;
+}
+
+element selected.normal {
+    border:                      0px 4px 0px 4px;
+    background-color:            @background-alt;
+    text-color:                  inherit;
+}
+
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        3em;
+    cursor:                      inherit;
+    horizontal-align:            0.5;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    highlight:                   inherit;
+    cursor:                      inherit;
+    horizontal-align:            0.5;
+}

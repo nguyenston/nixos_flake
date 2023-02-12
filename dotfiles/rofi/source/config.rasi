@@ -1,0 +1,22 @@
+/**
+ *
+ * Author : Aditya Shakya (adi1090x)
+ * Github : @adi1090x
+ * 
+ * Rofi Theme File
+ * Rofi Version: 1.7.3
+ **/
+
+/*****----- Configuration -----*****/
+configuration {
+	  modi:                       "drun,ssh";
+    show-icons:                 true;
+    display-drun:               "";
+    display-window:             "";
+    display-ssh:                "";
+	  drun-display-format:        "{name}";
+}
+
+/*****----- Global Properties -----*****/
+@import                          "theme.rasi"
+
