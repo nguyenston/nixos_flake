@@ -29,6 +29,7 @@ in
       wlogout # logout menu
       socat # socket stuff
       wpaperd
+      obs-studio
       
       # dependencies/utils
       libnotify
@@ -56,7 +57,7 @@ in
 
       # applications
       firefox
-      discord
+      webcord
       grive2
       libsForQt5.okular
       gnome-text-editor
