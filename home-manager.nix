@@ -51,10 +51,6 @@ in
       libinput
       (callPackage ./derivations/hyprpicker.nix {})
 
-      # fonts
-      jetbrains-mono
-      nerdfonts
-
       # applications
       firefox
       webcord

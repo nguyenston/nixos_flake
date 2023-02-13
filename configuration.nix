@@ -172,13 +172,19 @@ in
       });
     })
   ];
+
+  # List of font
+  fonts.fonts = with pkgs; [
+    jetbrains-mono
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
+    (google-fonts.override { fonts = [ "ZenMaruGothic" ]; })
+  ];
   
+  # enable nix flakes
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = "experimental-features = nix-command flakes";
   };
-
-  # make caps lock more useful
 
   # make swaylock work
   security.pam.services.swaylock = {
