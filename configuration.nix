@@ -156,6 +156,7 @@ in
     wget
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
+    coreutils
     lshw
     powertop
   ];

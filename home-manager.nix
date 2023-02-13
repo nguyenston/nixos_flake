@@ -31,6 +31,7 @@ in
       wpaperd
       
       # dependencies/utils
+      libnotify
       tmux
       file
       ripgrep
