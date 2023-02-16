@@ -18,6 +18,7 @@ exit_cmd="notify-send 'No suitable wm found, can't exit!'"
 case "$1" in
   "i3") exit_cmd="i3-msg exit" ;;
   "awesome") exit_cmd="echo 'awesome.quit()' | awesome-client" ;;
+  "hyprland") exit_cmd="hyprctl dispatch exit" ;;
   *) ;;
 esac
 
