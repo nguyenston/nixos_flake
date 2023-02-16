@@ -204,6 +204,10 @@ in
 
   # List services that you want to enable:
 
+  # nvidia drivers
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # hardware.opengl.enable = true;
+
 
   # makes capslock into esc when tapped, ctrl when held
   systemd.services.udevmon = {
