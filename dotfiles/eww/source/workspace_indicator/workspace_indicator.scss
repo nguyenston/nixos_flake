@@ -1,0 +1,85 @@
+* {
+  all: unset;
+}
+
+// define color classes
+
+.ws_ind {
+  // Figure out new font awesome stuff
+  .ws_ind_cell {
+    font-family: "JetBrains Mono";
+    border-width: 1.5px;
+    font-size: 160%;
+    border-radius: 0.5em;
+
+    &.empty {
+      font-size: 80%;
+      opacity: 0.8;
+    }
+    &.occupied {
+      opacity: 1;
+    }
+    &.focused {
+      opacity: 1;
+      // border-style: solid;
+      // border-color: $gold;
+      // background-color: rgba(255, 255, 255, 0.15);
+    }
+    &.pink {
+      color: $pink;
+    }
+    &.red {
+      color: $red;
+    }
+    &.cyan {
+      color: $cyan;
+    }
+    &.green {
+      color: $green;
+    }
+    &.purple {
+      color: $purple;
+    }
+    &.brown {
+      color: $brown;
+    }
+    &.urgent {
+      color: $gold;
+    }
+  }
+
+  .ws_ind_focus {
+    font-family: "Zen Maru Gothic";
+    font-size: 160%;
+    font-weight: bold;
+    color: white;
+    border: solid 1px $gold;
+    border-radius: 2em;
+    &.bg-white {
+      background-color: $white;
+    }
+    &.bg-pink {
+      background-color: $pink;
+    }
+    &.bg-red {
+      background-color: $red;
+    }
+    &.bg-cyan {
+      background-color: $cyan;
+    }
+    &.bg-green {
+      background-color: $green;
+    }
+    &.bg-purple {
+      background-color: $purple;
+    }
+    &.bg-brown {
+      background-color: $brown;
+    }
+  }
+}
+
+.ws_ind_cell_bg:hover {
+  background-color: $bg_alt;
+  border-radius: 1em;
+}

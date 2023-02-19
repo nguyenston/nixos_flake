@@ -1,0 +1,50 @@
+* {
+  all: unset;
+}
+
+.clock {
+  .kanji {
+    color: $grey;
+    font-weight: 600;
+    font-size: 130%;
+    &.small {
+      font-weight: 700;
+      font-size: 90%;
+    }
+  }
+  .separator {
+    border: solid 0px $bg_button;
+    &.vertical {
+      border-bottom-width: 2px;
+    }
+    &.horizontal {
+      border-right-width: 2px;
+    }
+  }
+  .weekday {
+    padding: 0px 15px 10px 15px;
+    background-color: $bg_alt_transparent;
+  }
+  .month_label {
+    padding: 0px 0px 10px;
+    font-size: 200%;
+    background-color: $bg_alt_transparent;
+    border-radius: 0.5em 0.5em 0 0;
+  }
+}
+
+calendar {
+  font-family: "Jet Brains Mono";
+  font-weight: bold;
+  font-size: 120%;
+  color: $grey;
+  padding: 1em 0.75em 0em;
+  border-radius: 0 0 0.5em 0.5em;
+  background-color: $bg_alt_dark_transparent;
+  &:selected {
+    color: $gold;
+  }
+  &:indeterminate {
+    color: $bg_button;
+  }
+}

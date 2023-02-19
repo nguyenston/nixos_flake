@@ -1,0 +1,102 @@
+* {
+  all: unset;
+}
+
+.wifi {
+  color: $wifi;
+  .icon {
+    font-size: 180%;
+    font-weight: normal;
+    font-family: "JetBrainsMono Nerd Fonts";
+  }
+  .title {
+    border-color: $gold;
+    border-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
+    .bar {
+      border-style: solid;
+      border-left-width: 3px;
+      border-right-width: 3px;
+      &.up {
+        border-color: $wifi;
+      }
+      &.down {
+        border-color: $bg_alt;
+      }
+    }
+    .kanji {
+      font-family: "Zen Maru Gothic";
+      font-weight: 500;
+      font-size: 250%;
+    }
+  }
+  .label {
+    font-size: 120%;
+    font-weight: bold;
+    &.glyph {
+      font-size: 120%;
+    }
+    &.active {
+      color: $wifi;
+    }
+  }
+  .messages {
+    .label {
+      font-size: 120%;
+      font-weight: bold;
+      color: #ef625f;
+    }
+  }
+}
+
+.wifi:hover {
+  background-color: $bg;
+  border-radius: 0.5em;
+}
+
+.wifi_entry {
+  .container {
+    padding: 10px;
+    &.expanded {
+      padding-left: 8px;
+      border-style: solid;
+      border-left-width: 2px;
+      border-color: $gold;
+    }
+  }
+}
+.wifi_entry:hover {
+  background-color: $bg_alt;
+}
+.entry_handler {
+  border-top-width: 1px;
+  border-style: solid;
+  border-color: $gold;
+  padding-top: 15px;
+  font-weight: bold;
+  .button {
+    padding: 5px 10px 5px 10px;
+    border: solid 1px $grey;
+    &.flat_bottom {
+      border-radius: 0.3em 0.3em 0em 0em;
+    }
+  }
+  .selection_box {
+    border: solid 1px $grey;
+    border-top-width: 0px;
+    background-color: $bg_button;
+    .button {
+      border-width: 0px;
+    }
+  }
+  .selection_box trough slider {
+    all: unset;
+    color: $bg_alt;
+  }
+  .auth_label {
+    color: white;
+    padding: 5px;
+    padding-right: 15px;
+  }
+}

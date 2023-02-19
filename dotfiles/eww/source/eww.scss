@@ -1,0 +1,64 @@
+@import "colors";
+
+.bar_main {
+  background-color: transparent;
+}
+
+.widget_block {
+  background-color: $bg;
+  border-style: solid;
+  border-radius: 0.5em;
+  border-color: $gold;
+  &.horizontal {
+    padding: 0px 5px 0px 5px;
+    border-width: 0px 2px 0px 2px;
+  }
+  &.vertical {
+    padding: 5px 0px 5px 0px;
+    border-width: 2px 0px 2px 0px;
+  }
+}
+
+.widget_panel {
+  background-color: $bg;
+  border: solid 1px $gold;
+  border-radius: 1em;
+  padding: 10px;
+  .button {
+    background-color: $bg_button;
+    border-radius: 0.3em;
+  }
+  .button:hover {
+    background-color: $bg_button_hover;
+  }
+  .input {
+    color: white;
+    background-color: $bg;
+    border: solid 1px grey;
+    border-radius: 0.5em;
+    padding: 3px 5px 2px 5px;
+  }
+}
+
+.label {
+  font-family: "Jet Brains Mono";
+  color: $grey;
+  font-weight: bold;
+}
+.kanji {
+  font-family: "Zen Maru Gothic";
+}
+
+scrollbar trough {
+  all: unset;
+  border-radius: 1em;
+  min-width: 10px;
+  background-color: $bg;
+}
+
+@import "workspace_indicator/workspace_indicator";
+@import "system_monitor/system_monitor";
+@import "audio_brightness/audio_brightness";
+@import "network/network";
+@import "time/time";
+@import "disk_monitor/disk_monitor";

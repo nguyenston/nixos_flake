@@ -1,0 +1,41 @@
+(defvar urgent_anim 1)
+(defvar workspace_prop '[{"name": "一", "number": 1, "color": "pink"},
+                         {"name": "二", "number": 2, "color": "red"},
+                         {"name": "三", "number": 3, "color": "cyan"},
+                         {"name": "四", "number": 4, "color": "green"},
+                         {"name": "五", "number": 5, "color": "purple"},
+                         {"name": "六", "number": 6, "color": "brown"}]')
+
+(deflisten workspaces :initial "[]" "bash ~/.config/eww/workspace_indicator/get-workspaces.sh")
+(deflisten current_workspace :initial "1" "bash ~/.config/eww/workspace_indicator/get-active-workspace.sh")
+
+(defwidget workspaces [?transpose]
+  (eventbox 
+    :onscroll "bash ${EWW_CONFIG_DIR}/workspace_indicator/change-active-workspace.sh {} ${current_workspace}"
+    (box 
+      :class "widget_block ws_ind ${transpose == true ? "vertical" : "horizontal"}"
+      :space-evenly true
+      :orientation {transpose == true ? "v" : "h"}
+      (for workspace in workspaces
+        (workspace_cell
+          :id {workspace.id}
+          :status "${workspace.windows > 0 ? "occupied" : "empty"}"
+          :focused {workspace.id == current_workspace}
+          :urgent 0)))))
+
+(defwidget workspace_cell [id status focused urgent]
+  (eventbox
+    :class "ws_ind_cell_bg"
+    :cursor "hand"
+    :onclick "hyprctl dispatch workspace ${id}"
+    :valign "center"
+    :halign "center"
+    (label
+      :width 30
+      :height 30
+      :xalign 0.54
+      :yalign 0.4
+      :class "ws_ind_cell ${focused ? "focused" : status} 
+        ${workspace_prop[id - 1].color} 
+        ${urgent == 1 && !focused ? "urgent" : ""}"
+      :text {focused || (urgent == 1 && urgent_anim == 1) ? "ﰉ" : "ﰊ"})))
