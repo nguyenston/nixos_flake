@@ -216,7 +216,7 @@ in
     wants = [ "systemd-udev-settle.service" ];
     after = [ "systemd-udev-settle.service" ];
     wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.interception-tools (pkgs.callPackage ./derivations/caps2esc.nix {}) ];
+    path = [ pkgs.interception-tools (pkgs.callPackage ./derivations/caps2esc {}) ];
     unitConfig = {
       Type = "simple";
     };
@@ -224,7 +224,7 @@ in
       Nice="-20";
       ExecStart = ''
         ${pkgs.bash}/bin/bash -c '${pkgs.interception-tools}/bin/intercept -g /dev/input/event0 \
-          | ${(pkgs.callPackage ./derivations/caps2esc.nix {})}/bin/caps2esc \
+          | ${(pkgs.callPackage ./derivations/caps2esc {})}/bin/caps2esc \
           | ${pkgs.interception-tools}/bin/uinput -d /dev/input/event0'
       '';
     };

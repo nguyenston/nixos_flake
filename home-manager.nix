@@ -49,7 +49,7 @@ in
       jq
       killall
       libinput
-      (callPackage ./derivations/hyprpicker.nix {})
+      (callPackage ./derivations/hyprpicker {})
 
       # applications
       firefox
