@@ -11,7 +11,7 @@ pkgs.stdenv.mkDerivation rec {
   src = pkgs.fetchgit {
     url = "https://gitlab.com/interception/linux/plugins/caps2esc";
     rev = "6ad00311380254ce6c879f08456238c52b5f44c8";
-    sha256 = "sha256-cTq0GHD1DqqhM5KwBWlzX+18+B9ULWiDeuPWVKnuZO0=";
+    sha256 = "sha256-RARGBetCpbpDWZuDc/R4/yDBXY1KD7y1eDW3feJ3PDs=";
   };
 
   buildInputs = with pkgs; [

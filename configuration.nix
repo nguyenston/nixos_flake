@@ -163,12 +163,23 @@ in
   
   # overlays
   nixpkgs.overlays = [
-    (self: super: { # makes discord update faster
+    (self: super: { 
+      # latest discord version
       discord = super.discord.overrideAttrs (_: {
       	src = builtins.fetchTarball {
       	  url = "https://discord.com/api/download?platform=linux&format=tar.gz";
-	  sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
+	        sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
       	};
+      });
+
+      # latest grive version (to fix a compile error)
+      grive2 = super.grive2.overrideAttrs (_: {
+        src = super.fetchFromGitHub {
+          owner = "vitalif";
+          repo = "grive2";
+          rev =  "648ff8eea1a3c7cac8bfba283f75717bf54c67eb";
+          sha256 = "sha256-CWjsCEYHotDGYdAC6nn3cMDe9F7ySVRXUHz1oTgllgI=";
+        };      
       });
     })
   ];

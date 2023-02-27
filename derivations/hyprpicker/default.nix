@@ -11,7 +11,7 @@ pkgs.stdenv.mkDerivation rec {
   src = pkgs.fetchgit {
     url = "https://github.com/hyprwm/hyprpicker";
     rev = "e4c267292a8b983bf84929fdce01cd2b7513518e";
-    sha256 = "sha256-eKkByKfdKkAR79hTs4sk0Bl4dmizbe4DwQo+BCVl5EI=";
+    sha256 = "sha256-XbWDq5tCUWrb+AmQT9b66OGeYHipLRAukvbl9rzkwYg=";
   };
 
   buildInputs = with pkgs; [
