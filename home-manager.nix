@@ -57,6 +57,7 @@ in
       grive2
       libsForQt5.okular
       gnome-text-editor
+      masterpdfeditor
       
       # programming languages
       git
