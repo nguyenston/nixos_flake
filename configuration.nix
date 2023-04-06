@@ -87,6 +87,10 @@ in
     #media-session.enable = true;
   };
 
+  # bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
