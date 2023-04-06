@@ -58,6 +58,8 @@ in
       libsForQt5.okular
       gnome-text-editor
       masterpdfeditor
+      xarchiver
+      vlc
       
       # programming languages
       git
