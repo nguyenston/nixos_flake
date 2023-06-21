@@ -50,6 +50,7 @@ in
       killall
       libinput
       (callPackage ./derivations/hyprpicker {})
+      viewnior
 
       # applications
       firefox
@@ -60,6 +61,7 @@ in
       masterpdfeditor
       xarchiver
       vlc
+      zoom-us
       
       # programming languages
       git
@@ -67,6 +69,8 @@ in
       julia
       gcc
       cmake
+      lua
+      sumneko-lua-language-server
 
       (python3.withPackages (p: with p; [
         magic
