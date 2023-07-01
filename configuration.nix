@@ -167,23 +167,22 @@ in
   
   # overlays
   nixpkgs.overlays = [
-    (self: super: { 
+    (final: prev: { 
       # latest discord version
-      discord = super.discord.overrideAttrs (_: {
+      discord = prev.discord.overrideAttrs (_: {
       	src = builtins.fetchTarball {
       	  url = "https://discord.com/api/download?platform=linux&format=tar.gz";
 	        sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
       	};
       });
 
-      # latest grive version (to fix a compile error)
-      grive2 = super.grive2.overrideAttrs (_: {
-        src = super.fetchFromGitHub {
-          owner = "vitalif";
-          repo = "grive2";
-          rev =  "648ff8eea1a3c7cac8bfba283f75717bf54c67eb";
-          sha256 = "sha256-CWjsCEYHotDGYdAC6nn3cMDe9F7ySVRXUHz1oTgllgI=";
-        };      
+      # latest zoom version
+      zoom-us = prev.zoom-us.overrideAttrs (_: {
+        version = "5.15.2.4260";
+        src = prev.fetchurl {
+          url = "https://zoom.us/client/5.15.2.4260/zoom_x86_64.pkg.tar.xz";
+          hash = "sha256-R6M180Gcqu4yZC+CtWnixSkjPe8CvgoTPWSz7B6ZAlE=";
+        };
       });
     })
   ];
@@ -191,7 +190,7 @@ in
   # List of font
   fonts.fonts = with pkgs; [
     jetbrains-mono
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly"]; })
     (google-fonts.override { fonts = [ "ZenMaruGothic" ]; })
   ];
   
