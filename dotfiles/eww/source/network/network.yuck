@@ -22,7 +22,7 @@
       ${transpose == true ? "vertical" : "horizontal"} eww"
     (label
       :class "icon"
-      :text "直")))
+      :text "󰖩")))
 
 (defwindow wifi_panel_horizontal
   :monitor 0

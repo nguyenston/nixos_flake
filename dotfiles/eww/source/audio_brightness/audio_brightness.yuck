@@ -45,9 +45,7 @@
           :class "speaker icon ${sink_volume.mute ? "muted" : ""}"
           :width 30
           :height 30
-          :halign "center"
-          :valign "center"
-          :text {sink_volume.mute ? "ﱝ" : "墳"})))))
+          :text {sink_volume.mute ? "󰝟" : "󰕾"})))))
 
 
 (deflisten source_volume :initial '{"left":0,"right":0,"balance":0.00,"mute":false}' `./audio_brightness/audio_get_volume.sh source subscribe`)
@@ -83,9 +81,7 @@
           :class "mic icon ${source_volume.mute ? "muted" : ""}"
           :width 30
           :height 30
-          :halign "center"
-          :valign "center"
-          :text {source_volume.mute ? "" : ""})))))
+          :text {source_volume.mute ? "" : ""})))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Audio panel
@@ -180,8 +176,8 @@
         :onclick "pactl set-default-${device_type} ${dev.name} \
           && ${EWW_CONFIG_DIR}/audio_brightness/audio_query.sh ${device_type}s ${EWW_CMD}")
       (label
-        :class "checkmark"
-        :text "${dev.name == default_device[device_type] ? "" : ""}"))
+        :class "checkmark icon"
+        :text "${dev.name == default_device[device_type] ? "󰄬" : ""}"))
     (box :class "separator" :width 5)
     (label
       :xalign 0
@@ -286,7 +282,5 @@
           :class "brightness icon"
           :width 30
           :height 30
-          :halign "center"
-          :valign "center"
-          :text "")))))
+          :text "󰃠")))))
 

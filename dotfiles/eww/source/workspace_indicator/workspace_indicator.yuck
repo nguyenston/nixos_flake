@@ -28,14 +28,10 @@
     :class "ws_ind_cell_bg"
     :cursor "hand"
     :onclick "hyprctl dispatch workspace ${id}"
-    :valign "center"
-    :halign "center"
     (label
       :width 30
       :height 30
-      :xalign 0.54
-      :yalign 0.4
       :class "ws_ind_cell ${focused ? "focused" : status} 
         ${workspace_prop[id - 1].color} 
         ${urgent == 1 && !focused ? "urgent" : ""}"
-      :text {focused || (urgent == 1 && urgent_anim == 1) ? "ﰉ" : "ﰊ"})))
+      :text {focused || (urgent == 1 && urgent_anim == 1) ? "󰜋" : "󰜌"})))

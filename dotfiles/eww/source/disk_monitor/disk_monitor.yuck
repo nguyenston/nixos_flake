@@ -10,7 +10,7 @@
       :class "icon"
       :width 30
       :height 30
-      :text "")
+      :text "󰋊")
     (label
       :class "label"
       :text "${EWW_DISK["/"].free / 1073741824 < 10 ? 
