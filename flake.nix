@@ -35,9 +35,7 @@
               enable = true;
               xwayland = {
                 enable = true;
-                hidpi = true;
               };
-              nvidiaPatches = true;
             };
           }
           ./configuration.nix 
