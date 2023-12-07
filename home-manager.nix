@@ -71,6 +71,7 @@ in
       cmake
       lua
       sumneko-lua-language-server
+      gnumake
 
       (python3.withPackages (p: with p; [
         magic
