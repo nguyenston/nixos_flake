@@ -119,7 +119,7 @@ in
     usePercentageForPolicy = true;
     percentageLow = 10;
     percentageCritical = 5;
-    percentageAction = 3;
+    percentageAction = 4;
     criticalPowerAction = "PowerOff";
   };
 
