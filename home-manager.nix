@@ -49,7 +49,8 @@ in
       jq
       killall
       libinput
-      (callPackage ./derivations/hyprpicker {})
+      # (callPackage ./derivations/hyprpicker {})
+      hyprpicker
       viewnior
 
       # applications

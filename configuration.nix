@@ -191,7 +191,7 @@ in
   ];
 
   # List of font
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     jetbrains-mono
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly"]; })
     (google-fonts.override { fonts = [ "ZenMaruGothic" ]; })
@@ -249,6 +249,9 @@ in
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # default xdg portal behavior
+  xdg.portal.config.common.default = "*";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
