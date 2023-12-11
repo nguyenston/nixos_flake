@@ -50,6 +50,9 @@ alias dotdrop="~/Projects/dotfiles/dotdrop.sh --cfg=~/Projects/dotfiles/config.y
 
 alias gdrv="grive -p ~/Projects/google-drive -P"
 
+alias mount_gdrive="rclone mount gdrive-obsidian: ~/Projects/gdrive-obsidian/ --daemon --vfs-cache-mode full \
+  & rclone mount gdrive-main: ~/Projects/gdrive-main/ --daemon --vfs-cache-mode full"
+
 # path export for ruby and gems
 # export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 # export PATH="$HOME/.local/bin/:$PATH"

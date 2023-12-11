@@ -52,6 +52,9 @@ in
       # (callPackage ./derivations/hyprpicker {})
       hyprpicker
       viewnior
+      qmk
+      fd
+      sshfs
 
       # applications
       firefox
@@ -63,6 +66,8 @@ in
       xarchiver
       vlc
       zoom-us
+      obsidian
+      rclone
       
       # programming languages
       git
@@ -71,8 +76,14 @@ in
       gcc
       cmake
       lua
-      sumneko-lua-language-server
       gnumake
+      cmdstan
+
+      # lsp stuff
+      lua-language-server
+      ## rust-analyzer is included in rustup
+      stylua
+      shfmt
 
       (python3.withPackages (p: with p; [
         magic
