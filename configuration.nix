@@ -123,6 +123,10 @@ in
     criticalPowerAction = "PowerOff";
   };
 
+  # Some udev rules
+  services.udev.packages = with pkgs; [
+    qmk-udev-rules
+  ];
   
   # Enable the X11 windowing system.
   # services.xserver.enable = true;

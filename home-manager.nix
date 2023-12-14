@@ -77,10 +77,10 @@ in
       cmake
       lua
       gnumake
-      cmdstan
 
       # lsp stuff
       lua-language-server
+      nil # nix language server
       ## rust-analyzer is included in rustup
       stylua
       shfmt

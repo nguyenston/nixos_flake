@@ -60,3 +60,5 @@ alias mount_gdrive="rclone mount gdrive-obsidian: ~/Projects/gdrive-obsidian/ --
 #
 
 export CMDSTAN=~/Projects/cmdstan
+
+source ~/Projects/qmk_firmware/util/qmk_tab_complete.sh
