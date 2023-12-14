@@ -10,7 +10,6 @@ $2=<subscribe?>
 https://github.com/nguyenston
 '
 
-
 parse_volume='
   BEGIN {
     ret = "{"
@@ -32,35 +31,36 @@ parse_volume='
 '
 
 function get_volume_json() {
-  default=$(pactl get-default-${1})
-  raw_str=$(pactl get-${1}-volume ${default})
-  mute_str=$(pactl get-${1}-mute ${default})
-  echo -e "${raw_str}\n${mute_str}" | awk "$parse_volume"
+	default=$(pactl get-default-${1})
+	raw_str=$(pactl get-${1}-volume ${default})
+	mute_str=$(pactl get-${1}-mute ${default})
+	echo -e "${raw_str}\n${mute_str}" | awk "$parse_volume"
 }
 
 # skip every n line to reduce load. might also reduce responsiveness
 function every_n_line() {
-  N=0
-  while read -r LINE; do
-    if (( N % $1 == 0 )); then
-      echo $LINE
-    fi
-    ((N++))
-  done
+	N=0
+	while read -r LINE; do
+		if ((N % $1 == 0)); then
+			echo $LINE
+		fi
+		((N++))
+	done
 }
 
 case "$2" in
-  "subscribe")
-    pid=$$
-    kill $(ps -ax | grep "audio_get_volume.sh $1 subscribe" | grep -v "$pid" | grep '?' | awk '{print $1}') > /dev/null 2>&1
-    kill $(ps -ax | grep "pactl subscribe $1" | grep '?' | awk '{print $1}') > /dev/null 2>&1
-    pactl subscribe $1 \
-      | grep --line-buffered "Event 'change' on $1" \
-      | every_n_line 2 \
-      | while read -r evt; do 
-      get_volume_json "$1";
-      sleep 0.01;
-    done
-    ;;
-  *) get_volume_json "$1" ;;
+"subscribe")
+	pid=$$
+	kill $(ps -ax | grep "audio_get_volume.sh $1 subscribe" | grep -v "$pid" | grep '?' | awk '{print $1}') >/dev/null 2>&1
+	kill $(ps -ax | grep "pactl subscribe $1" | grep '?' | awk '{print $1}') >/dev/null 2>&1
+	get_volume_json "$1"
+	pactl subscribe $1 |
+		grep --line-buffered "Event 'change' on $1" |
+		every_n_line 2 |
+		while read -r evt; do
+			get_volume_json "$1"
+			sleep 0.01
+		done
+	;;
+*) get_volume_json "$1" ;;
 esac

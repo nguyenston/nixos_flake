@@ -57,3 +57,6 @@ alias mount_gdrive="rclone mount gdrive-obsidian: ~/Projects/gdrive-obsidian/ --
 # export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 # export PATH="$HOME/.local/bin/:$PATH"
 # export DOTDROP_PROFILE="nguyenston"
+#
+
+export CMDSTAN=~/Projects/cmdstan

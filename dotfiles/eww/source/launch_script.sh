@@ -3,7 +3,8 @@
 full_path=$(realpath $0)
 dir_path=$(dirname $full_path)
 
-eww kill
+# eww kill
+pkill eww
 eww daemon
 eww open bar_main
 
