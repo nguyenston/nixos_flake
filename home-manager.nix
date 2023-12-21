@@ -74,6 +74,8 @@ in
       rustup
       julia
       gcc
+      clang-tools
+      bear
       cmake
       lua
       gnumake
@@ -86,6 +88,7 @@ in
       shfmt
 
       (python3.withPackages (p: with p; [
+        qmk
         magic
         numpy
         docopt

@@ -91,6 +91,9 @@ in
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  # non-root qmk access
+  hardware.keyboard.qmk.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -158,7 +161,6 @@ in
   nixpkgs.config.permittedInsecurePackages = [
     # "electron-24.8.6"
   ];
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
