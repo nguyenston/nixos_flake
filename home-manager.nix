@@ -63,6 +63,7 @@ in
       libsForQt5.okular
       gnome-text-editor
       masterpdfeditor
+      zathura # vim-based pdf viewer
       xarchiver
       vlc
       zoom-us
@@ -79,6 +80,8 @@ in
       cmake
       lua
       gnumake
+      texliveFull
+      pplatex
 
       # lsp stuff
       lua-language-server
@@ -88,6 +91,7 @@ in
       shfmt
 
       (python3.withPackages (p: with p; [
+        argcomplete
         qmk
         magic
         numpy
