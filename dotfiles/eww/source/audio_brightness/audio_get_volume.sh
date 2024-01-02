@@ -56,7 +56,7 @@ case "$2" in
 	get_volume_json "$1"
 	pactl subscribe $1 |
 		grep --line-buffered "Event 'change' on $1" |
-		every_n_line 2 |
+		every_n_line 1 |
 		while read -r evt; do
 			get_volume_json "$1"
 			sleep 0.01
