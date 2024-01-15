@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   user = (import ./global-params.nix).user;
   system = (import ./global-params.nix).system;
@@ -103,6 +103,16 @@ in
     #  thunderbird
     ];
   };
+  # nix-ld to run unpackaged binaries
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    nss
+    openssl
+    expat
+  ];
 
   # GUI file manager
   programs.thunar = {

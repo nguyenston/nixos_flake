@@ -69,6 +69,7 @@ in
       zoom-us
       obsidian
       rclone
+      zotero
       
       # programming languages
       git
@@ -88,7 +89,8 @@ in
       nil # nix language server
       ## rust-analyzer is included in rustup
       stylua
-      shfmt
+      shfmt # shell format
+      marksman # markdown
 
       (python3.withPackages (p: with p; [
         argcomplete

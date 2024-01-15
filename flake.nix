@@ -7,8 +7,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     
     hyprland.url = "github:hyprwm/Hyprland";
+    nix-alien.url = "github:thiagokokada/nix-alien";
   };
-  outputs = input@{ self, nixpkgs, home-manager, hyprland, ... }:
+  outputs = input@{ self, nixpkgs, home-manager, hyprland, nix-alien, ... }:
   let
     user = (import ./global-params.nix).user;
     hostname = (import ./global-params.nix).hostname;
@@ -38,6 +39,11 @@
               };
             };
           }
+          ({ self, system, ...}: {
+            environment.systemPackages = with self.inputs.nix-alien.packages.${system}; [
+              nix-alien
+            ];
+          })
           ./configuration.nix 
         ];
       };
