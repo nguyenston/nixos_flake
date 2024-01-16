@@ -55,6 +55,8 @@ in
       qmk
       fd
       sshfs
+      pandoc
+      swayidle
 
       # applications
       firefox
