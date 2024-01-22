@@ -140,6 +140,12 @@ in
   services.udev.packages = with pkgs; [
     qmk-udev-rules
   ];
+
+  # enable wake from sleep through usb devices
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0083", ATTR{power/wakeup}="enabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="03a8", ATTRS{idProduct}=="a649", ATTR{power/wakeup}="enabled"
+  '';
   
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
@@ -182,6 +188,7 @@ in
     coreutils
     lshw
     powertop
+    usbutils
   ];
   
   # overlays

@@ -30,6 +30,7 @@ in
       socat # socket stuff
       wpaperd
       obs-studio
+      htop
       
       # dependencies/utils
       libnotify
