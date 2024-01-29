@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 let
   user = (import ./global-params.nix).user;
   system = (import ./global-params.nix).system;
@@ -174,9 +174,12 @@ in
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Icky but let obsidian work
   nixpkgs.config.permittedInsecurePackages = [
-    # "electron-24.8.6"
+    "electron-25.9.0"
   ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -190,8 +193,11 @@ in
     powertop
     usbutils
     sway-audio-idle-inhibit
+  ] ++ [
+    inputs.hyprpicker.packages.x86_64-linux.hyprpicker
+    inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
-  
+ 
   # overlays
   nixpkgs.overlays = [
     (final: prev: { 

@@ -6,7 +6,7 @@ let
   dotfiles_directories = with builtins; attrNames (readDir ./dotfiles);
   import_dir = dir: import (./. + ("/dotfiles/" + dir));
   merge_sets = list: lib.attrsets.foldAttrs (item: acc: item) 0 list;
-  dotfiles = with builtins; merge_sets (map import_dir dotfiles_directories);
+  dotfiles = merge_sets (map import_dir dotfiles_directories);
 in
 {
   home-manager.users.${user} = {
@@ -51,7 +51,6 @@ in
       killall
       libinput
       # (callPackage ./derivations/hyprpicker {})
-      hyprpicker
       viewnior
       qmk
       fd

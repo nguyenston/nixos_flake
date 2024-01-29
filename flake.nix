@@ -8,8 +8,11 @@
     
     hyprland.url = "github:hyprwm/Hyprland";
     hyprpicker.url = "github:hyprwm/hyprpicker";
+
+    wayland-pipewire-idle-inhibit.url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
+    wayland-pipewire-idle-inhibit.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = inputs @ { self, nixpkgs, home-manager, hyprland, hyprpicker, ... }:
+  outputs = inputs @{ self, nixpkgs, home-manager, hyprland, ... }:
   let
     user = (import ./global-params.nix).user;
     hostname = (import ./global-params.nix).hostname;
@@ -24,6 +27,7 @@
     nixosConfigurations = {
       ${hostname} = lib.nixosSystem {
         inherit system;
+        specialArgs.inputs = inputs;
         modules = [ 
           home-manager.nixosModules.home-manager
           {
