@@ -1,0 +1,80 @@
+[colors]
+transparent_background_colors = true
+
+[colors.primary]
+background = "#24273a" # base
+foreground = "#cad3f5" # text
+bright_foreground = "#cad3f5" # text
+dim_foreground = "#cad3f5" # text
+
+[colors.normal]
+black = "#494d64" # surface2
+blue = "#8aadf4" # blue
+cyan = "#8bd5ca" # teal
+green = "#a6da95" # green
+magenta = "#f5bde6" # pink
+red = "#ed8796" # red
+white = "#b8c0e0" # subtext0
+yellow = "#eed49f" # yellow
+
+[[colors.indexed_colors]]
+color = "#f5a97f" # peach
+index = 16
+
+[[colors.indexed_colors]]
+color = "#f4dbd6" # rosewater
+index = 17
+
+[colors.bright]
+black = "#5b6078" # surface2
+blue = "#8aadf4" # blue
+cyan = "#8bd5ca" # teal
+green = "#a6da95" # green
+magenta = "#f5bde6" # pink
+red = "#ed8796" # red
+white = "#a5adcb" # subtext0
+yellow = "#eed49f" # yellow
+
+[colors.dim]
+black = "#494d64" # surface1
+blue = "#8aadf4" # blue
+cyan = "#8bd5ca" # teal
+green = "#a6da95" # green
+magenta = "#f5bde6" # pink
+red = "#ed8796" # red
+white = "#b8c0e0" #subtext1
+yellow = "#eed49f" # yellow
+
+[colors.cursor]
+cursor = "#f4dbd6" # rosewater
+text = "#24273a" # base
+
+[colors.vi_mode_cursor]
+cursor = "#b7bdf8" # lavender
+text = "#24273a" # base
+
+[colors.hints.start]
+background = "#eed49f" # yellow
+foreground = "#24273a" # base
+
+[colors.hints.end]
+background = "#a5adcb" # subtext0
+foreground = "#24273a" # base
+
+[colors.search.matches]
+background = "#a5adcb" # subtext0
+foreground = "#24273a" # base
+
+[colors.search.focused_match]
+background = "#a6da95" # green
+foreground = "#24273a" # base
+
+[colors.footer_bar]
+background = "#a5adcb" # subtext0
+foreground = "#24273a" # base
+
+[colors.selection]
+background = "#f4dbd6" # rosewater
+text = "#24273a" # base
+
+
