@@ -86,6 +86,9 @@ in
       gnumake
       texliveFull
       pplatex
+      nodejs
+      nodePackages.npm
+      nodePackages.pyright
 
       # lsp stuff
       lua-language-server
@@ -94,8 +97,16 @@ in
       stylua
       shfmt # shell format
       marksman # markdown
+      ruff # linter for python3
+      ruff-lsp # lsp for python3
+
 
       (python3.withPackages (p: with p; [
+        virtualenv
+        pip
+        setuptools
+        wheel
+
         argcomplete
         qmk
         magic
@@ -108,6 +119,8 @@ in
         requests
         packaging
         jinja2 
+        scikit-learn
+        tkinter
       ]))
     ];
 

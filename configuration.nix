@@ -189,6 +189,7 @@ in
     lshw
     powertop
     usbutils
+    sway-audio-idle-inhibit
   ];
   
   # overlays
