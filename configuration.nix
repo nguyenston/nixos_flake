@@ -193,6 +193,7 @@ in
     powertop
     usbutils
     sway-audio-idle-inhibit
+    glxinfo
   ] ++ [
     inputs.hyprpicker.packages.x86_64-linux.hyprpicker
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
@@ -205,7 +206,7 @@ in
       discord = prev.discord.overrideAttrs (_: {
       	src = builtins.fetchTarball {
       	  url = "https://discord.com/api/download?platform=linux&format=tar.gz";
-	        sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
+          sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
       	};
       });
 
@@ -226,7 +227,7 @@ in
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly"]; })
     (google-fonts.override { fonts = [ "ZenMaruGothic" ]; })
   ];
-  
+
   # enable nix flakes
   nix = {
     package = pkgs.nixFlakes;
@@ -235,10 +236,10 @@ in
 
   # make swaylock work
   security.pam.services.swaylock = {
-      text = ''
-        auth include login
-      '';
-    };
+    text = ''
+      auth include login
+    '';
+  };
 
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -253,7 +254,8 @@ in
 
   # nvidia drivers
   # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.opengl.enable = true;
+  hardware.opengl.enable = true;
+  hardware.opengl.extraPackages = [ pkgs.mesa.drivers ];
 
 
   # makes capslock into esc when tapped, ctrl when held
