@@ -4,12 +4,12 @@ let
   user = (import ./global-params.nix).user;
 
   dotfiles_directories = with builtins; attrNames (readDir ./dotfiles);
-  import_dir = dir: import (./. + ("/dotfiles/" + dir));
+  import_dir = root: (dir: import (./. + (root + dir)));
   merge_sets = list: lib.attrsets.foldAttrs (item: acc: item) 0 list;
-  dotfiles = merge_sets (map import_dir dotfiles_directories);
+  dotfiles = merge_sets (map (import_dir "/dotfiles/") dotfiles_directories);
 
   desktop_entries_directories = with builtins; attrNames (readDir ./desktop-entries);
-  desktop_entries = merge_sets (map import_dir desktop_entries_directories);
+  desktop_entries = merge_sets (map (import_dir "/desktop-entries/") desktop_entries_directories);
 in
 {
   home-manager.users.${user} = {
