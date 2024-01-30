@@ -1,5 +1,5 @@
 {
-  obsidian = {
+  obsidian_bad = {
     categories = [ "Office" ];
     comment = "Knowledge base";
     exec = "obsidian --ozone-platform-hint=auto %u";
