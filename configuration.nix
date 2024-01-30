@@ -194,6 +194,7 @@ in
     usbutils
     sway-audio-idle-inhibit
     glxinfo
+    libGL
   ] ++ [
     inputs.hyprpicker.packages.x86_64-linux.hyprpicker
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
@@ -254,8 +255,14 @@ in
 
   # nvidia drivers
   # services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  hardware.opengl.extraPackages = [ pkgs.mesa.drivers ];
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [ 
+      mesa.drivers 
+    ];
+  };
 
 
   # makes capslock into esc when tapped, ctrl when held
