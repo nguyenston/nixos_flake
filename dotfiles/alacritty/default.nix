@@ -9,6 +9,8 @@ in
   ".config/alacritty/colors.toml" = {
     text = ''
       [colors]
+      transparent_background_colors = true
+
       # Default colors
       [colors.primary]
       background = "${colors.Base}" # base
