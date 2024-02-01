@@ -264,26 +264,17 @@ in
     ];
   };
 
-
-  # makes capslock into esc when tapped, ctrl when held
-  systemd.services.udevmon = {
+  services.interception-tools = {
     enable = true;
-    description = "make caps lock esc when tapped, ctrl when held";
-    wants = [ "systemd-udev-settle.service" ];
-    after = [ "systemd-udev-settle.service" ];
-    wantedBy = [ "multi-user.target" ];
-    path = [ pkgs.interception-tools (pkgs.callPackage ./derivations/caps2esc {}) ];
-    unitConfig = {
-      Type = "simple";
-    };
-    serviceConfig = {
-      Nice="-20";
-      ExecStart = ''
-        ${pkgs.bash}/bin/bash -c '${pkgs.interception-tools}/bin/intercept -g /dev/input/event0 \
-          | ${(pkgs.callPackage ./derivations/caps2esc {})}/bin/caps2esc \
-          | ${pkgs.interception-tools}/bin/uinput -d /dev/input/event0'
-      '';
-    };
+    plugins = with pkgs; [
+      interception-tools-plugins.caps2esc
+    ];
+    udevmonConfig = ''
+      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc -m 1 | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          EVENTS:
+            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+    '';  
   };
 
   # Enable the OpenSSH daemon.
