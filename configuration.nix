@@ -144,8 +144,8 @@ in
   # enable wake from sleep through usb devices
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0083", ATTR{power/wakeup}="enabled"
-    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="03a8", ATTRS{idProduct}=="a649", ATTR{power/wakeup}="enabled"
   '';
+  # ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="03a8", ATTRS{idProduct}=="a649", ATTR{power/wakeup}="enabled"
   
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
@@ -195,6 +195,7 @@ in
     sway-audio-idle-inhibit
     glxinfo
     libGL
+    clinfo
   ] ++ [
     inputs.hyprpicker.packages.x86_64-linux.hyprpicker
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
@@ -261,6 +262,9 @@ in
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       mesa.drivers
+      rocmPackages.clr.icd
+      amdvlk
+      driversi686Linux.amdvlk
     ];
   };
 
@@ -282,6 +286,8 @@ in
 
   # default xdg portal behavior
   xdg.portal.config.common.default = "*";
+
+  services.fwupd.enable = true; 
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
