@@ -18,6 +18,7 @@ in
   boot = {
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
+    kernelParams = [ ];
     loader = {
       systemd-boot = {
         enable = true;
@@ -256,6 +257,8 @@ in
 
   # nvidia drivers
   # services.xserver.videoDrivers = [ "nvidia" ];
+  # hardware.cpu.amd.updateMicrocode = true;  
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -267,6 +270,7 @@ in
       driversi686Linux.amdvlk
     ];
   };
+
 
   services.interception-tools = {
     enable = true;
