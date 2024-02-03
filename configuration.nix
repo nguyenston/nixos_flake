@@ -195,6 +195,8 @@ in
     coreutils
     lshw
     powertop
+    nvtop
+    htop
     usbutils
     sway-audio-idle-inhibit
     glxinfo
