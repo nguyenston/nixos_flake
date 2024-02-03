@@ -103,11 +103,9 @@ in
     isNormalUser = true;
     description = "Nguyen Phuc Nguyen";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
   };
-  # nix-ld to run unpackaged binaries
+
+  # nix-ld to run unpackaged/arbitrary binaries
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
@@ -151,31 +149,6 @@ in
   '';
   # ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="03a8", ATTRS{idProduct}=="a649", ATTR{power/wakeup}="enabled"
   
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver = {
-  #   layout = "us";
-  #   xkbVariant = "";
-  # };
-  
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-  
-  # Enable automatic login for the user.
-  # services.xserver.displayManager.autoLogin.enable = true;
-  # services.xserver.displayManager.autoLogin.user = "${user}";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  # systemd.services."getty@tty1".enable = false;
-  # systemd.services."autovt@tty1".enable = false;
-
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -262,9 +235,26 @@ in
   # List services that you want to enable:
 
   # nvidia drivers
-  # services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement = {
+      enable = false;
+      finegrained = false;
+    };
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      amdgpuBusId = "PCI:4:0:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
   # hardware.cpu.amd.updateMicrocode = true;  
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.opengl = {
     enable = true;
     driSupport = true;
