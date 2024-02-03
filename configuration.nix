@@ -18,7 +18,10 @@ in
   boot = {
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelParams = [ ];
+    kernelParams = [ 
+      "module_blacklist=nouveau"
+      "iommu=pt"
+    ];
     loader = {
       systemd-boot = {
         enable = true;
