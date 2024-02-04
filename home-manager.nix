@@ -122,6 +122,7 @@ in
         jinja2 
         scikit-learn
         tkinter
+        jupyterlab
       ]))
     ];
 
