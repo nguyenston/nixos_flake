@@ -1,4 +1,4 @@
-{config, pkgs, lib, home-manager, ...}: 
+{config, pkgs, lib, inputs, ...}: 
 
 let
   user = (import ./global-params.nix).user;
@@ -13,7 +13,19 @@ let
 in
 {
   home-manager.users.${user} = {
+    imports = [ inputs.ags.homeManagerModules.default ];
     programs.home-manager.enable = true;
+
+    # widget utilities similar to eww
+    programs.ags = {
+      enable = true;
+      # additional packages to add to gjs's runtime
+      extraPackages = with pkgs; [
+        gtksourceview
+        webkitgtk
+        accountsservice
+      ];
+    };
 
     home.username = "${user}";
     home.homeDirectory = "/home/${user}";
@@ -52,6 +64,7 @@ in
       jq
       killall
       libinput
+      ueberzugpp
       # (callPackage ./derivations/hyprpicker {})
       viewnior
       qmk
@@ -90,6 +103,8 @@ in
       nodejs
       nodePackages.npm
       nodePackages.pyright
+      typescript
+      nodePackages.typescript-language-server
 
       # lsp stuff
       lua-language-server
@@ -124,6 +139,8 @@ in
         tkinter
         jupyterlab
       ]))
+    ] ++ [
+      inputs.hyprpicker.packages.x86_64-linux.hyprpicker
     ];
 
 

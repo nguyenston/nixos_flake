@@ -11,6 +11,8 @@
 
     wayland-pipewire-idle-inhibit.url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
     wayland-pipewire-idle-inhibit.inputs.nixpkgs.follows = "nixpkgs";
+
+    ags.url = "github:Aylur/ags";
   };
   outputs = inputs @{ self, nixpkgs, home-manager, hyprland, ... }:
   let
@@ -49,7 +51,7 @@
     };
     homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration 
     {
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { inherit system; };
 
       modules = [
         hyprland.homeManagerModules.default
