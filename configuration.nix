@@ -239,7 +239,7 @@ in
     modesetting.enable = true;
     powerManagement = {
       enable = false;
-      finegrained = false;
+      finegrained = true;
     };
     open = false;
     nvidiaSettings = true;
@@ -253,7 +253,7 @@ in
       nvidiaBusId = "PCI:1:0:0";
     };
   };
-  # hardware.cpu.amd.updateMicrocode = true;  
+  hardware.cpu.amd.updateMicrocode = true;  
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -267,6 +267,10 @@ in
   };
 
 
+  services.logind = {
+    lidSwitch = "ignore";
+    lidSwitchExternalPower = "ignore";
+  };
   services.interception-tools = {
     enable = true;
     plugins = with pkgs; [
