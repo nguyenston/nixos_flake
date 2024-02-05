@@ -177,7 +177,6 @@ in
     clinfo
     pciutils
   ] ++ [
-    inputs.hyprpicker.packages.x86_64-linux.hyprpicker
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
  
