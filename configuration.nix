@@ -19,7 +19,6 @@ in
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ 
-      "module_blacklist=nouveau"
       "iommu=pt"
     ];
     loader = {
@@ -146,7 +145,22 @@ in
   # enable wake from sleep through usb devices
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="0083", ATTR{power/wakeup}="enabled"
+
+    # Remove NVIDIA USB xHCI Host Controller devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA USB Type-C UCSI devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA Audio devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA VGA/3D controller devices
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
   '';
+
+  boot.extraModprobeConfig = ''
+    blacklist nouveau
+    options nouveau modeset=0
+  '';
+  boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
   # ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="03a8", ATTRS{idProduct}=="a649", ATTR{power/wakeup}="enabled"
   
   # Allow unfree packages
@@ -234,26 +248,26 @@ in
   # List services that you want to enable:
 
   # nvidia drivers
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement = {
-      enable = false;
-      finegrained = true;
-    };
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      amdgpuBusId = "PCI:4:0:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
-  hardware.cpu.amd.updateMicrocode = true;  
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # hardware.nvidia = {
+  #   modesetting.enable = true;
+  #   powerManagement = {
+  #     enable = false;
+  #     finegrained = false;
+  #   };
+  #   open = false;
+  #   nvidiaSettings = true;
+  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #   prime = {
+  #     offload = {
+  #       enable = true;
+  #       enableOffloadCmd = true;
+  #     };
+  #     amdgpuBusId = "PCI:4:0:0";
+  #     nvidiaBusId = "PCI:1:0:0";
+  #   };
+  # };
+  # hardware.cpu.amd.updateMicrocode = true;  
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -268,8 +282,8 @@ in
 
 
   services.logind = {
-    lidSwitch = "ignore";
-    lidSwitchExternalPower = "ignore";
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "suspend";
   };
   services.interception-tools = {
     enable = true;
