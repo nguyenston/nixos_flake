@@ -160,6 +160,7 @@ in
   boot.extraModprobeConfig = ''
     blacklist nouveau
     options nouveau modeset=0
+    options nvidia-drm modeset=1
   '';
   boot.blacklistedKernelModules = [ "nouveau" ];
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
@@ -192,6 +193,10 @@ in
     clinfo
     pciutils
     xorg.libxcb
+    libsForQt5.qt5.qtwayland
+    libsForQt5.qt5ct
+    libva
+    libva-utils
   ] ++ [
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
