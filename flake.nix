@@ -40,6 +40,7 @@
           {
             programs.hyprland = {
               enable = true;
+              package = hyprland.packages.${system}.hyprland-debug;
               xwayland = {
                 enable = true;
               };
