@@ -276,6 +276,10 @@ in
       driversi686Linux.amdvlk
     ];
   };
+  # use this to set opengl to amdgpu -- fixing alacritty slow startup time
+  # environment.sessionVariables = {
+  #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
+  # };
 
 
   services.logind = {
