@@ -33,6 +33,7 @@ in
     home.packages = with pkgs; [
       # hyprland stuff
       alacritty # terminal
+      wezterm
       rofi-wayland # app launcher
       swaylock
       swayidle
@@ -91,7 +92,7 @@ in
       # programming languages
       git
       rustup
-      julia
+      julia-bin
       gcc
       clang-tools
       bear

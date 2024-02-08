@@ -40,7 +40,9 @@
           {
             programs.hyprland = {
               enable = true;
-              package = hyprland.packages.${system}.hyprland-debug;
+              package = hyprland.packages.${system}.hyprland-debug.overrideAttrs (prev: {
+                patches = (prev.patches or []) ++ [ "${./hyprpatch.patch}" ];
+              });
               xwayland = {
                 enable = true;
               };

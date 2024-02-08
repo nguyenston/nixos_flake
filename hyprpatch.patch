@@ -1,0 +1,13 @@
+diff --git a/src/managers/input/Swipe.cpp b/src/managers/input/Swipe.cpp
+index 38ec8aa2..0de5f278 100644
+--- a/src/managers/input/Swipe.cpp
++++ b/src/managers/input/Swipe.cpp
+@@ -6,7 +6,7 @@ void CInputManager::onSwipeBegin(wlr_pointer_swipe_begin_event* e) {
+     static auto* const PSWIPEFINGERS = &g_pConfigManager->getConfigValuePtr("gestures:workspace_swipe_fingers")->intValue;
+     static auto* const PSWIPENEW     = &g_pConfigManager->getConfigValuePtr("gestures:workspace_swipe_create_new")->intValue;
+ 
+-    if (e->fingers != *PSWIPEFINGERS || *PSWIPE == 0 || g_pSessionLockManager->isSessionLocked())
++    if (e->fingers != *PSWIPEFINGERS || *PSWIPE == 0 || g_pSessionLockManager->isSessionLocked() || !g_pCompositor->m_pLastMonitor)
+         return;
+ 
+     int onMonitor = 0;

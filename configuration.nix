@@ -109,11 +109,42 @@ in
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
-    zlib
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    atk
+    cairo
+    cups
+    curl
+    dbus
+    expat
+    fontconfig
+    freetype
     fuse3
+    gdk-pixbuf
+    glib
+    gtk3
+    icu
+    libGL
+    libappindicator-gtk3
+    libdrm
+    libglvnd
+    libnotify
+    libpulseaudio
+    libunwind
+    libusb1
+    libuuid
+    libxkbcommon
+    libxml2
+    mesa
+    nspr
     nss
     openssl
-    expat
+    pango
+    pipewire
+    systemd
+    vulkan-loader
+    zlib
   ];
 
   # GUI file manager
@@ -166,8 +197,9 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    nix-index
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    ranger
+    yazi
     wget
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
