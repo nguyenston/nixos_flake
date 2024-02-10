@@ -46,7 +46,6 @@ alias t="tmux"
 alias ta="t a -t"
 alias tls="t ls"
 alias tn="t new -t"
-alias dotdrop="~/Projects/dotfiles/dotdrop.sh --cfg=~/Projects/dotfiles/config.yaml"
 
 alias gdrv="grive -p ~/Projects/google-drive -P"
 
