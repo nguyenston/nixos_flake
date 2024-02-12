@@ -221,25 +221,6 @@ in
     # display libraries
     libGL
     libglvnd
-    xorg.libxcb
-    xorg.xcbutil
-    xorg.xcbproto
-    xorg.xcbutilkeysyms
-    xorg.libXfixes
-    xorg.libX11
-    xorg.libXcomposite
-    xorg.xinput
-    xorg.libXrender
-    wayland-protocols
-    xorg.xcbutilwm
-    xwayland
-    libliftoff
-    libdisplay-info
-
-    # misc lib
-    libxkbcommon
-    seatd
-    libinput
 
     # graphics libraries
     pixman
