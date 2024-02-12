@@ -125,9 +125,9 @@ in
     glib
     gtk3
     icu
-    libGL
     libappindicator-gtk3
     libdrm
+    libGL
     libglvnd
     libnotify
     libpulseaudio
@@ -209,12 +209,44 @@ in
     nvtop
     htop
     usbutils
-    sway-audio-idle-inhibit
-    glxinfo
-    libGL
-    clinfo
     pciutils
+    sway-audio-idle-inhibit
+
+    glxinfo
+    clinfo
+    tomlplusplus
+    pkg-configUpstream
+    libnotify
+
+    # display libraries
+    libGL
+    libglvnd
     xorg.libxcb
+    xorg.xcbutil
+    xorg.xcbproto
+    xorg.xcbutilkeysyms
+    xorg.libXfixes
+    xorg.libX11
+    xorg.libXcomposite
+    xorg.xinput
+    xorg.libXrender
+    wayland-protocols
+    xorg.xcbutilwm
+    xwayland
+    libliftoff
+    libdisplay-info
+
+    # misc lib
+    libxkbcommon
+    seatd
+    libinput
+
+    # graphics libraries
+    pixman
+    cairo
+    pango
+    mesa
+
     libsForQt5.qt5.qtwayland
     libsForQt5.qt5ct
     libva

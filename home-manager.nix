@@ -48,7 +48,6 @@ in
       obs-studio
       
       # dependencies/utils
-      libnotify
       tmux
       file
       ripgrep
@@ -73,6 +72,9 @@ in
       sshfs
       pandoc
       swayidle
+      ninja
+      gdb
+      meson
 
       # applications
       firefox
@@ -94,7 +96,8 @@ in
       rustup
       julia-bin
       gcc
-      clang-tools
+      clang-tools_17
+      ccls
       bear
       cmake
       lua
