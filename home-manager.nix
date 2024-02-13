@@ -97,7 +97,6 @@ in
       julia-bin
       gcc
       clang-tools_17
-      ccls
       bear
       cmake
       lua

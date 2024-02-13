@@ -136,6 +136,7 @@ in
     libuuid
     libxkbcommon
     libxml2
+    glfw
     mesa
     nspr
     nss
@@ -221,6 +222,7 @@ in
     # display libraries
     libGL
     libglvnd
+    glfw
 
     # graphics libraries
     pixman
@@ -228,10 +230,14 @@ in
     pango
     mesa
 
+    qt6.qtwayland
     libsForQt5.qt5.qtwayland
     libsForQt5.qt5ct
     libva
     libva-utils
+
+    hyprland-protocols
+    hyprlang
   ] ++ [
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
@@ -248,13 +254,13 @@ in
       });
 
       # latest zoom version
-      zoom-us = prev.zoom-us.overrideAttrs (_: {
-        version = "5.15.2.4260";
-        src = prev.fetchurl {
-          url = "https://zoom.us/client/5.15.2.4260/zoom_x86_64.pkg.tar.xz";
-          hash = "sha256-R6M180Gcqu4yZC+CtWnixSkjPe8CvgoTPWSz7B6ZAlE=";
-        };
-      });
+      # zoom-us = prev.zoom-us.overrideAttrs (_: {
+      #   version = "5.15.2.4260";
+      #   src = prev.fetchurl {
+      #     url = "https://zoom.us/client/5.15.2.4260/zoom_x86_64.pkg.tar.xz";
+      #     hash = "sha256-R6M180Gcqu4yZC+CtWnixSkjPe8CvgoTPWSz7B6ZAlE=";
+      #   };
+      # });
     })
   ];
 
@@ -322,9 +328,10 @@ in
     ];
   };
   # use this to set opengl to amdgpu -- fixing alacritty slow startup time
-  # environment.sessionVariables = {
+  environment.sessionVariables = {
   #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
-  # };
+    LD_LIBRARY_PATH="/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+  };
 
 
   services.logind = {
@@ -348,7 +355,13 @@ in
   services.openssh.enable = true;
 
   # default xdg portal behavior
-  xdg.portal.config.common.default = "*";
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+  };
 
   services.fwupd.enable = true; 
 
