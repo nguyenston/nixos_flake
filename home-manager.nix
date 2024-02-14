@@ -79,6 +79,7 @@ in
       # applications
       firefox
       webcord
+      telegram-desktop
       grive2
       libsForQt5.okular
       gnome-text-editor
