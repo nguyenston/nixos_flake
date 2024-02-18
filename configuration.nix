@@ -75,7 +75,7 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -84,7 +84,8 @@ in
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -330,7 +331,7 @@ in
   # use this to set opengl to amdgpu -- fixing alacritty slow startup time
   environment.sessionVariables = {
   #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
-    LD_LIBRARY_PATH="/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+    LD_LIBRARY_PATH=[ "/run/opengl-driver/lib:/run/opengl-driver-32/lib" ];
   };
 
 
@@ -357,7 +358,10 @@ in
   # default xdg portal behavior
   xdg.portal = {
     enable = true;
-    config.common.default = "*";
+    config.common = {
+      default = [ "hyprland" ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    };
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
     ];
