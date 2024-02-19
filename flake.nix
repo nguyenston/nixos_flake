@@ -41,7 +41,7 @@
             programs.hyprland = {
               enable = true;
               package = hyprland.packages.${system}.hyprland-debug.overrideAttrs (prev: {
-                patches = (prev.patches or []) ++ [ "${./hyprpatch.patch}" ];
+                patches = (prev.patches or []) ++ [];
               });
               xwayland = {
                 enable = true;
