@@ -1,13 +1,19 @@
-diff --git a/src/managers/input/Swipe.cpp b/src/managers/input/Swipe.cpp
-index 38ec8aa2..0de5f278 100644
---- a/src/managers/input/Swipe.cpp
-+++ b/src/managers/input/Swipe.cpp
-@@ -6,7 +6,7 @@ void CInputManager::onSwipeBegin(wlr_pointer_swipe_begin_event* e) {
-     static auto* const PSWIPEFINGERS = &g_pConfigManager->getConfigValuePtr("gestures:workspace_swipe_fingers")->intValue;
-     static auto* const PSWIPENEW     = &g_pConfigManager->getConfigValuePtr("gestures:workspace_swipe_create_new")->intValue;
+diff --git a/src/Compositor.cpp b/src/Compositor.cpp
+index 479b5378..cca74a58 100644
+--- a/src/Compositor.cpp
++++ b/src/Compositor.cpp
+@@ -2616,7 +2616,7 @@ void CCompositor::setActiveMonitor(CMonitor* pMonitor) {
  
--    if (e->fingers != *PSWIPEFINGERS || *PSWIPE == 0 || g_pSessionLockManager->isSessionLocked())
-+    if (e->fingers != *PSWIPEFINGERS || *PSWIPE == 0 || g_pSessionLockManager->isSessionLocked() || !g_pCompositor->m_pLastMonitor)
-         return;
+     const auto PWORKSPACE = getWorkspaceByID(pMonitor->activeWorkspace);
  
-     int onMonitor = 0;
+-    g_pEventManager->postEvent(SHyprIPCEvent{"focusedmon", pMonitor->szName + "," + PWORKSPACE->m_szName});
++    g_pEventManager->postEvent(SHyprIPCEvent{"focusedmon", pMonitor->szName + "," + (PWORKSPACE ? PWORKSPACE->m_szName : "?")});
+     EMIT_HOOK_EVENT("focusedMon", pMonitor);
+     m_pLastMonitor = pMonitor;
+ }
+diff --git a/subprojects/wlroots b/subprojects/wlroots
+--- a/subprojects/wlroots
++++ b/subprojects/wlroots
+@@ -1 +1 @@
+-Subproject commit 00b869c1a96f300a8f25da95d624524895e0ddf2
++Subproject commit 00b869c1a96f300a8f25da95d624524895e0ddf2-dirty
