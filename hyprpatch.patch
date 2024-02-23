@@ -11,9 +11,3 @@ index 479b5378..cca74a58 100644
      EMIT_HOOK_EVENT("focusedMon", pMonitor);
      m_pLastMonitor = pMonitor;
  }
-diff --git a/subprojects/wlroots b/subprojects/wlroots
---- a/subprojects/wlroots
-+++ b/subprojects/wlroots
-@@ -1 +1 @@
--Subproject commit 00b869c1a96f300a8f25da95d624524895e0ddf2
-+Subproject commit 00b869c1a96f300a8f25da95d624524895e0ddf2-dirty
