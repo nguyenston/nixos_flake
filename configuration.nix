@@ -213,6 +213,7 @@ in
     htop
     usbutils
     pciutils
+    librewolf
     sway-audio-idle-inhibit
 
     glxinfo
