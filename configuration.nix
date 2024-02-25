@@ -201,6 +201,7 @@ in
   environment.systemPackages = with pkgs; [
     nix-index
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    librewolf
     yazi
     zellij # terminal mux
     wget
@@ -213,7 +214,6 @@ in
     htop
     usbutils
     pciutils
-    librewolf
     sway-audio-idle-inhibit
 
     glxinfo
