@@ -37,6 +37,7 @@ in
       rofi-wayland # app launcher
       swaylock
       swayidle
+      hypridle
       pavucontrol # audio control panel
       eww-wayland # bars and widgets
       grim # screenshot functionality
