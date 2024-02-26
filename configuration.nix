@@ -200,11 +200,6 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     nix-index
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    librewolf
-    yazi
-    zellij # terminal mux
-    wget
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
     coreutils
@@ -214,7 +209,6 @@ in
     htop
     usbutils
     pciutils
-    sway-audio-idle-inhibit
 
     glxinfo
     clinfo

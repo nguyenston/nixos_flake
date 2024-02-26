@@ -8,9 +8,11 @@
     
     hyprland.url = "github:hyprwm/Hyprland";
     hyprpicker.url = "github:hyprwm/hyprpicker";
+    hyprlock.url = "github:hyprwm/hyprlock";
 
     wayland-pipewire-idle-inhibit.url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
     wayland-pipewire-idle-inhibit.inputs.nixpkgs.follows = "nixpkgs";
+
 
     ags.url = "github:Aylur/ags";
   };

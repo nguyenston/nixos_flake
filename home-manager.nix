@@ -1,7 +1,9 @@
 {config, pkgs, lib, inputs, ...}: 
 
 let
-  user = (import ./global-params.nix).user;
+  global_params = import ./global-params.nix;
+  user = global_params.user;
+  system = global_params.system;
 
   dotfiles_directories = with builtins; attrNames (readDir ./dotfiles);
   import_dir = root: (dir: import (./. + (root + dir)));
@@ -13,7 +15,10 @@ let
 in
 {
   home-manager.users.${user} = {
-    imports = [ inputs.ags.homeManagerModules.default ];
+    imports = [ 
+      inputs.ags.homeManagerModules.default 
+      inputs.hyprlock.homeManagerModules.default
+    ];
     programs.home-manager.enable = true;
 
     # widget utilities similar to eww
@@ -26,6 +31,8 @@ in
         accountsservice
       ];
     };
+
+    programs.hyprlock.enable = true;
 
     home.username = "${user}";
     home.homeDirectory = "/home/${user}";
@@ -49,10 +56,13 @@ in
       obs-studio
       
       # dependencies/utils
-      tmux
+      neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      yazi
       file
+      zellij # terminal mux
       ripgrep
       lazygit
+      wget
       gdu
       bottom
       nodejs
@@ -79,6 +89,7 @@ in
 
       # applications
       firefox
+      librewolf
       webcord
       telegram-desktop
       grive2
@@ -145,7 +156,7 @@ in
         jupyterlab
       ]))
     ] ++ [
-      inputs.hyprpicker.packages.x86_64-linux.hyprpicker
+      inputs.hyprpicker.packages.${system}.hyprpicker
     ];
 
 
