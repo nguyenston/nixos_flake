@@ -18,6 +18,7 @@ in
     imports = [ 
       inputs.ags.homeManagerModules.default 
       inputs.hyprlock.homeManagerModules.default
+      inputs.hyprland.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
 
@@ -32,6 +33,19 @@ in
       ];
     };
 
+    wayland.windowManager.hyprland.enable = true;
+    programs.hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${system}.hyprland-debug.overrideAttrs (prev: {
+        patches = (prev.patches or []) ++ [ ];
+      });
+      xwayland = {
+        enable = true;
+      };
+      plugins = [
+        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+      ];
+    };
     programs.hyprlock.enable = true;
 
     home.username = "${user}";

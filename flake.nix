@@ -13,8 +13,11 @@
     wayland-pipewire-idle-inhibit.url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
     wayland-pipewire-idle-inhibit.inputs.nixpkgs.follows = "nixpkgs";
 
-
     ags.url = "github:Aylur/ags";
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
+    };
   };
   outputs = inputs @{ self, nixpkgs, home-manager, hyprland, ... }:
   let
@@ -38,18 +41,6 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           }
-          hyprland.nixosModules.default
-          {
-            programs.hyprland = {
-              enable = true;
-              package = hyprland.packages.${system}.hyprland-debug.overrideAttrs (prev: {
-                patches = (prev.patches or []) ++ [ ];
-              });
-              xwayland = {
-                enable = true;
-              };
-            };
-          }
           ./configuration.nix 
         ];
       };
@@ -57,21 +48,7 @@
     homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration 
     {
       pkgs = import nixpkgs { inherit system; };
-
-      modules = [
-        hyprland.homeManagerModules.default
-        {
-          wayland.windowManager.hyprland.enable = true;
-          programs.hyprland = {
-            enable = true;
-            xwayland = {
-              enable = true;
-              hidpi = true;
-            };
-            nvidiaPatches = true;
-          };
-        }
-      ];
+      modules = [ ];
     };
   };
 }
