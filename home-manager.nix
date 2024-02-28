@@ -59,7 +59,7 @@ in
       swayidle
       hypridle
       pavucontrol # audio control panel
-      eww-wayland # bars and widgets
+      eww # bars and widgets
       grim # screenshot functionality
       slurp # screenshot functionality
       wl-clipboard
