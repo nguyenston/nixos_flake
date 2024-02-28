@@ -18,7 +18,6 @@ in
     imports = [ 
       inputs.ags.homeManagerModules.default 
       inputs.hyprlock.homeManagerModules.default
-      inputs.hyprland.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
 
@@ -33,18 +32,18 @@ in
       ];
     };
 
-    wayland.windowManager.hyprland.enable = true;
-    programs.hyprland = {
+    wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${system}.hyprland-debug.overrideAttrs (prev: {
+      package = inputs.hyprland.packages.${system}.hyprland.overrideAttrs (prev: {
         patches = (prev.patches or []) ++ [ ];
       });
       xwayland = {
         enable = true;
       };
       plugins = [
-        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+        inputs.split-monitor-workspaces.packages.${system}.split-monitor-workspaces
       ];
+      extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
     };
     programs.hyprlock.enable = true;
 
