@@ -16,11 +16,12 @@ PS1="\[\033[01;37m\][\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # set default browser
-export BROWSER='firefox'
+# export DEFAULT_BROWSER='librewolf'
+# export BROWSER='librewolf'
 
 # set default text editor
-export VISUAL='nvim'
-export EDITOR="$VISUAL"
+# export VISUAL='nvim'
+# export EDITOR="$VISUAL"
 
 # source ~/.cargo/env
 

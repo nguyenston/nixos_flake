@@ -34,14 +34,14 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${system}.hyprland.overrideAttrs (prev: {
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
         patches = (prev.patches or []) ++ [ ];
       });
       xwayland = {
         enable = true;
       };
       plugins = [
-        inputs.split-monitor-workspaces.packages.${system}.split-monitor-workspaces
+        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
       ];
       extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
     };
@@ -57,7 +57,6 @@ in
       rofi-wayland # app launcher
       swaylock
       swayidle
-      hypridle
       pavucontrol # audio control panel
       eww # bars and widgets
       grim # screenshot functionality
@@ -169,13 +168,24 @@ in
         jupyterlab
       ]))
     ] ++ [
-      inputs.hyprpicker.packages.${system}.hyprpicker
+      inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
+      inputs.hypridle.packages.${pkgs.system}.hypridle
     ];
 
 
+    # default apps
+    xdg.mimeApps.defaultApplications = {
+      "text/html" = "librewolf.desktop";
+      "x-scheme-handler/http" = "librewolf.desktop";
+      "x-scheme-handler/https" = "librewolf.desktop";
+      "x-scheme-handler/about" = "librewolf.desktop";
+      "x-scheme-handler/unknown" = "librewolf.desktop";
+    };
 
+    # custom desktop entries
     xdg.desktopEntries = desktop_entries;
-    # dotfiles
+
+    # .config directory dotfiles
     home.file = dotfiles;
 
     # dunst - notification daemon
