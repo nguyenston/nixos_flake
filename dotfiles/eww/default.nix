@@ -1,6 +1,3 @@
-let
-  colors = (import ../../global-params.nix).colors;
-in
 {
   ".config/eww" = {
     source = ./source;

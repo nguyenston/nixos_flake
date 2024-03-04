@@ -12,14 +12,13 @@ https://github.com/nguyenston
 '
 panel="$1_$2"
 EWW_CMD=$3
-panels=$($EWW_CMD windows)
+panels=$($EWW_CMD active-windows)
 
-isopen=$(echo "$panels" | grep "$panel" | grep -F '*' | wc -l)
+isopen=$(echo "$panels" | grep "$panel" | wc -l)
 if [[ $isopen -eq 0 ]]; then
-  targets=$(echo "$panels" | grep "panel" | grep -v -E "$panel" | grep -F "*" | awk -F'*' '{print $2}')
-  $EWW_CMD open $panel
-  $EWW_CMD close $targets
+	targets=$(echo "$panels" | grep "panel" | grep -v -E "$panel" | awk -F':' '{print $2}')
+	$EWW_CMD open $panel
+	$EWW_CMD close $targets
 else
-  $EWW_CMD close $panel
+	$EWW_CMD close $panel
 fi
-
