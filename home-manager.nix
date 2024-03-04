@@ -3,7 +3,6 @@
 let
   global_params = import ./global-params.nix;
   user = global_params.user;
-  system = global_params.system;
 
   dotfiles_directories = with builtins; attrNames (readDir ./dotfiles);
   import_dir = root: (dir: import (./. + (root + dir)));
@@ -68,6 +67,9 @@ in
       obs-studio
       
       # dependencies/utils
+      networkmanagerapplet
+      bun # javascript runtime, bundler, transpiler and package manager
+      sassc
       neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       yazi
       file
@@ -171,15 +173,33 @@ in
       inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
       inputs.hypridle.packages.${pkgs.system}.hypridle
     ];
+    
+    # Theming
+    home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 10;
+    };
 
+    gtk = {
+      enable = true;
 
-    # default apps
-    xdg.mimeApps.defaultApplications = {
-      "text/html" = "librewolf.desktop";
-      "x-scheme-handler/http" = "librewolf.desktop";
-      "x-scheme-handler/https" = "librewolf.desktop";
-      "x-scheme-handler/about" = "librewolf.desktop";
-      "x-scheme-handler/unknown" = "librewolf.desktop";
+      cursorTheme = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Classic";
+        size = 10;
+      };
+
+      theme = {
+        package = pkgs.whitesur-gtk-theme;
+        name = "WhiteSur-Dark";
+      };
+
+      iconTheme = {
+        package = pkgs.whitesur-icon-theme;
+        name = "WhiteSur";
+      };
     };
 
     # custom desktop entries

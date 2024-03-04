@@ -150,6 +150,7 @@ in
   ];
 
   # GUI file manager
+  programs.dconf.enable = true;
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
@@ -209,6 +210,8 @@ in
     htop
     usbutils
     pciutils
+    lm_sensors
+    pulseaudio
 
     glxinfo
     clinfo
@@ -328,8 +331,24 @@ in
   environment.sessionVariables = {
   #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
     LD_LIBRARY_PATH=[ "/run/opengl-driver/lib:/run/opengl-driver-32/lib" ];
+    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    MOZ_ENABLE_WAYLAND = "1";
   };
 
+  # default applications
+  xdg.mime = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "librewolf.desktop";
+      "x-scheme-handler/http" = "librewolf.desktop";
+      "x-scheme-handler/https" = "librewolf.desktop";
+      "x-scheme-handler/about" = "librewolf.desktop";
+      "x-scheme-handler/unknown" = "librewolf.desktop";
+    };
+  };
 
   services.logind = {
     lidSwitch = "suspend";
