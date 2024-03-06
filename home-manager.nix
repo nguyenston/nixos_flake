@@ -82,7 +82,6 @@ in
       nodejs
       unzip
       zip
-      pulseaudio
       brightnessctl
       dos2unix
       coreutils
