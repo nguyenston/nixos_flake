@@ -162,13 +162,7 @@ in
 
   # GUI file manager
   programs.dconf.enable = true;
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-archive-plugin
-      thunar-volman
-    ];
-  };
+
   services.udisks2.enable = true;
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
@@ -214,6 +208,9 @@ in
     nix-index
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
+    gnome.nautilus
+    tracker
+    tracker-miners
     coreutils
     lshw
     powertop

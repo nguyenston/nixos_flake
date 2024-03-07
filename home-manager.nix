@@ -60,6 +60,7 @@ in
       eww # bars and widgets
       grim # screenshot functionality
       slurp # screenshot functionality
+      wf-recorder
       wl-clipboard
       wlogout # logout menu
       socat # socket stuff
@@ -67,6 +68,8 @@ in
       obs-studio
       
       # dependencies/utils
+      zoxide # smarter and faster cd
+      fzf # fuzzy finder
       networkmanagerapplet
       bun # javascript runtime, bundler, transpiler and package manager
       sassc
@@ -91,6 +94,7 @@ in
       ueberzugpp
       # (callPackage ./derivations/hyprpicker {})
       viewnior
+      loupe
       qmk
       fd
       sshfs
@@ -112,6 +116,8 @@ in
       zathura # vim-based pdf viewer
       xarchiver
       vlc
+      mpv
+      gnome.sushi
       zoom-us
       obsidian
       rclone
@@ -171,6 +177,12 @@ in
     ] ++ [
       inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
       inputs.hypridle.packages.${pkgs.system}.hypridle
+      (pkgs.buildEnv {
+        name = "custom-scripts";
+        paths = [
+          ./scripts
+        ];
+      })
     ];
     
     # Theming
@@ -191,13 +203,13 @@ in
       };
 
       theme = {
-        package = pkgs.whitesur-gtk-theme;
-        name = "WhiteSur-Dark";
+        package = pkgs.colloid-gtk-theme;
+        name = "Colloid-Dark";
       };
 
       iconTheme = {
-        package = pkgs.whitesur-icon-theme;
-        name = "WhiteSur";
+        package = pkgs.colloid-icon-theme;
+        name = "Colloid";
       };
     };
 
