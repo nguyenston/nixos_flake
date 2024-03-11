@@ -11,6 +11,10 @@ let
 
   desktop_entries_directories = with builtins; attrNames (readDir ./desktop-entries);
   desktop_entries = merge_sets (map (import_dir "/desktop-entries/") desktop_entries_directories);
+  stable_pkgs = import inputs.nixpkgs_stable {
+    system = pkgs.system;
+    config.allowUfree = true;
+  };
 in
 {
   home-manager.users.${user} = {
@@ -74,7 +78,9 @@ in
       bun # javascript runtime, bundler, transpiler and package manager
       sassc
       neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      yazi
+      yazi # terminal file explorer
+      unar # archive preview
+      poppler # pdf preview
       file
       zellij # terminal mux
       ripgrep
@@ -93,8 +99,7 @@ in
       libinput
       ueberzugpp
       # (callPackage ./derivations/hyprpicker {})
-      viewnior
-      loupe
+      loupe # image viewer
       qmk
       fd
       sshfs
@@ -106,7 +111,7 @@ in
 
       # applications
       firefox
-      librewolf
+      stable_pkgs.librewolf
       webcord
       telegram-desktop
       grive2
@@ -115,8 +120,8 @@ in
       masterpdfeditor
       zathura # vim-based pdf viewer
       xarchiver
-      vlc
       mpv
+      haruna
       gnome.sushi
       zoom-us
       obsidian

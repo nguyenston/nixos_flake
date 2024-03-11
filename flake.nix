@@ -2,6 +2,8 @@
   description = "A very basic flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs_stable.url = "github:nixos/nixpkgs/nixos-23.11-small";
+
     
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +18,7 @@
 
     ags.url = "github:Aylur/ags";
     split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
+      url = "github:Duckonaut/split-monitor-workspaces/8da072e94b0347c8124f1fc3ed8ee032b6da9c8b"; # this is here until the pull request is merged
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
     };
     hyprland-plugins = {
