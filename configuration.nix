@@ -275,8 +275,8 @@ in
   # List of font
   fonts.packages = with pkgs; [
     jetbrains-mono
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly"]; })
-    (google-fonts.override { fonts = [ "ZenMaruGothic" ]; })
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly" ]; })
+    (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
   ];
 
   # enable nix flakes
