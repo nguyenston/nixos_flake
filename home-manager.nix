@@ -111,6 +111,7 @@ in
 
       # applications
       firefox
+      darktable # photo editing
       stable_pkgs.librewolf
       webcord
       telegram-desktop
