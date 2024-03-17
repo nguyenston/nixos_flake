@@ -249,7 +249,7 @@ in
   ] ++ [
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
- 
+
   # overlays
   nixpkgs.overlays = [
     (final: prev: { 
@@ -279,6 +279,14 @@ in
     (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
   ];
 
+  # ibus
+  i18n.inputMethod = {
+    enabled = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [ 
+      anthy 
+      bamboo
+    ];
+  };
   # enable nix flakes
   nix = {
     package = pkgs.nixFlakes;
@@ -292,6 +300,7 @@ in
     '';
   };
 
+  # authentication agent
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
