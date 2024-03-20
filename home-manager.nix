@@ -44,7 +44,6 @@ in
         enable = true;
       };
       plugins = [
-        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
       ];
       extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
     };

@@ -281,10 +281,12 @@ in
 
   # ibus
   i18n.inputMethod = {
-    enabled = "ibus";
-    ibus.engines = with pkgs.ibus-engines; [ 
-      anthy 
-      bamboo
+    enabled = "fcitx5";
+    fcitx5.waylandFrontend = true;
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-bamboo
+      fcitx5-gtk
     ];
   };
   # enable nix flakes
