@@ -209,6 +209,9 @@ in
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
     gnome.nautilus
+    # kdePackages.dolphin
+    kdePackages.breeze
+    kdePackages.breeze-icons
     tracker
     tracker-miners
     coreutils
@@ -241,6 +244,7 @@ in
     qt6.qtwayland
     libsForQt5.qt5.qtwayland
     libsForQt5.qt5ct
+    kdePackages.qt6ct
     libva
     libva-utils
 
@@ -250,6 +254,8 @@ in
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
 
+  # qt style
+  qt.style = "breeze";
   # overlays
   nixpkgs.overlays = [
     (final: prev: { 
@@ -277,6 +283,7 @@ in
     jetbrains-mono
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly" ]; })
     (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
+    sarasa-gothic
   ];
 
   # ibus

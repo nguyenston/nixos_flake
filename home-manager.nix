@@ -107,6 +107,7 @@ in
       ninja
       gdb
       meson
+      hyprpicker
 
       # applications
       firefox
@@ -180,7 +181,7 @@ in
         jupyterlab
       ]))
     ] ++ [
-      inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
+      # inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
       inputs.hypridle.packages.${pkgs.system}.hypridle
       (pkgs.buildEnv {
         name = "custom-scripts";
