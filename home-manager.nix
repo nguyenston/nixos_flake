@@ -110,7 +110,7 @@ in
       hyprpicker
 
       # applications
-      firefox
+      firefox-beta
       darktable # photo editing
       stable_pkgs.librewolf
       webcord

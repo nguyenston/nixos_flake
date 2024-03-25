@@ -217,7 +217,7 @@ in
     coreutils
     lshw
     powertop
-    nvtop
+    nvtopPackages.full
     htop
     usbutils
     pciutils
