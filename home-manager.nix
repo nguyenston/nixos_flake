@@ -109,6 +109,10 @@ in
       meson
       hyprpicker
 
+      # nix-based developer environment
+      devenv
+      direnv
+
       # applications
       firefox-beta
       darktable # photo editing
