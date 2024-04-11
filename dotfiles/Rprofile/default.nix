@@ -1,0 +1,5 @@
+{
+  ".Rprofile" = {
+    source = ./source/Rprofile;
+  };
+}
