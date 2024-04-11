@@ -161,6 +161,16 @@ in
       ruff # linter for python3
       ruff-lsp # lsp for python3
 
+      (rWrapper.override {
+        packages = with rPackages; [
+          ggplot2
+          dplyr
+          xts
+          ggseqlogo
+          BiocManager
+          musicatk
+        ];
+      })
 
       (python3.withPackages (p: with p; [
         virtualenv
