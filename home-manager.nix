@@ -37,9 +37,9 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
-      # package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
-      #   patches = (prev.patches or []) ++ [ ];
-      # });
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
+        patches = (prev.patches or []) ++ [ ];
+      });
       xwayland = {
         enable = true;
       };
