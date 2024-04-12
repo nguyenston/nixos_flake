@@ -3,6 +3,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs_stable.url = "github:nixos/nixpkgs/nixos-23.11-small";
+    nur.url = "github:nix-community/NUR";
 
     
     home-manager.url = "github:nix-community/home-manager";
@@ -34,7 +35,7 @@
       inputs.hyprland.follows = "hyprland";
     };
   };
-  outputs = inputs @{ self, nixpkgs, home-manager, hyprland, ... }:
+  outputs = inputs @{ self, nixpkgs, nur, home-manager, hyprland, ... }:
   let
     user = (import ./global-params.nix).user;
     hostname = (import ./global-params.nix).hostname;
@@ -51,6 +52,7 @@
         inherit system;
         specialArgs.inputs = inputs;
         modules = [ 
+          nur.nixosModules.nur
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

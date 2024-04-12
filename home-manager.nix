@@ -18,8 +18,9 @@ let
 in
 {
   home-manager.users.${user} = {
-    imports = [ 
-      inputs.ags.homeManagerModules.default 
+    imports = [
+      # inputs.nur.hmModules.nur
+      inputs.ags.homeManagerModules.default
       inputs.hyprlock.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
@@ -116,6 +117,7 @@ in
       # applications
       firefox-beta
       darktable # photo editing
+      config.nur.repos.clefru.ib-tws
       stable_pkgs.librewolf
       webcord
       telegram-desktop
