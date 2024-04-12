@@ -165,11 +165,14 @@ in
 
       (rWrapper.override {
         packages = with rPackages; [
+          devtools
           ggplot2
           dplyr
           xts
           ggseqlogo
           BiocManager
+          shinydashboard
+          shinyjs
           musicatk
         ];
       })
