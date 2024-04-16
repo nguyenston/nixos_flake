@@ -165,6 +165,7 @@ in
 
       (rWrapper.override {
         packages = with rPackages; [
+          languageserver
           devtools
           ggplot2
           dplyr
