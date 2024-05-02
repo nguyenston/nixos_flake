@@ -72,6 +72,7 @@ in
       obs-studio
       
       # dependencies/utils
+      unrar
       zoxide # smarter and faster cd
       fzf # fuzzy finder
       networkmanagerapplet
