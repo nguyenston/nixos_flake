@@ -21,7 +21,6 @@ in
     imports = [
       # inputs.nur.hmModules.nur
       inputs.ags.homeManagerModules.default
-      inputs.hyprlock.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
 
@@ -58,8 +57,6 @@ in
       alacritty # terminal
       wezterm
       rofi-wayland # app launcher
-      swaylock
-      swayidle
       pavucontrol # audio control panel
       eww # bars and widgets
       grim # screenshot functionality
@@ -118,8 +115,8 @@ in
       # applications
       firefox-beta
       darktable # photo editing
-      config.nur.repos.clefru.ib-tws
-      stable_pkgs.librewolf
+      # config.nur.repos.clefru.ib-tws
+      # stable_pkgs.librewolf
       webcord
       telegram-desktop
       grive2
