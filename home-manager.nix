@@ -21,6 +21,7 @@ in
     imports = [
       # inputs.nur.hmModules.nur
       inputs.ags.homeManagerModules.default
+      # inputs.hyprlock.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
 
@@ -96,7 +97,6 @@ in
       killall
       libinput
       ueberzugpp
-      # (callPackage ./derivations/hyprpicker {})
       loupe # image viewer
       qmk
       fd
@@ -107,6 +107,7 @@ in
       gdb
       meson
       hyprpicker
+      hyprpaper
 
       # nix-based developer environment
       devenv
