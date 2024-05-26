@@ -1,3 +1,4 @@
 [default]
 path = "/home/nguyenston/.config/wpaperd/wallpapers"
+mode = "center"
 duration = "20m"
