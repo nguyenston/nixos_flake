@@ -114,6 +114,7 @@ in
       direnv
 
       # applications
+      cmatrix # eyecandy terminal stuff
       firefox-beta
       darktable # photo editing
       # config.nur.repos.clefru.ib-tws
