@@ -69,3 +69,6 @@ function ya() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# allow automatic loading of devenv when enter directory
+# eval "$(direnv hook bash)"
