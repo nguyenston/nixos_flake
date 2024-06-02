@@ -133,8 +133,10 @@ in
       zoom-us
       obsidian
       rclone
-      zotero
-      
+      # zotero
+      zotero_7
+      realvnc-vnc-viewer
+
       # programming languages
       git
       rustup
