@@ -151,7 +151,7 @@ in
       pplatex
       nodejs
       nodePackages.npm
-      nodePackages.pyright
+      pyright
       typescript
       nodePackages.typescript-language-server
 
