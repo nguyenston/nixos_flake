@@ -25,6 +25,7 @@ in
     ];
     programs.home-manager.enable = true;
 
+
     # widget utilities similar to eww
     programs.ags = {
       enable = true;
@@ -41,9 +42,7 @@ in
       package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
         patches = (prev.patches or []) ++ [ ];
       });
-      xwayland = {
-        enable = true;
-      };
+      xwayland.enable = true;
       plugins = [
       ];
       extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
@@ -108,6 +107,7 @@ in
       meson
       hyprpicker
       hyprpaper
+      xorg.xlsclients
 
       # nix-based developer environment
       devenv
@@ -135,7 +135,7 @@ in
       rclone
       # zotero
       zotero_7
-      realvnc-vnc-viewer
+      # realvnc-vnc-viewer
 
       # programming languages
       git

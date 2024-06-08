@@ -204,6 +204,13 @@ in
     "electron-25.9.0"
   ];
 
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicateed Server
+  };
+  programs.xwayland.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -252,6 +259,7 @@ in
 
     hyprland-protocols
     hyprlang
+    xorg.xeyes
   ] ++ [
     inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
