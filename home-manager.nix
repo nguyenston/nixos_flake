@@ -135,6 +135,7 @@ in
       rclone
       # zotero
       zotero_7
+      fragments # torrent client
       # realvnc-vnc-viewer
 
       # programming languages
