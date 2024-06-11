@@ -201,7 +201,6 @@ in
 
   # Icky but let obsidian work
   nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0"
   ];
 
   programs.steam = {
