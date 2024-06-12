@@ -56,6 +56,7 @@ in
       # hyprland stuff
       alacritty # terminal
       wezterm
+      kitty
       rofi-wayland # app launcher
       pavucontrol # audio control panel
       eww # bars and widgets
@@ -136,6 +137,7 @@ in
       # zotero
       zotero_7
       fragments # torrent client
+      mokuro # selectable text manga generator
       # realvnc-vnc-viewer
 
       # programming languages
@@ -202,6 +204,7 @@ in
         scikit-learn
         tkinter
         jupyterlab
+        manga-ocr
       ]))
     ] ++ [
       # inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
