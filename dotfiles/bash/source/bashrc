@@ -49,6 +49,7 @@ alias mount_gdrive="rclone mount gdrive-obsidian: ~/Projects/gdrive-obsidian/ --
   & rclone mount gdrive-main: ~/Projects/gdrive-main/ --daemon --vfs-cache-mode full"
 
 alias hyprsubscribe='socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock -'
+alias ags_daemon='nohup ags 0<&- &>/dev/null &'
 # path export for ruby and gems
 # export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 # export PATH="$HOME/.local/bin/:$PATH"
