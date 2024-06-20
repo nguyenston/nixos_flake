@@ -289,9 +289,9 @@ in
 
   # List of font
   fonts.packages = with pkgs; [
-    jetbrains-mono
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly" ]; })
     (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
+    julia-mono
     sarasa-gothic
   ];
 
