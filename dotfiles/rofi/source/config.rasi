@@ -11,7 +11,7 @@
 configuration {
 	  modi:                       "drun,ssh";
     show-icons:                 true;
-    display-drun:               "";
+    display-drun:               "󰵆";
     display-window:             "";
     display-ssh:                "";
 	  drun-display-format:        "{name}";
