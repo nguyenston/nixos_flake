@@ -54,6 +54,7 @@ in
     # userspace packages
     home.packages = with pkgs; [
       # hyprland stuff
+      maxfetch # fetch program
       alacritty # terminal
       wezterm
       kitty
@@ -73,7 +74,6 @@ in
       unrar
       zoxide # smarter and faster cd
       fzf # fuzzy finder
-      networkmanagerapplet
       bun # javascript runtime, bundler, transpiler and package manager
       sassc
       neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -138,6 +138,7 @@ in
       zotero_7
       fragments # torrent client
       mokuro # selectable text manga generator
+      openconnect # BU VPN
       # realvnc-vnc-viewer
 
       # programming languages
@@ -179,7 +180,7 @@ in
           BiocManager
           shinydashboard
           shinyjs
-          musicatk
+          # musicatk # dependency error
         ];
       })
 

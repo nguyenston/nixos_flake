@@ -223,6 +223,7 @@ in
     tracker
     tracker-miners
     coreutils
+    cifs-utils
     lshw
     powertop
     nvtopPackages.full
@@ -237,6 +238,9 @@ in
     tomlplusplus
     pkg-configUpstream
     libnotify
+
+    networkmanagerapplet
+    networkmanager-openconnect
 
     # display libraries
     libGL
@@ -353,10 +357,10 @@ in
     };
   };
   # hardware.cpu.amd.updateMicrocode = true;
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    # driSupport = true; # deprecated
+    enable32Bit = true;
     extraPackages = with pkgs; [
       mesa.drivers
       rocmPackages.clr.icd
