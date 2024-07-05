@@ -58,6 +58,9 @@ alias ags_daemon='nohup ags 0<&- &>/dev/null &'
 
 export CMDSTAN=~/Projects/cmdstan
 
+# fix kitty ssh issues
+[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+
 source ~/Projects/qmk_firmware/util/qmk_tab_complete.sh
 eval "$(zoxide init bash)"
 
