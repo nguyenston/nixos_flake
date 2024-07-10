@@ -72,6 +72,7 @@ in
       
       # dependencies/utils
       unrar
+      visidata # cli csv viewer
       zoxide # smarter and faster cd
       fzf # fuzzy finder
       bun # javascript runtime, bundler, transpiler and package manager
