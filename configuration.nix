@@ -414,9 +414,15 @@ in
   # default xdg portal behavior
   xdg.portal = {
     enable = true;
-    config.common = {
-      default = [ "hyprland" ];
-      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    config = {
+      common = {
+        default = [ "hyprland" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      };
+      preferred = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      };
     };
     extraPortals = [
       inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
