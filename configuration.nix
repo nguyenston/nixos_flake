@@ -11,6 +11,7 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./filesystems.nix
       ./home-manager.nix
     ];
 
@@ -216,8 +217,10 @@ in
     nix-index
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
-    gnome.nautilus
     # kdePackages.dolphin
+    cinnamon.nemo-with-extensions
+    cinnamon.nemo-fileroller
+
     kdePackages.breeze
     kdePackages.breeze-icons
     tracker
