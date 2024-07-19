@@ -218,8 +218,9 @@ in
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
     # kdePackages.dolphin
-    cinnamon.nemo-with-extensions
-    cinnamon.nemo-fileroller
+    gnome.nautilus
+    # cinnamon.nemo-with-extensions
+    # cinnamon.nemo-fileroller
 
     kdePackages.breeze
     kdePackages.breeze-icons

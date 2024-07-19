@@ -4,7 +4,7 @@ let
   system = (import ./global-params.nix).system;
 in
 {
-  fileSystems."/mnt/BMC" = {
+  fileSystems."/home/${user}/Projects/mounts/BMC" = {
     device = "//emcnas1.bmc.bmcroot.bmc.org/HYPERTENSIONRESEARCH$";
     fsType = "cifs";
     options = [
