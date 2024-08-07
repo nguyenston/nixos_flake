@@ -72,7 +72,7 @@ in
       
       # dependencies/utils
       unrar
-      visidata # cli csv viewer
+      csvlens # cli csv viewer
       zoxide # smarter and faster cd
       fzf # fuzzy finder
       bun # javascript runtime, bundler, transpiler and package manager
@@ -140,9 +140,11 @@ in
       fragments # torrent client
       mokuro # selectable text manga generator
       openconnect # BU VPN
+      doublecmd
       # realvnc-vnc-viewer
 
       # programming languages
+      micromamba # conda but newer
       git
       rustup
       julia-bin
@@ -156,7 +158,6 @@ in
       pplatex
       nodejs
       nodePackages.npm
-      pyright
       typescript
       nodePackages.typescript-language-server
 
@@ -167,6 +168,9 @@ in
       stylua
       shfmt # shell format
       marksman # markdown
+      pyright
+      basedpyright
+      pylyzer
       ruff # linter for python3
       ruff-lsp # lsp for python3
 
