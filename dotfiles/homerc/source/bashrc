@@ -27,8 +27,6 @@ PS1="\[\033[01;37m\][\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[01
 
 # fix ugly terminal color
 export LS_COLORS="$LS_COLORS:ow=1;35;100:tw=1;35;100:"
-# initialize pyenv
-# eval "$(pyenv init -)"
 
 # for convenient history searching
 alias shistory='history | grep'
@@ -50,7 +48,8 @@ alias mount_gdrive="rclone mount gdrive-obsidian: ~/Projects/gdrive-obsidian/ --
 
 alias hyprsubscribe='socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock -'
 alias ags-daemon='nohup ags 0<&- &>/dev/null &'
-alias mount-bmc='sudo mount -t cifs -o username=nguyen.nguyen@bmc.org //emcnas1.bmc.bmcroot.bmc.org/HYPERTENSIONRESEARCH$ Projects/mounts/BMC'
+alias mount-bmc='sudo mount -t cifs -o username=nguyen.nguyen@bmc.org,uid=$(id -u),gid=$(id -g) //emcnas1.bmc.bmcroot.bmc.org/HYPERTENSIONRESEARCH$ Projects/mounts/BMC'
+
 # path export for ruby and gems
 # export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 # export PATH="$HOME/.local/bin/:$PATH"
@@ -60,7 +59,7 @@ alias mount-bmc='sudo mount -t cifs -o username=nguyen.nguyen@bmc.org //emcnas1.
 export CMDSTAN=~/Projects/cmdstan
 
 # fix kitty ssh issues
-[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+[ "$TERM" = "xterm-kitty" ] && export TERM=xterm-256color
 
 source ~/Projects/qmk_firmware/util/qmk_tab_complete.sh
 eval "$(zoxide init bash)"
