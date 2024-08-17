@@ -54,6 +54,7 @@ alias mount-bmc='sudo mount -t cifs -o username=nguyen.nguyen@bmc.org,uid=$(id -
 # export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 # export PATH="$HOME/.local/bin/:$PATH"
 # export DOTDROP_PROFILE="nguyenston"
+export PATH="$PATH:$HOME/.cargo/bin"
 #
 
 export CMDSTAN=~/Projects/cmdstan
