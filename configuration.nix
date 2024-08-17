@@ -6,6 +6,7 @@
 let
   user = (import ./global-params.nix).user;
   system = (import ./global-params.nix).system;
+  fenix = inputs.fenix;
 in
 {
   imports =
@@ -77,7 +78,7 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -218,7 +219,9 @@ in
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
     # kdePackages.dolphin
-    gnome.nautilus
+    nautilus
+    file-roller
+    sushi
     # cinnamon.nemo-with-extensions
     # cinnamon.nemo-fileroller
 
@@ -275,6 +278,7 @@ in
   qt.style = "breeze";
   # overlays
   nixpkgs.overlays = [
+    fenix.overlays.default
     (final: prev: { 
       # latest discord version
       discord = prev.discord.overrideAttrs (_: {
