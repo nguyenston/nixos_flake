@@ -19,7 +19,6 @@ in
 {
   home-manager.users.${user} = {
     imports = [
-      # inputs.nur.hmModules.nur
       inputs.ags.homeManagerModules.default
       # inputs.hyprlock.homeManagerModules.default
     ];
@@ -55,8 +54,8 @@ in
     home.packages = with pkgs; [
       # hyprland stuff
       maxfetch # fetch program
-      alacritty # terminal
-      wezterm
+      # alacritty # terminal
+      # wezterm
       kitty
       rofi-wayland # app launcher
       pavucontrol # audio control panel
@@ -76,7 +75,7 @@ in
       zoxide # smarter and faster cd
       fzf # fuzzy finder
       bun # javascript runtime, bundler, transpiler and package manager
-      sassc
+      sassc # sass compiler
       neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       yazi # terminal file explorer
       unar # archive preview
@@ -86,7 +85,7 @@ in
       ripgrep
       lazygit
       wget
-      gdu
+      gdu # disk usage tool
       bottom
       nodejs
       unzip
@@ -110,6 +109,8 @@ in
       hyprpicker
       hyprpaper
       xorg.xlsclients
+      mosh # ssh replacement
+      kanshi # like autorandr
 
       # nix-based developer environment
       devenv
@@ -119,7 +120,6 @@ in
       cmatrix # eyecandy terminal stuff
       firefox-beta
       darktable # photo editing
-      # config.nur.repos.clefru.ib-tws
       # stable_pkgs.librewolf
       webcord
       telegram-desktop
@@ -131,7 +131,6 @@ in
       xarchiver
       mpv
       haruna
-      gnome.sushi
       zoom-us
       obsidian
       rclone
@@ -146,7 +145,6 @@ in
       # programming languages
       micromamba # conda but newer
       git
-      rustup
       julia-bin
       gcc
       clang-tools_17
@@ -164,7 +162,6 @@ in
       # lsp stuff
       lua-language-server
       nil # nix language server
-      ## rust-analyzer is included in rustup
       stylua
       shfmt # shell format
       marksman # markdown
@@ -188,6 +185,15 @@ in
           # musicatk # dependency error
         ];
       })
+
+      (fenix.complete.withComponents [
+        "cargo"
+        "clippy"
+        "rust-src"
+        "rustc"
+        "rustfmt"
+      ])
+      rust-analyzer-nightly
 
       (python3.withPackages (p: with p; [
         virtualenv
