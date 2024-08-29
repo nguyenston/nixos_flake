@@ -271,7 +271,7 @@ in
     hyprlang
     xorg.xeyes
   ] ++ [
-    inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
+    # inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
   ];
 
   # qt style
