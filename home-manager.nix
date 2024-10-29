@@ -140,7 +140,9 @@ in
       mokuro # selectable text manga generator
       openconnect # BU VPN
       doublecmd
-      # realvnc-vnc-viewer
+      calibre # ebook manager
+      calibre-web
+      realvnc-vnc-viewer
 
       # programming languages
       micromamba # conda but newer

@@ -305,6 +305,7 @@ in
     (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
     julia-mono
     sarasa-gothic
+    cm_unicode
   ];
 
   # ibus
