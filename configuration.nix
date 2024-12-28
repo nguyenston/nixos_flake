@@ -27,7 +27,7 @@ in
     loader = {
       systemd-boot = {
         enable = true;
-        configurationLimit = 4;
+        configurationLimit = 3;
       };
       efi = {
         canTouchEfiVariables = true;
@@ -269,6 +269,7 @@ in
 
     hyprland-protocols
     hyprlang
+    hyprpolkitagent
     xorg.xeyes
   ] ++ [
     # inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
@@ -306,6 +307,7 @@ in
     julia-mono
     sarasa-gothic
     cm_unicode
+    liberation_ttf
   ];
 
   # ibus

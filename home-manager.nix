@@ -11,10 +11,10 @@ let
 
   desktop_entries_directories = with builtins; attrNames (readDir ./desktop-entries);
   desktop_entries = merge_sets (map (import_dir "/desktop-entries/") desktop_entries_directories);
-  stable_pkgs = import inputs.nixpkgs_stable {
-    system = pkgs.system;
-    config.allowUfree = true;
-  };
+  # stable_pkgs = import inputs.nixpkgs_stable {
+  #   system = pkgs.system;
+  #   config.allowUfree = true;
+  # };
 in
 {
   home-manager.users.${user} = {
@@ -102,15 +102,13 @@ in
       fd
       sshfs
       pandoc
-      swayidle
       ninja
       gdb
       meson
       hyprpicker
       hyprpaper
+      hyprsunset
       xorg.xlsclients
-      mosh # ssh replacement
-      kanshi # like autorandr
 
       # nix-based developer environment
       devenv
@@ -143,6 +141,8 @@ in
       calibre # ebook manager
       calibre-web
       realvnc-vnc-viewer
+      synergy
+      gparted
 
       # programming languages
       micromamba # conda but newer
