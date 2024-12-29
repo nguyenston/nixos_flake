@@ -302,12 +302,15 @@ in
 
   # List of font
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" "NerdFontsSymbolsOnly" ]; })
     (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
     julia-mono
     sarasa-gothic
     cm_unicode
     liberation_ttf
+
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
+    nerd-fonts.symbols-only
   ];
 
   # ibus
