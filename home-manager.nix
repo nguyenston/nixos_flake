@@ -57,6 +57,7 @@ in
       # alacritty # terminal
       # wezterm
       kitty
+      inputs.ghostty.packages.${pkgs.system}.default
       rofi-wayland # app launcher
       pavucontrol # audio control panel
       eww # bars and widgets
@@ -147,7 +148,7 @@ in
       # programming languages
       micromamba # conda but newer
       git
-      julia-bin
+      julia-lts
       gcc
       clang-tools_17
       bear
@@ -173,20 +174,20 @@ in
       ruff # linter for python3
       ruff-lsp # lsp for python3
 
-      (rWrapper.override {
-        packages = with rPackages; [
-          languageserver
-          devtools
-          ggplot2
-          dplyr
-          xts
-          ggseqlogo
-          BiocManager
-          shinydashboard
-          shinyjs
-          # musicatk # dependency error
-        ];
-      })
+      # (rWrapper.override {
+      #   packages = with rPackages; [
+      #     languageserver
+      #     devtools
+      #     ggplot2
+      #     dplyr
+      #     xts
+      #     ggseqlogo
+      #     BiocManager
+      #     shinydashboard
+      #     shinyjs
+      #     # musicatk # dependency error
+      #   ];
+      # })
 
       (fenix.complete.withComponents [
         "cargo"
@@ -236,7 +237,7 @@ in
       gtk.enable = true;
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
-      size = 10;
+      size = 16;
     };
 
     gtk = {
@@ -245,7 +246,7 @@ in
       cursorTheme = {
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Classic";
-        size = 10;
+        size = 16;
       };
 
       theme = {
