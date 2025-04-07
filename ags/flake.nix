@@ -8,6 +8,11 @@
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    astal = {
+      url = "github:aylur/astal";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -19,7 +24,7 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     packages.${system} = {
-      default = ags.lib.bundle {
+      default = pkgs.stdenvNoCC.mkDerivation rec {
         inherit pkgs;
         src = ./.;
         name = "ags2";
