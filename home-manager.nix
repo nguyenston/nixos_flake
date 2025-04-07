@@ -20,6 +20,7 @@ in
   home-manager.users.${user} = {
     imports = [
       inputs.ags.homeManagerModules.default
+      inputs.niri.homeModules.niri
       # inputs.hyprlock.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
@@ -34,6 +35,11 @@ in
         webkitgtk
         accountsservice
       ];
+    };
+
+    programs.niri = {
+      enable = true;
+      package = inputs.niri.packages.${pkgs.system}.niri-unstable;
     };
 
     wayland.windowManager.hyprland = {
@@ -52,6 +58,7 @@ in
     home.homeDirectory = "/home/${user}";
     # userspace packages
     home.packages = with pkgs; [
+      inputs.agsv2.packages.${pkgs.system}.default
       # hyprland stuff
       maxfetch # fetch program
       # alacritty # terminal
@@ -99,6 +106,8 @@ in
       libinput
       ueberzugpp
       loupe # image viewer
+      exiftool
+      mediainfo
       qmk
       fd
       sshfs
@@ -119,6 +128,8 @@ in
       cmatrix # eyecandy terminal stuff
       firefox-beta
       darktable # photo editing
+      digikam
+      rawtherapee # photo editing
       # stable_pkgs.librewolf
       webcord
       telegram-desktop
@@ -144,11 +155,12 @@ in
       realvnc-vnc-viewer
       synergy
       gparted
+      waybar
 
       # programming languages
       micromamba # conda but newer
       git
-      julia-lts
+      julia-bin
       gcc
       clang-tools_17
       bear
@@ -173,6 +185,7 @@ in
       pylyzer
       ruff # linter for python3
       ruff-lsp # lsp for python3
+      texlab # lsp for latex
 
       # (rWrapper.override {
       #   packages = with rPackages; [

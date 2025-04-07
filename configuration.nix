@@ -79,7 +79,7 @@ in
 
   # Enable sound with pipewire.
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -218,7 +218,10 @@ in
     nix-index
     lxqt.lxqt-policykit # default auth client for polkit
     papirus-icon-theme
-    # kdePackages.dolphin
+
+    # file explorer
+    libheif # thumbnail for avif file formats
+    libheif.out # thumbnail for avif file formats
     nautilus
     file-roller
     sushi
@@ -393,6 +396,7 @@ in
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
   };
+  environment.pathsToLink = [ "share/thumbnailers" ];
 
   # default applications
   xdg.mime = {
@@ -431,22 +435,33 @@ in
     enable = true;
     config = {
       common = {
-        default = [ "hyprland" ];
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+        default = [ "gtk" ];
       };
-      preferred = {
-        default = [ "hyprland" "gtk" ];
+      niri = {
+        default = [ "gnome" ];
+      };
+      Hyprland = {
+        default = [ "hyprland" ];
         "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
       };
     };
     extraPortals = [
       inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
     ];
   };
 
   services.fwupd.enable = true; 
 
+  security.wrappers."mount.cifs" = {
+    source = "${lib.getBin pkgs.cifs-utils}/bin/mount.cifs";
+    owner = "root";
+    group = "root";
+    setuid = true;
+  };
+
+  # Mounts
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
