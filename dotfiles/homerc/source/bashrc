@@ -48,7 +48,7 @@ alias mount_gdrive="rclone mount gdrive-obsidian: ~/Projects/gdrive-obsidian/ --
 
 alias hyprsubscribe='socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock -'
 alias ags-daemon='nohup ags 0<&- &>/dev/null &'
-alias mount-bmc='sudo mount -t cifs -o username=nguyen.nguyen@bmc.org,uid=$(id -u),gid=$(id -g) //emcnas1.bmc.bmcroot.bmc.org/HYPERTENSIONRESEARCH$ Projects/mounts/BMC'
+alias mount-bmc='sudo mount -t cifs -o credentials=~/.credentials/.bmc_creds,uid=$(id -u),gid=$(id -g) //emcnas1.bmc.bmcroot.bmc.org/HYPERTENSIONRESEARCH$ ~/Projects/mounts/BMC'
 
 # path export for ruby and gems
 # export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
