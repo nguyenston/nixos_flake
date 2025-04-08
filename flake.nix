@@ -24,11 +24,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     wayland-pipewire-idle-inhibit.url = "github:rafaelrc7/wayland-pipewire-idle-inhibit";
     wayland-pipewire-idle-inhibit.inputs.nixpkgs.follows = "nixpkgs";
 
     ags = {
       url = "github:Aylur/ags/v1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    agsv2 = {
+      url = "path:ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -43,7 +53,7 @@
     };
     ghostty.url = "github:ghostty-org/ghostty";
   };
-  outputs = inputs @{ self, nixpkgs, home-manager, hyprland, fenix, ghostty, ... }:
+  outputs = inputs @{ self, nixpkgs, home-manager, hyprland, niri, fenix, ghostty, ... }:
   let
     user = (import ./global-params.nix).user;
     hostname = (import ./global-params.nix).hostname;
