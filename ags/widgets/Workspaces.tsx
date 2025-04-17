@@ -36,6 +36,10 @@ function guessAppIcon(window: Window) {
     return 'slack'
   }
 
+  if (window.app_id === 'firefox-beta') {
+    return 'firefox'
+  }
+
   if (!!Astal.Icon.lookup_icon(window.app_id)) {
     return window.app_id
   }
@@ -61,7 +65,14 @@ function Workspace(workspace: WorkspaceWithWindows, showInactiveIcons: boolean) 
   const className = traits.join(' ')
   const showIcons = (workspace.is_active || showInactiveIcons) && workspace.windows.length > 0
 
-  return <button onClick={() => niri.focusWorkspaceId(workspace.id)} className={className}>
+  return <button
+    onClick={() => niri.focusWorkspaceId(workspace.id)}
+    onScroll={(_self, scroll) => {
+      // console.log(workspace.is_focused, workspace.is_active)
+      if (!workspace.is_focused) { niri.focusWorkspaceId(workspace.id) }
+      niri.focusColumn(scroll.delta_y < 0)
+    }}
+    className={className}>
     <box spacing={showIcons ? 5 : 0}>
       <label className="ws-idx" label={workspace.idx.toString()} />
       {showIcons && workspace.windows.map(win => <icon icon={guessAppIcon(win)} />)}

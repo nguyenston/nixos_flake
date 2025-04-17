@@ -25,6 +25,25 @@ $c-blue-vibrant: #7E9CD8;
 $c-violet: #938AA9;
 $c-violet-vibrant: #957FB8;
 
+$cpu-color: #db7adb;
+$ram-color: #7adbdb;
+$battery-color-charging: #dbdb7a;
+$battery-color-discharging: #dbab7a;
+$battery-color-full: #abdb7a;
+$temperature-color: #e07f86;
+
+$bluetooth-color: #4780c6;
+$wifi-color: #47c0c6;
+
+$disk-color: #576dcc;
+
+$speaker-color: #a96add;
+$speaker-color-muted: shade($speaker-color, 0.6);
+$audio-color: #6a9edd;
+$mic-color: #6adda9;
+$mic-color-muted: shade($mic-color, 0.6);
+$brightness-color: #dda96a;
+
 @function gtkalpha($c, $a) {
   @return string.unquote("alpha(#{$c},#{$a})");
 }

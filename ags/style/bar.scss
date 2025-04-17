@@ -3,17 +3,60 @@
 
 .icon {
   padding: 2px;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 25px;
+  min-height: 25px;
+  font-size: 20px;
+  .grey {
+    color: $bg-color-lighter-lighter;
+  }
+  .memory {
+    color: $ram-color;
+  }
+  .cpu {
+    color: $cpu-color;
+  }
+  .temperature {
+    color: $temperature-color;
+  }
+  .battery {
+    &.charging {
+      color: $battery-color-charging;
+    }
+    &.discharging {
+      color: $battery-color-discharging;
+    }
+    &.full {
+      color: $battery-color-full;
+    }
+  }
+  .brightness {
+    color: $brightness-color;
+  }
+  .speaker {
+    color: $speaker-color;
+    &.muted {
+      color: $speaker-color-muted;
+    }
+  }
+  .microphone {
+    color: $mic-color;
+    &.muted {
+      color: $mic-color-muted;
+    }
+  }
 }
 
 window#bar {
   background-color: $bg-color-darker;
+  // background-color: transparent;
 
   .Workspaces {
     .workspace {
       @include utils.reset-button;
       @include utils.pill-button;
+      box icon {
+        font-size: 25px;
+      }
     }
   }
 
@@ -58,7 +101,8 @@ window#bar {
     @include utils.reset-button;
     @include utils.pill-button;
 
-    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
 
     icon {
       margin: 0;
@@ -94,29 +138,15 @@ window#bar {
     }
   }
 
-  .AudioBluetooth button {
-    @include utils.reset-button;
+  .AudioBluetooth {
+    // @include utils.reset-button;
     @include utils.pill-button;
 
-    padding-left: 10px;
-    padding-right: 10px;
-
-    icon {
-      margin: 0;
-      border-radius: 9999px;
-      min-height: 32px;
-      min-width: 32px;
-
-      &.muted {
-        color: $c-red;
-        // my Papirus icon has opacity set to 0.35 for the muted icon. Unfortunately
-        // this cannot be changed, as the inline style through which that is set takes precedence.
-        opacity: 1.0; 
-      }
-
-      &.Bluetooth.connected {
-        background-color: $c-blue;
-      }
+    box {
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 3px;
+      padding-bottom: 3px;
     }
   }
 
@@ -125,10 +155,17 @@ window#bar {
 
     button {
       @include utils.reset-button;
-      border-radius: 500px;
+      border-radius: 0px;
+      background-color: transparent;
 
       &:hover {
         background-color: $bg-color-lighter;
+      }
+      &.first {
+        border-radius: 500px 0 0 500px;
+      }
+      &.last {
+        border-radius: 0 500px 500px 0;
       }
     }
   }

@@ -115,6 +115,15 @@ export default class Niri extends GObject.Object {
     }
   }
 
+  public focusColumn(left: boolean) {
+    const msg = { "Action": left ? { "FocusColumnLeft": {} } : { "FocusColumnRight": {} } }
+    const result = JSON.parse(this.oneOffCommand(JSON.stringify(msg)))
+
+    if (!("Ok" in result)) {
+      console.warn(`[NIRI] focus column failed`, result)
+    }
+  }
+
   public reloadMonitors() {
     this.#state.monitors = this.getMonitors()
 
@@ -262,10 +271,10 @@ export default class Niri extends GObject.Object {
 
     this.#state.workspaces = new Map(Array.from(this.#state.workspaces, ([key, ws]) => {
       if (ws.output == output) {
-        return [key, { ...ws, is_active: focused && id === ws.id }]
+        return [key, { ...ws, is_active: id == ws.id, is_focused: focused && id == ws.id }]
       }
 
-      return [key, ws]
+      return [key, { ...ws, is_focused: !focused && ws.is_focused }]
     }))
   }
 

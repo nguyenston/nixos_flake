@@ -24,7 +24,7 @@
         src = ./.;
         name = "ags2";
         entry = "app.ts";
-        gtk4 = true;
+        gtk4 = false;
 
         # additional libraries and executables to add to gjs' runtime
         extraPackages = [
@@ -34,6 +34,11 @@
           ags.packages.${system}.bluetooth
           ags.packages.${system}.tray
           ags.packages.${system}.wireplumber
+          ags.packages.${system}.network
+          ags.packages.${system}.mpris
+          ags.packages.${system}.apps
+          ags.packages.${system}.notifd
+          # ags.packages.${system}.agsFull
         ];
       };
     };

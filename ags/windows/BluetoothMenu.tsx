@@ -143,7 +143,7 @@ function EndpointStatus({ default_endpoint, endpoints }: EndpointStatusProps) {
   return <box vertical className="audiostatus">
     <eventbox
       onScroll={(_self, scroll) => {
-        default_endpoint.volume = scroll.delta_y < 0 ? Math.min(1, default_endpoint.volume + 0.02) : Math.max(0, default_endpoint.volume - 0.02)
+        default_endpoint.volume = scroll.delta_y < 0 ? Math.min(1, default_endpoint.volume + 0.05) : Math.max(0, default_endpoint.volume - 0.05)
       }}>
       <box vertical>
         <box className="adjuster">
@@ -161,6 +161,9 @@ function EndpointStatus({ default_endpoint, endpoints }: EndpointStatusProps) {
             hexpand
             cursor="pointer"
             onDragged={({ value }) => default_endpoint.volume = value}
+            // onScroll={(_self, scroll) => {
+            //   default_endpoint.volume = scroll.delta_y < 0 ? Math.min(1, default_endpoint.volume + 0.02) : Math.max(0, default_endpoint.volume - 0.02)
+            // }}
             value={bind(default_endpoint, "volume")}
           />
           <button cursor="pointer" className="expander" onClick={() => show.set(!show.get())}>
@@ -180,6 +183,7 @@ function EndpointStatus({ default_endpoint, endpoints }: EndpointStatusProps) {
 export default function BluetoothMenu() {
   const audio = AstalWp.get_default()!.audio
 
+  const bt = AstalBluetooth.get_default()
   const speakers = bind(audio, 'speakers')
   const microphones = bind(audio, 'microphones')
 
@@ -195,7 +199,13 @@ export default function BluetoothMenu() {
     onFocusOutEvent={(self) => App.toggle_window(self.name)}
     anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}>
     <box className="AudioBluetoothMenu" clickThrough={false} vertical valign={Gtk.Align.START} halign={Gtk.Align.END}>
-      <label label="Bluetooth" xalign={0} />
+      <box spacing={10}>
+        <label label="Bluetooth" xalign={0} />
+        <overlay passThrough={false}>
+          <switch active={bind(bt, "is_powered")} />
+          <eventbox onClick={() => bt.toggle()} cursor="pointer" />
+        </overlay>
+      </box>
       <BtStatus />
       <label label="Audio" xalign={0} />
       <EndpointStatus default_endpoint={audio.default_speaker} endpoints={speakers} />

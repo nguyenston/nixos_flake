@@ -27,3 +27,8 @@ export function cn(...classOrBindings: StringOrBooleanBinding[]): Variable<strin
 export function percentage(zeroToOne: number): string {
   return `${Math.floor(zeroToOne * 100)}%`
 }
+
+// zeroToOne-way between start and end
+export function linCom(zeroToOne: number, start: number, end: number): number {
+  return (1 - zeroToOne) * start + zeroToOne * end
+}

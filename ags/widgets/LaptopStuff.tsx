@@ -1,7 +1,8 @@
 import AstalNetwork from "gi://AstalNetwork?version=0.1"
 import AstalBattery from "gi://AstalBattery?version=0.1"
 import { bind, Binding, Variable } from "astal"
-import { cn, percentage } from "../utils"
+import { cn, percentage, linCom } from "../utils"
+import MeteringLabel from "./MeteringLabel"
 
 // copied this from the docs example
 import AstalBrightness from "../service/brightness"
@@ -40,12 +41,24 @@ function WifiSection({ reveal }: { reveal: Binding<boolean> }) {
   </box>
 }
 
+const batteryStatetoClass = [
+  'unknown',
+  'charging',
+  'discharging',
+  'empty',
+  'full',
+  'pendingCharge',
+  'pendingDischarge'
+]
 function BatteryIcon() {
-  return <icon
-    className="battery"
-    icon={bind(battery, 'battery_icon_name')}
-    tooltip_text={bind(battery, 'percentage').as(percentage)}
-  />
+  return <MeteringLabel
+    className="icon"
+    width={29} height={25}
+    firstLabel="󰂎" secondLabel="󰁹"
+    firstClassName="grey"
+    secondClassName={bind(battery, 'state').as(s => 'battery ' + batteryStatetoClass[s])}
+    tooltip_text={bind(battery, 'state').as(s => batteryStatetoClass[s])}
+    level={bind(battery, 'percentage').as(per => linCom(per, 0.17, 0.88))} />
 }
 
 function BatterySection({ reveal }: { reveal: Binding<boolean> }) {
@@ -61,6 +74,13 @@ function BatterySection({ reveal }: { reveal: Binding<boolean> }) {
 }
 
 function BrightnessIcon() {
+  return <MeteringLabel
+    className="icon"
+    width={29} height={25}
+    firstLabel="󰃞" secondLabel="󰃠"
+    firstClassName="grey" secondClassName="brightness"
+    level={bind(brightness, 'screen').as(per => linCom(per, 0.17, 0.88))}
+  />
   return <icon icon="display-brightness-symbolic" tooltip_text={bind(brightness, 'screen').as(percentage)} />
 }
 
@@ -98,17 +118,17 @@ export default function LaptopStuff() {
     onHover={() => hoverReveal.set(true)}
     onHoverLost={() => hoverReveal.set(false)}>
     <box className={batteryClass(cls => `LaptopStuff ${cls}`)}>
-      {bind(network, 'primary').as(primary => {
-        if (primary === AstalNetwork.Primary.WIFI) {
-          return <WifiSection reveal={hoverReveal()} />
-        }
-
-        if (primary === AstalNetwork.Primary.WIRED) {
-          return <WiredIcon />
-        }
-
-        return <icon icon="unavailable" />
-      })}
+      {/* {bind(network, 'primary').as(primary => { */}
+      {/*   if (primary === AstalNetwork.Primary.WIFI) { */}
+      {/*     return <WifiSection reveal={hoverReveal()} /> */}
+      {/*   } */}
+      {/**/}
+      {/*   if (primary === AstalNetwork.Primary.WIRED) { */}
+      {/*     return <WiredIcon /> */}
+      {/*   } */}
+      {/**/}
+      {/*   return <icon icon="unavailable" /> */}
+      {/* })} */}
       <BatterySection reveal={hoverReveal()} />
       {BrightnessSection(brightness, hoverReveal)}
     </box>
