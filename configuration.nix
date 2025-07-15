@@ -113,6 +113,8 @@ in
   # non-root qmk access
   hardware.keyboard.qmk.enable = true;
 
+# opentablet support
+  hardware.opentabletdriver.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
@@ -440,13 +442,13 @@ in
       niri = {
         default = [ "gnome" ];
       };
-      Hyprland = {
-        default = [ "hyprland" ];
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-      };
+      # Hyprland = {
+      #   default = [ "hyprland" ];
+      #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      # };
     };
     extraPortals = [
-      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
+      # inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];

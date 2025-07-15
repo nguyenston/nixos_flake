@@ -19,50 +19,36 @@ in
 {
   home-manager.users.${user} = {
     imports = [
-      inputs.ags.homeManagerModules.default
       inputs.niri.homeModules.niri
-      # inputs.hyprlock.homeManagerModules.default
     ];
     programs.home-manager.enable = true;
-
-
-    # widget utilities similar to eww
-    programs.ags = {
-      enable = true;
-      # additional packages to add to gjs's runtime
-      extraPackages = with pkgs; [
-        gtksourceview
-        webkitgtk
-        accountsservice
-      ];
-    };
 
     programs.niri = {
       enable = true;
       package = inputs.niri.packages.${pkgs.system}.niri-unstable;
     };
 
-    wayland.windowManager.hyprland = {
-      enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
-        patches = (prev.patches or []) ++ [ ];
-      });
-      xwayland.enable = true;
-      plugins = [
-      ];
-      extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
-    };
-    programs.hyprlock.enable = true;
+    # wayland.windowManager.hyprland = {
+    #   enable = false;
+    #   package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
+    #     patches = (prev.patches or []) ++ [ ];
+    #   });
+    #   xwayland.enable = true;
+    #   plugins = [
+    #   ];
+    #   extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
+    # };
+    # programs.hyprlock.enable = false;
 
     home.username = "${user}";
     home.homeDirectory = "/home/${user}";
     # userspace packages
     home.packages = with pkgs; [
-      inputs.agsv2.packages.${pkgs.system}.default
+      # inputs.agsbar.packages.${pkgs.system}.default
+      inputs.ags.packages.${system}.agsFull
       # hyprland stuff
       maxfetch # fetch program
       # alacritty # terminal
-      # wezterm
       kitty
       inputs.ghostty.packages.${pkgs.system}.default
       rofi-wayland # app launcher
@@ -75,6 +61,7 @@ in
       wlogout # logout menu
       socat # socket stuff
       wpaperd
+      xwayland-satellite
       obs-studio
       
       # dependencies/utils
@@ -112,7 +99,7 @@ in
       fd
       sshfs
       pandoc
-      ninja
+      # ninja # collision with python 3.12.9
       gdb
       meson
       hyprpicker
@@ -128,7 +115,7 @@ in
       cmatrix # eyecandy terminal stuff
       firefox-beta
       darktable # photo editing
-      digikam
+      imagemagick
       rawtherapee # photo editing
       # stable_pkgs.librewolf
       webcord
@@ -144,18 +131,19 @@ in
       zoom-us
       obsidian
       rclone
-      # zotero
-      zotero_7
+      zotero
       fragments # torrent client
       mokuro # selectable text manga generator
       openconnect # BU VPN
       doublecmd
       calibre # ebook manager
-      calibre-web
       realvnc-vnc-viewer
       synergy
       gparted
       waybar
+      localsend # p2p file share
+      krita # drawing program
+
 
       # programming languages
       micromamba # conda but newer
@@ -184,7 +172,6 @@ in
       basedpyright
       pylyzer
       ruff # linter for python3
-      ruff-lsp # lsp for python3
       texlab # lsp for latex
 
       # (rWrapper.override {
@@ -236,7 +223,7 @@ in
       ]))
     ] ++ [
       # inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
-      inputs.hypridle.packages.${pkgs.system}.hypridle
+      # inputs.hypridle.packages.${pkgs.system}.hypridle
       (pkgs.buildEnv {
         name = "custom-scripts";
         paths = [
@@ -280,7 +267,7 @@ in
     home.file = dotfiles;
 
     # dunst - notification daemon
-    services.dunst.enable = true;
+    # services.dunst.enable = true; using astal notifd
     home.stateVersion = "22.11";
   };
 }

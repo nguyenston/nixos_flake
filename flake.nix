@@ -7,22 +7,18 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hyprland = {
+    #   url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     hyprpicker = {
       url = "github:hyprwm/hyprpicker";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hypridle = {
-      url = "github:hyprwm/hypridle";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hypridle = {
+    #   url = "github:hyprwm/hypridle";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     niri = {
       url = "github:sodiboo/niri-flake";
@@ -33,18 +29,14 @@
     wayland-pipewire-idle-inhibit.inputs.nixpkgs.follows = "nixpkgs";
 
     ags = {
-      url = "github:Aylur/ags/v1";
+      url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agsv2 = {
+    agsbar = {
       url = "path:ags";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
+      inputs.ags.follows = "ags";
     };
 
     fenix = {
@@ -53,7 +45,7 @@
     };
     ghostty.url = "github:ghostty-org/ghostty";
   };
-  outputs = inputs @{ self, nixpkgs, home-manager, hyprland, niri, fenix, ghostty, ... }:
+  outputs = inputs @{ self, nixpkgs, home-manager, niri, fenix, ghostty, ... }:
   let
     user = (import ./global-params.nix).user;
     hostname = (import ./global-params.nix).hostname;

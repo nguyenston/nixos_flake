@@ -437,10 +437,10 @@ binds {
     // ...
 
     // And you can also move a whole workspace to another monitor:
-    Mod+Shift+Period  { move-workspace-to-monitor-right; }
-    Mod+Shift+Comma  { move-workspace-to-monitor-up; }
-    Mod+Shift+M  { move-workspace-to-monitor-down; }
-    Mod+Shift+N  { move-workspace-to-monitor-left; }
+    Mod+Ctrl+Period  { move-workspace-to-monitor-right; }
+    Mod+Ctrl+Comma  { move-workspace-to-monitor-up; }
+    Mod+Ctrl+M  { move-workspace-to-monitor-down; }
+    Mod+Ctrl+N  { move-workspace-to-monitor-left; }
     // ...
 
     Mod+Page_Down      { focus-workspace-down; }
