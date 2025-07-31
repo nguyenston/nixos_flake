@@ -1,1 +1,1 @@
-timeout 400 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+timeout 300 'niri msg action power-off-monitors'

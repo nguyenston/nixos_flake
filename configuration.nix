@@ -40,6 +40,9 @@ in
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
+   networkmanager.plugins = [
+     pkgs.networkmanager-openconnect
+   ];
   };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
@@ -252,7 +255,6 @@ in
     libnotify
 
     networkmanagerapplet
-    networkmanager-openconnect
 
     # display libraries
     libGL
