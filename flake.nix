@@ -45,37 +45,45 @@
     };
     ghostty.url = "github:ghostty-org/ghostty";
   };
-  outputs = inputs @{ self, nixpkgs, home-manager, niri, fenix, ghostty, ... }:
-  let
-    user = (import ./global-params.nix).user;
-    hostname = (import ./global-params.nix).hostname;
-    system = (import ./global-params.nix).system;
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUfree = true;
-    };
-    lib = nixpkgs.lib;
-  in 
-  {
-    packages.${system}.default = fenix.packages.${system}.minimal.toolchain;
-    nixosConfigurations = {
-      ${hostname} = lib.nixosSystem {
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      niri,
+      fenix,
+      ghostty,
+      ...
+    }:
+    let
+      user = (import ./global-params.nix).user;
+      hostname = (import ./global-params.nix).hostname;
+      system = (import ./global-params.nix).system;
+      pkgs = import nixpkgs {
         inherit system;
-        specialArgs.inputs = inputs;
-        modules = [ 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-          ./configuration.nix 
-        ];
+        config.allowUfree = true;
+      };
+      lib = nixpkgs.lib;
+    in
+    {
+      packages.${system}.default = fenix.packages.${system}.minimal.toolchain;
+      nixosConfigurations = {
+        ${hostname} = lib.nixosSystem {
+          inherit system;
+          specialArgs.inputs = inputs;
+          modules = [
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
+            ./configuration.nix
+          ];
+        };
+      };
+      homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { inherit system; };
+        modules = [ ];
       };
     };
-    homeConfigurations."${user}@${hostname}" = home-manager.lib.homeManagerConfiguration 
-    {
-      pkgs = import nixpkgs { inherit system; };
-      modules = [ ];
-    };
-  };
 }
