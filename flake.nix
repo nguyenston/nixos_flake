@@ -36,7 +36,7 @@
     agsbar = {
       url = "path:ags";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.ags.follows = "ags";
+      # inputs.ags.follows = "ags";
     };
 
     fenix = {
