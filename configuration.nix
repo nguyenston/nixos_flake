@@ -2,25 +2,32 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 let
   user = (import ./global-params.nix).user;
   system = (import ./global-params.nix).system;
   fenix = inputs.fenix;
 in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./filesystems.nix
-      ./home-manager.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./filesystems.nix
+    ./home-manager.nix
+    inputs.niri.nixosModules.niri
+  ];
 
   # Bootloader.
   boot = {
     supportedFilesystems = [ "ntfs" ];
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelParams = [ 
+    kernelParams = [
       "iommu=pt"
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
     ];
@@ -40,9 +47,9 @@ in
   networking = {
     hostName = "nixos";
     networkmanager.enable = true;
-   networkmanager.plugins = [
-     pkgs.networkmanager-openconnect
-   ];
+    networkmanager.plugins = [
+      pkgs.networkmanager-openconnect
+    ];
   };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
@@ -66,14 +73,17 @@ in
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-  
+
   # cachnix for hyprland
   nix.settings = {
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-    trusted-users = [ "root" "nguyenston" ];
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+    trusted-users = [
+      "root"
+      "nguyenston"
+    ];
   };
-  
+
   # periodically collect garbage to recover disk space
   nix.settings.auto-optimise-store = true;
 
@@ -94,14 +104,14 @@ in
     jack.enable = true;
     wireplumber.enable = true;
     wireplumber.configPackages = [
-        (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
-          bluez_monitor.properties = {
-            ["bluez5.enable-sbc-xq"] = true,
-            ["bluez5.enable-msbc"] = true,
-            ["bluez5.enable-hw-volume"] = true,
-            ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
-          }
-        '')
+      (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
+        bluez_monitor.properties = {
+          ["bluez5.enable-sbc-xq"] = true,
+          ["bluez5.enable-msbc"] = true,
+          ["bluez5.enable-hw-volume"] = true,
+          ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+        }
+      '')
     ];
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
@@ -116,13 +126,16 @@ in
   # non-root qmk access
   hardware.keyboard.qmk.enable = true;
 
-# opentablet support
+  # opentablet support
   hardware.opentabletdriver.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${user} = {
     isNormalUser = true;
     description = "Nguyen Phuc Nguyen";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
   # nix-ld to run unpackaged/arbitrary binaries
@@ -202,12 +215,13 @@ in
     options nvidia-drm modeset=1
   '';
   boot.blacklistedKernelModules = [ "nouveau" ];
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # Icky but let obsidian work
   nixpkgs.config.permittedInsecurePackages = [
+    "libsoup-2.74.3"
   ];
 
   programs.steam = {
@@ -219,81 +233,86 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    nix-index
-    lxqt.lxqt-policykit # default auth client for polkit
-    papirus-icon-theme
+  environment.systemPackages =
+    with pkgs;
+    [
+      nix-index
+      lxqt.lxqt-policykit # default auth client for polkit
+      papirus-icon-theme
 
-    # file explorer
-    libheif # thumbnail for avif file formats
-    libheif.out # thumbnail for avif file formats
-    nautilus
-    file-roller
-    sushi
-    # cinnamon.nemo-with-extensions
-    # cinnamon.nemo-fileroller
+      # file explorer
+      libheif # thumbnail for avif file formats
+      libheif.out # thumbnail for avif file formats
+      nautilus
+      file-roller
+      sushi
+      kdePackages.dolphin
+      kdePackages.kio-extras
+      kdePackages.kwallet-pam
+      kdePackages.kwalletmanager
 
-    kdePackages.breeze
-    kdePackages.breeze-icons
-    tinysparql
-    localsearch
-    coreutils
-    cifs-utils
-    lshw
-    powertop
-    nvtopPackages.full
-    htop
-    usbutils
-    pciutils
-    pulseaudioFull
-    lm_sensors
+      kdePackages.breeze
+      kdePackages.breeze-icons
+      tinysparql
+      localsearch
+      coreutils
+      cifs-utils
+      lshw
+      powertop
+      nvtopPackages.full
+      htop
+      usbutils
+      pciutils
+      pulseaudioFull
+      lm_sensors
 
-    glxinfo
-    clinfo
-    tomlplusplus
-    pkg-configUpstream
-    libnotify
+      glxinfo
+      clinfo
+      tomlplusplus
+      pkg-configUpstream
+      libnotify
 
-    networkmanagerapplet
+      networkmanagerapplet
 
-    # display libraries
-    libGL
-    libglvnd
-    glfw
+      # display libraries
+      libGL
+      libglvnd
+      glfw
 
-    # graphics libraries
-    pixman
-    cairo
-    pango
-    mesa
+      # graphics libraries
+      pixman
+      cairo
+      pango
+      mesa
 
-    qt6.qtwayland
-    libsForQt5.qt5.qtwayland
-    libsForQt5.qt5ct
-    kdePackages.qt6ct
-    libva
-    libva-utils
+      qt6.qtwayland
+      libsForQt5.qt5.qtwayland
+      libsForQt5.qt5ct
+      kdePackages.qt6ct
+      libva
+      libva-utils
 
-    hyprland-protocols
-    hyprlang
-    hyprpolkitagent
-    xorg.xeyes
-  ] ++ [
-    # inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
-  ];
+      hyprland-protocols
+      hyprlang
+      hyprpolkitagent
+      xorg.xeyes
+    ]
+    ++ [
+      # inputs.wayland-pipewire-idle-inhibit.packages.x86_64-linux.wayland-pipewire-idle-inhibit
+    ];
 
   # qt style
   qt.style = "breeze";
   # overlays
   nixpkgs.overlays = [
     fenix.overlays.default
-    (final: prev: { 
+    (final: prev: {
       # latest discord version
       discord = prev.discord.overrideAttrs (_: {
-      	src = builtins.fetchTarball {
-      	  url = "https://discord.com/api/download?platform=linux&format=tar.gz";
+        src = builtins.fetchTarball {
+          url = "https://discord.com/api/download?platform=linux&format=tar.gz";
           sha256 = "087p8z538cyfa9phd4nvzjrvx4s9952jz1azb2k8g6pggh1vxwm8";
-      	};
+        };
       });
 
       # latest zoom version
@@ -309,7 +328,12 @@ in
 
   # List of font
   fonts.packages = with pkgs; [
-    (google-fonts.override { fonts = [ "ZenMaruGothic" "Roboto" ]; })
+    (google-fonts.override {
+      fonts = [
+        "ZenMaruGothic"
+        "Roboto"
+      ];
+    })
     julia-mono
     sarasa-gothic
     cm_unicode
@@ -343,10 +367,10 @@ in
       auth include login
     '';
   };
+  security.pam.services.gdm-password.enableKwallet = true;
 
   # authentication agent
   security.polkit.enable = true;
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -386,14 +410,12 @@ in
     extraPackages = with pkgs; [
       mesa.drivers
       rocmPackages.clr.icd
-      amdvlk
-      driversi686Linux.amdvlk
     ];
   };
   # use this to set opengl to amdgpu -- fixing alacritty slow startup time
   environment.sessionVariables = {
-  #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
-    LD_LIBRARY_PATH=[ "/run/opengl-driver/lib:/run/opengl-driver-32/lib" ];
+    #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
+    LD_LIBRARY_PATH = [ "/run/opengl-driver/lib:/run/opengl-driver-32/lib" ];
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
@@ -428,7 +450,17 @@ in
         DEVICE:
           EVENTS:
             EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
-    '';  
+    '';
+  };
+
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri;
+  };
+  niri-flake.cache.enable = true;
+  services.xserver = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
   };
 
   # Enable the OpenSSH daemon.
@@ -442,8 +474,13 @@ in
         default = [ "gtk" ];
       };
       niri = {
-        default = [ "gnome" ];
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
       };
+
       # Hyprland = {
       #   default = [ "hyprland" ];
       #   "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
@@ -456,7 +493,7 @@ in
     ];
   };
 
-  services.fwupd.enable = true; 
+  services.fwupd.enable = true;
 
   security.wrappers."mount.cifs" = {
     source = "${lib.getBin pkgs.cifs-utils}/bin/mount.cifs";

@@ -25,14 +25,8 @@ in
 {
   home-manager.users.${user} = {
     imports = [
-      inputs.niri.homeModules.niri
     ];
     programs.home-manager.enable = true;
-
-    programs.niri = {
-      enable = true;
-      package = inputs.niri.packages.${pkgs.system}.niri-unstable;
-    };
 
     # wayland.windowManager.hyprland = {
     #   enable = false;
@@ -52,14 +46,16 @@ in
     home.packages =
       with pkgs;
       [
-        # inputs.agsbar.packages.${pkgs.system}.default
+        inputs.agsbar.packages.${pkgs.system}.default
         inputs.ags.packages.${system}.agsFull
         # hyprland stuff
         maxfetch # fetch program
         # alacritty # terminal
         kitty
-        inputs.ghostty.packages.${pkgs.system}.default
-        rofi-wayland # app launcher
+        alacritty
+        # inputs.ghostty.packages.${pkgs.system}.default
+        ghostty
+        rofi # app launcher
         pavucontrol # audio control panel
         eww # bars and widgets
         grim # screenshot functionality
@@ -80,6 +76,7 @@ in
         bun # javascript runtime, bundler, transpiler and package manager
         sassc # sass compiler
         neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+        tree-sitter # required for latest version of lazyvim
         yazi # terminal file explorer
         unar # archive preview
         poppler # pdf preview
@@ -122,14 +119,13 @@ in
         # applications
         cmatrix # eyecandy terminal stuff
         firefox-beta
-        # darktable # photo editing temporarily disable due to build failure
+        darktable # photo editing temporarily disable due to build failure
         imagemagick
         rawtherapee # photo editing
         # stable_pkgs.librewolf
         webcord
         telegram-desktop
         grive2
-        libsForQt5.okular
         gnome-text-editor
         masterpdfeditor
         zathura # vim-based pdf viewer
@@ -151,13 +147,15 @@ in
         waybar
         localsend # p2p file share
         krita # drawing program
+        ipe # editor for drawing latex figures
+        pdfpc
 
         # programming languages
         micromamba # conda but newer
         git
         julia-bin
         gcc
-        clang-tools_17
+        # clang-tools_17 # discontinued
         bear
         cmake
         lua
