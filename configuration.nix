@@ -412,6 +412,8 @@ in
       rocmPackages.clr.icd
     ];
   };
+  virtualisation.docker.enable = true;
+  users.extraGroups.docker.members = [ "nguyenston" ];
   # use this to set opengl to amdgpu -- fixing alacritty slow startup time
   environment.sessionVariables = {
     #   "__EGL_VENDOR_LIBRARY_FILENAMES" = "/run/opengl-driver/share/glvnd/egl_vendor.d/50_mesa.json";
@@ -439,6 +441,11 @@ in
   services.logind = {
     lidSwitch = "suspend";
     lidSwitchExternalPower = "suspend";
+  };
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "both";
+
   };
   services.interception-tools = {
     enable = true;
