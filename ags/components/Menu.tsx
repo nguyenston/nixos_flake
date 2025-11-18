@@ -1,13 +1,15 @@
-import { Gtk } from "astal/gtk3"
-import { Variable } from "../../../../../nix/store/x9p0zmv4h5wi8ln6wwip7bbgb7mmdpbd-astal-gjs/share/astal/gjs"
+import { Gtk } from "ags/gtk3"
+import { createState } from "ags"
 
 type MenuProps = {
   child: JSX.Element
 }
 function Menu({ child }: MenuProps) {
-  const opened = Variable(false)
+  const [opened, setOpened] = createState(false)
 
   return <revealer transition_type={Gtk.RevealerTransitionType.SLIDE_DOWN} reveal_child={opened()}>
     {child}
   </revealer>
 }
+
+export default Menu

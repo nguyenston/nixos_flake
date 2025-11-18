@@ -1,6 +1,7 @@
 import GObject from "gi://GObject"
-import { App, ConstructProps, Gtk, astalify } from "astal/gtk3"
-import { Variable, bind } from "astal"
+import app from "ags/gtk3/app"
+import { ConstructProps, Gtk, astalify } from "ags/gtk3"
+import { createBinding } from "ags"
 import AstalBluetooth from "gi://AstalBluetooth?version=0.1"
 
 // subclass, register, define constructor props
@@ -20,16 +21,16 @@ export default function Bluetooth() {
 
   const bt = AstalBluetooth.get_default()
 
-  const connected = bind(bt, "is_connected")
+  const connected = createBinding(bt, "is_connected")
   const className = connected.as(c => c ? "Bluetooth connected" : "Bluetooth")
 
-  const icon = bind(bt, "is_powered").as(c => c ? "bluetooth-active-symbolic" : "bluetooth-disabled-symbolic")
+  const icon = createBinding(bt, "is_powered").as(c => c ? "bluetooth-active-symbolic" : "bluetooth-disabled-symbolic")
 
   return <box vertical>
     <button
       className={className}
       onClick={() => {
-        App.toggle_window('bluetooth')
+        app.toggle_window('bluetooth')
       }}
     >
       <icon icon={icon}></icon>

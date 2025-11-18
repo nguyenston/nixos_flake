@@ -1,6 +1,6 @@
-import { Astal, Gtk } from "astal/gtk3"
+import { Gtk } from "ags/gtk3"
 import Mpris from "gi://AstalMpris"
-import { bind } from "astal"
+import { createBinding } from "ags"
 
 function lengthStr(length: number) {
   const min = Math.floor(length / 60)
@@ -12,21 +12,21 @@ function lengthStr(length: number) {
 export default function MediaPlayer({ player }: { player: Mpris.Player }) {
   const { START, END } = Gtk.Align
 
-  const title = bind(player, "title").as(t =>
+  const title = createBinding(player, "title").as(t =>
     t || "Unknown Track")
 
-  const artist = bind(player, "artist").as(a =>
+  const artist = createBinding(player, "artist").as(a =>
     a || "Unknown Artist")
 
-  const coverArt = bind(player, "coverArt").as(c =>
+  const coverArt = createBinding(player, "coverArt").as(c =>
     `background-image: url('${c}')`)
 
-  const playerIcon = bind(player, "entry")
+  const playerIcon = createBinding(player, "entry")
 
-  const position = bind(player, "position").as(p => player.length > 0
+  const position = createBinding(player, "position").as(p => player.length > 0
     ? p / player.length : 0)
 
-  const playIcon = bind(player, "playbackStatus").as(s =>
+  const playIcon = createBinding(player, "playbackStatus").as(s =>
     s === Mpris.PlaybackStatus.PLAYING
       ? "media-playback-pause-symbolic"
       : "media-playback-start-symbolic"
@@ -42,7 +42,7 @@ export default function MediaPlayer({ player }: { player: Mpris.Player }) {
       <label halign={START} valign={START} vexpand wrap className="artist" label={artist} />
       <slider
         cursor="pointer"
-        visible={bind(player, "length").as(l => l > 0)}
+        visible={createBinding(player, "length").as(l => l > 0)}
         onDragged={({ value }) => player.position = value * player.length}
         value={position}
       />
@@ -51,26 +51,26 @@ export default function MediaPlayer({ player }: { player: Mpris.Player }) {
           hexpand
           className="position"
           halign={START}
-          visible={bind(player, "length").as(l => l > 0)}
-          label={bind(player, "position").as(lengthStr)}
+          visible={createBinding(player, "length").as(l => l > 0)}
+          label={createBinding(player, "position").as(lengthStr)}
         />
         <box className="controls">
           <button
             cursor="pointer"
             onClicked={() => player.previous()}
-            visible={bind(player, "canGoPrevious")}>
+            visible={createBinding(player, "canGoPrevious")}>
             <icon icon="media-skip-backward-symbolic" />
           </button>
           <button
             cursor="pointer"
             onClicked={() => player.play_pause()}
-            visible={bind(player, "canControl")}>
+            visible={createBinding(player, "canControl")}>
             <icon icon={playIcon} />
           </button>
           <button
             cursor="pointer"
             onClicked={() => player.next()}
-            visible={bind(player, "canGoNext")}>
+            visible={createBinding(player, "canGoNext")}>
             <icon icon="media-skip-forward-symbolic" />
           </button>
         </box>
@@ -78,8 +78,8 @@ export default function MediaPlayer({ player }: { player: Mpris.Player }) {
           className="length"
           hexpand
           halign={END}
-          visible={bind(player, "length").as(l => l > 0)}
-          label={bind(player, "length").as(l => l > 0 ? lengthStr(l) : "0:00")}
+          visible={createBinding(player, "length").as(l => l > 0)}
+          label={createBinding(player, "length").as(l => l > 0 ? lengthStr(l) : "0:00")}
         />
       </centerbox>
     </box>

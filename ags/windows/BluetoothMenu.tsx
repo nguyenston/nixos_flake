@@ -3,7 +3,7 @@ import app from "ags/gtk3/app"
 import { Astal, ConstructProps, Widget, astalify } from "ags/gtk3"
 import Gtk from "gi://Gtk?version=3.0"
 import Gdk from "gi://Gdk?version=3.0"
-import { Binding, createState, createBinding } from "ags"
+import { Binding, createState, createBinding, createComputed } from "ags"
 import AstalBluetooth from "gi://AstalBluetooth?version=0.1"
 import AstalWp from "gi://AstalWp?version=0.1"
 import AstalBattery from "gi://AstalBattery?version=0.1"
@@ -24,7 +24,6 @@ class ComboBox extends astalify(Gtk.ComboBox) {
     super(props as any)
   }
 }
-
 
 // subclass, register, define constructor props
 class Spinner extends astalify(Gtk.Spinner) {
@@ -54,7 +53,7 @@ function BtStatus() {
   })
 
   return <box vertical>
-    {createBinding(btinfo).as(devices => devices.map(device => <Device btinfo={device} />))}
+    {btinfo.as(devices => devices.map(device => <Device btinfo={device} />))}
   </box>
 }
 
@@ -70,7 +69,8 @@ type DeviceProps = {
 function Device({ btinfo: { device, battery } }: DeviceProps) {
   const title = battery
     ? createComputed([createBinding(device, 'alias'), createBinding(battery, 'percentage')], (d, p) => `${d} [${Math.floor(p * 100)}%]`)
-    : createComputed([createBinding(device, 'alias')], (a) => a)
+    : createBinding(device, 'alias')
+    
   return <box class="btdevice">
     <button
       class={cn('connect', { 'connected': createBinding(device, 'connected') })()}
@@ -83,7 +83,7 @@ function Device({ btinfo: { device, battery } }: DeviceProps) {
         <label hexpand xalign={0} label={title()}></label>
         <Spinner
           visible={createBinding(device, "connecting")}
-          setup={(self) => {
+          $={(self) => {
             createBinding(device, "connecting").subscribe(connecting => {
               connecting ? self.start() : self.stop()
             })
@@ -164,12 +164,9 @@ function EndpointStatus({ default_endpoint, endpoints }: EndpointStatusProps) {
             hexpand
             cursor="pointer"
             onDragged={({ value }) => default_endpoint.volume = value}
-            // onScroll={(_self, scroll) => {
-            //   default_endpoint.volume = scroll.delta_y < 0 ? Math.min(1, default_endpoint.volume + 0.02) : Math.max(0, default_endpoint.volume - 0.02)
-            // }}
             value={createBinding(default_endpoint, "volume")}
           />
-          <button cursor="pointer" class="expander" onClick={() => show.set(!show())}>
+          <button cursor="pointer" class="expander" onClick={() => setShow(!show())}>
             <icon icon={show(s => s ? 'pan-down-symbolic' : 'pan-end-symbolic')}></icon>
           </button>
         </box>
@@ -190,13 +187,12 @@ export default function BluetoothMenu() {
   const speakers = createBinding(audio, 'speakers')
   const microphones = createBinding(audio, 'microphones')
 
-
   const player = createBinding(AstalMpris.get_default(), 'players').as(players => players.find(p => p.bus_name === 'org.mpris.MediaPlayer2.spotify'))
 
   return <window
     name="bluetooth"
     class="BluetoothMenu"
-    setup={(self) => app.add_window(self)}
+    $={(self) => app.add_window(self)}
     keymode={Astal.Keymode.ON_DEMAND}
     visible={false}
     onFocusOutEvent={(self) => app.toggle_window(self.name)}

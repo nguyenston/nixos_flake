@@ -6,6 +6,7 @@ import Bar from "./windows/Bar"
 import BluetoothMenu from "./windows/BluetoothMenu"
 import Applauncher from "./windows/Applauncher"
 import NotificationPopups from "./windows/Notifications"
+import Niri from "./service/niri"
 
 app.start({
   icons: "./icons",
@@ -78,7 +79,7 @@ app.start({
 
     // Create other windows
     app.get_monitors().map(NotificationPopups)
-    applauncher()
+    Applauncher()
     BluetoothMenu()
   },
 })

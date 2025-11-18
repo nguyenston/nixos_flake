@@ -1,5 +1,6 @@
 import Apps from "gi://AstalApps"
-import { App, Astal, Gdk, Gtk } from "ags/gtk3"
+import app from "ags/gtk3/app"
+import { Astal, Gdk, Gtk } from "ags/gtk3"
 import { createState } from "ags"
 
 const MAX_ITEMS = 8
@@ -36,8 +37,8 @@ export default function Applauncher() {
   const [query, setQuery] = createState("")
   const list = query(q => apps.fuzzy_query(q).slice(0, MAX_ITEMS))
   const hide = () => {
-    if (App.get_window('launcher')?.visible) {
-      App.toggle_window("launcher")
+    if (app.get_window('launcher')?.visible) {
+      app.toggle_window("launcher")
     }
   }
 
@@ -52,7 +53,7 @@ export default function Applauncher() {
     name="launcher"
     exclusivity={Astal.Exclusivity.IGNORE}
     keymode={Astal.Keymode.ON_DEMAND}
-    application={App}
+    application={app}
     visible={false}
     onShow={() => setQuery("")}
     onFocusOutEvent={() => hide()}

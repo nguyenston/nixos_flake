@@ -1,5 +1,5 @@
 import Gtk from "gi://Gtk?version=3.0"
-import { createState, createBinding, createPoll } from "ags"  // CHANGED: was "astal"
+import { createState, createBinding, createPoll, createComputed } from "ags"
 import Usage from "../service/usage"
 import { cn, percentage, linCom } from "../utils"
 import MeteringLabel from "./MeteringLabel"
@@ -7,10 +7,9 @@ import MeteringLabel from "./MeteringLabel"
 const usage = Usage.get_default()
 
 export default function ResourceUsage() {
-  const cpu = createBinding(usage, 'cpuUsage')  // CHANGED: bind → createBinding
-  const mem = createBinding(usage, 'memory').as(mem => mem.percentage)  // CHANGED
+  const cpu = createBinding(usage, 'cpuUsage')
+  const mem = createBinding(usage, 'memory').as(mem => mem.percentage)
   
-  // CHANGED: Variable.poll → createPoll
   const temp = createPoll(0, 2000, ["sensors", "-j"], out => {
     const obj = JSON.parse(out)
     return obj["acpitz-acpi-0"].temp1.temp1_input / 100
@@ -20,22 +19,21 @@ export default function ResourceUsage() {
   const revealMemory = mem.as(mem => mem > 0.8)
   const revealTemperature = temp.as(tem => tem > 0.8)
   
-  const [hovered, setHovered] = createState(false)  // CHANGED: Variable → createState
+  const [hovered, setHovered] = createState(false)
 
-  // CHANGED: Variable.derive → createComputed
   const reveal = createComputed(
     [revealCPU, revealMemory, revealTemperature, hovered], 
     (rc, rm, rt, hovered) => hovered || rc || rm || rt
   )
 
-  return <box class="ResourceUsage">  {/* CHANGED: className → class */}
+  return <box class="ResourceUsage">
     <eventbox 
-      onHover={() => setHovered(true)}  {/* CHANGED: hovered.set(true) */}
-      onHoverLost={() => setHovered(false)}>  {/* CHANGED */}
+      onHover={() => setHovered(true)}
+      onHoverLost={() => setHovered(false)}>
       <box>
         <box>
           <MeteringLabel
-            class="icon"  {/* CHANGED */}
+            class="icon"
             width={29} height={25}
             firstLabel="" secondLabel=""
             firstClassName="grey" secondClassName="cpu"
@@ -47,7 +45,7 @@ export default function ResourceUsage() {
         </box>
         <box>
           <MeteringLabel
-            class="icon"  {/* CHANGED */}
+            class="icon"
             width={29} height={25}
             firstLabel="" secondLabel=""
             firstClassName="grey" secondClassName="memory"
@@ -59,7 +57,7 @@ export default function ResourceUsage() {
         </box>
         <box>
           <MeteringLabel
-            class="icon"  {/* CHANGED */}
+            class="icon"
             width={29} height={25}
             firstLabel="" secondLabel=""
             firstClassName="grey" secondClassName="temperature"

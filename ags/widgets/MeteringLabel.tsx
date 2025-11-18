@@ -1,6 +1,6 @@
-import GObject, { register, property } from "ags/gobject";
-import { Gtk, Gdk, Widget, astalify, type ConstructProps } from "ags/gtk3";
-import { createBinding } from "ags";
+import GObject, { register, property } from "ags/gobject"
+import { Gtk, Gdk, Widget, astalify, type ConstructProps } from "ags/gtk3"
+import { createBinding } from "ags"
 
 @register()
 export default class MeteringLabel extends astalify(Gtk.Overlay) {
@@ -34,7 +34,7 @@ export default class MeteringLabel extends astalify(Gtk.Overlay) {
   get height() { return this._height }
 
 
-  constructor({ width = 0, height = 0, ...props }) {
+  constructor({ width = 0, height = 0, ...props }: any) {
     super({ valign: Gtk.Align.CENTER, halign: Gtk.Align.CENTER, ...props })
     this._width = width
     this._height = height
@@ -75,4 +75,3 @@ export default class MeteringLabel extends astalify(Gtk.Overlay) {
     this.add_overlay(second_half)
   }
 }
-

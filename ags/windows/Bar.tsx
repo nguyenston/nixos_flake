@@ -23,7 +23,7 @@ export default function Bar(monitor: Gdk.Monitor) {
     anchor={Astal.WindowAnchor.TOP
       | Astal.WindowAnchor.LEFT
       | Astal.WindowAnchor.RIGHT}
-    application={App}>
+    application={app}>
     <centerbox>
       <box className="left" hexpand halign={Gtk.Align.START}>
         <Workspaces forMonitor={monitor} showInactiveIcons></Workspaces>

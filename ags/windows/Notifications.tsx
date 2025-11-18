@@ -6,28 +6,32 @@ import { createState, createBinding } from "ags"
 import { timeout } from "ags/time"
 import Notifd from "gi://AstalNotifd"
 import Notification from "../widgets/Notification"
-import { type Subscribable } from "astal/binding"
 
 // see comment below in constructor
 const TIMEOUT_DELAY = 5000
 
-// The purpose if this class is to replace Variable<Array<Widget>>
+// The purpose of this class is to replace Variable<Array<Widget>>
 // with a Map<number, Widget> type in order to track notification widgets
 // by their id, while making it conviniently bindable as an array
-class NotifiationMap implements Subscribable {
+class NotificationMap {
   // the underlying map to keep track of id widget pairs
   private map: Map<number, Gtk.Widget> = new Map()
 
-  // it makes sense to use a Variable under the hood and use its
+  // it makes sense to use createState under the hood and use its
   // reactivity implementation instead of keeping track of subscribers ourselves
-  private var: Variable<Array<Gtk.Widget>> = Variable([])
+  private state: () => Array<Gtk.Widget>
+  private setState: (value: Array<Gtk.Widget>) => void
 
   // notify subscribers to rerender when state changes
   private notifiy() {
-    this.var.set([...this.map.values()].reverse())
+    this.setState([...this.map.values()].reverse())
   }
 
   constructor() {
+    const [state, setState] = createState<Array<Gtk.Widget>>([])
+    this.state = state
+    this.setState = setState
+    
     const notifd = Notifd.get_default()
 
     /**
@@ -70,7 +74,7 @@ class NotifiationMap implements Subscribable {
   }
 
   private set(key: number, value: Gtk.Widget) {
-    // in case of replacecment destroy previous widget
+    // in case of replacement destroy previous widget
     this.map.get(key)?.destroy()
     this.map.set(key, value)
     this.notifiy()
@@ -82,20 +86,15 @@ class NotifiationMap implements Subscribable {
     this.notifiy()
   }
 
-  // needed by the Subscribable interface
+  // Return the state accessor
   get() {
-    return this.var.get()
-  }
-
-  // needed by the Subscribable interface
-  subscribe(callback: (list: Array<Gtk.Widget>) => void) {
-    return this.var.subscribe(callback)
+    return this.state
   }
 }
 
 export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
   const { TOP, RIGHT } = Astal.WindowAnchor
-  const notifs = new NotifiationMap()
+  const notifs = new NotificationMap()
 
   return <window
     className="NotificationPopups"
@@ -103,7 +102,7 @@ export default function NotificationPopups(gdkmonitor: Gdk.Monitor) {
     exclusivity={Astal.Exclusivity.EXCLUSIVE}
     anchor={TOP | RIGHT}>
     <box vertical>
-      {bind(notifs)}
+      {notifs.get()}
     </box>
   </window>
 }

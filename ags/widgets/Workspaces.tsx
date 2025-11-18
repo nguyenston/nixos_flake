@@ -1,12 +1,11 @@
-import app from "ags/gtk3/app"  // CHANGED: was { App } from "astal/gtk3"
-import { Astal } from "ags/gtk3"  // CHANGED
-import Gdk from "gi://Gdk?version=3.0"  // CHANGED: separate import
-import { createState, createBinding } from "ags"  // CHANGED: was "astal"
+import app from "ags/gtk3/app"
+import { Astal } from "ags/gtk3"
+import Gdk from "gi://Gdk?version=3.0"
+import { createState, createBinding } from "ags"
 import Niri, { OutputsWithWorkspacesWithWindows, Window, WorkspaceWithWindows } from "../service/niri"
 
 const niri = Niri.get_default()
 
-// CHANGED: App.connect → app.connect
 app.connect('monitor-added', () => niri.reloadMonitors())
 app.connect('monitor-removed', () => niri.reloadMonitors())
 
@@ -69,9 +68,9 @@ function Workspace(workspace: WorkspaceWithWindows, showInactiveIcons: boolean) 
       if (!workspace.is_focused) { niri.focusWorkspaceId(workspace.id) }
       niri.focusColumn(scroll.delta_y < 0)
     }}
-    class={className}>  {/* CHANGED: className → class */}
+    class={className}>
     <box spacing={showIcons ? 5 : 0}>
-      <label class="ws-idx" label={workspace.idx.toString()} />  {/* CHANGED */}
+      <label class="ws-idx" label={workspace.idx.toString()} />
       {showIcons && workspace.windows.map(win => <icon icon={guessAppIcon(win)} />)}
     </box>
   </button>
@@ -101,10 +100,10 @@ export default function Workspaces({ forMonitor, showInactiveIcons = false }: Wo
       .sort((a, b) => a.idx - b.idx)
   }
 
-  const outputs = createBinding(niri, 'outputs')  // CHANGED: bind → createBinding
+  const outputs = createBinding(niri, 'outputs')
   const workspacesForMe = outputs.as(os => filterWorkspacesForMonitor(os, monitorName))
 
-  return <box class="Workspaces">  {/* CHANGED: className → class */}
+  return <box class="Workspaces">
     {workspacesForMe.as(ws => ws.map(w => Workspace(w, showInactiveIcons)))}
   </box>
 }
