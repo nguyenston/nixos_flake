@@ -1,4 +1,7 @@
-import { App, Astal, Gdk, Gtk } from "astal/gtk3"
+import app from "ags/gtk3/app"
+import { Astal } from "ags/gtk3"
+import Gtk from "gi://Gtk?version=3.0"
+import Gdk from "gi://Gdk?version=3.0"
 import DateTime from "../widgets/DateTime"
 import Workspaces from "../widgets/Workspaces"
 import Tray from "../widgets/Tray"

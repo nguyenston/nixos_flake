@@ -1,6 +1,6 @@
 import Apps from "gi://AstalApps"
-import { App, Astal, Gdk, Gtk } from "astal/gtk3"
-import { Variable } from "astal"
+import { App, Astal, Gdk, Gtk } from "ags/gtk3"
+import { createState } from "ags"
 
 const MAX_ITEMS = 8
 
@@ -33,7 +33,7 @@ export default function Applauncher() {
     entryMultiplier: 2
   })
 
-  const query = Variable("")
+  const [query, setQuery] = createState("")
   const list = query(q => apps.fuzzy_query(q).slice(0, MAX_ITEMS))
   const hide = () => {
     if (App.get_window('launcher')?.visible) {
@@ -54,7 +54,7 @@ export default function Applauncher() {
     keymode={Astal.Keymode.ON_DEMAND}
     application={App}
     visible={false}
-    onShow={() => query.set("")}
+    onShow={() => setQuery("")}
     onFocusOutEvent={() => hide()}
     onKeyPressEvent={function(_self, event: Gdk.Event) {
       if (event.get_keyval()[1] === Gdk.KEY_Escape) {
@@ -66,8 +66,8 @@ export default function Applauncher() {
         <box widthRequest={500} className="Applauncher" vertical>
           <entry
             placeholderText="Search"
-            onChanged={({ text }) => query.set(text)}
-            onActivate={() => { if (query.get() !== "") openfirst() }}
+            onChanged={({ text }) => setQuery(text)}
+            onActivate={() => { if (query() !== "") openfirst() }}
             text={query()}
           />
           <box spacing={6} vertical>

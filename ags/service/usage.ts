@@ -1,6 +1,6 @@
-import GObject, { register, property } from "astal/gobject"
-import { readFile, readFileAsync } from "astal/file"
-import { interval } from "astal"
+import GObject, { register, property } from "ags/gobject"
+import { readFile, readFileAsync } from "ags/file"
+import { interval } from "ags/time"
 import GLib from "gi://GLib"
 
 type MemoryUsage = { percentage: number, total: number, used: number, free: number, available: number }

@@ -1,4 +1,4 @@
-import GObject, { property, register } from "astal/gobject";
+import GObject, { property, register } from "ags/gobject";
 import GLib from "gi://GLib?version=2.0";
 import Gio from "gi://Gio?version=2.0";
 
@@ -239,6 +239,11 @@ export default class Niri extends GObject.Object {
 
     if ('WindowFocusChanged' in message) {
       this.reconcileWindowFocusChanged(message.WindowFocusChanged)
+    }
+
+    if ('OutputsChanged' in message) {
+      console.log('[NIRI] Outputs changed, reloading monitors')
+      this.reloadMonitors()
     }
 
     this.notify('outputs')

@@ -4,9 +4,15 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    ags = {
-      url = "github:Aylur/ags/v2.3.0";
+    astal = {
+      url = "github:aylur/astal";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ags = {
+      url = "github:aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.astal.follows = "astal";
     };
   };
 
@@ -15,43 +21,64 @@
       self,
       nixpkgs,
       ags,
+      astal,
     }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      packages.${system} = {
-        default = ags.lib.bundle {
-          inherit pkgs;
-          src = ./.;
-          name = "ags2";
-          entry = "app.ts";
-          gtk4 = false;
+      packages.${system}.default = pkgs.stdenv.mkDerivation {
+        pname = "ags-bar";
+        version = "0.1.0";
+        src = ./.;
 
-          # additional libraries and executables to add to gjs' runtime
-          extraPackages = [
-            ags.packages.${system}.battery
-            ags.packages.${system}.hyprland
-            ags.packages.${system}.auth
-            ags.packages.${system}.bluetooth
-            ags.packages.${system}.tray
-            ags.packages.${system}.wireplumber
-            ags.packages.${system}.network
-            ags.packages.${system}.mpris
-            ags.packages.${system}.apps
-            ags.packages.${system}.notifd
-            # ags.packages.${system}.agsFull
-          ];
-        };
+        nativeBuildInputs = with pkgs; [
+          wrapGAppsHook3
+          gobject-introspection
+          ags.packages.${system}.default
+        ];
+
+        buildInputs = [
+          pkgs.glib
+          pkgs.gjs
+
+          # Core Astal libraries
+          astal.packages.${system}.io
+          astal.packages.${system}.astal3 # GTK3 support
+
+          # Your required Astal libraries (moved from ags.packages to astal.packages)
+          astal.packages.${system}.battery
+          astal.packages.${system}.bluetooth
+          astal.packages.${system}.tray
+          astal.packages.${system}.wireplumber
+          astal.packages.${system}.network
+          astal.packages.${system}.mpris
+          astal.packages.${system}.apps
+          astal.packages.${system}.notifd
+        ];
+
+        installPhase = ''
+          ags bundle app.ts $out/bin/ags-bar --gtk 3
+        '';
+
+        preFixup = ''
+          gappsWrapperArgs+=(
+            --prefix PATH : ${
+              pkgs.lib.makeBinPath [
+                # Add any runtime executables you need
+                # e.g., pkgs.brightnessctl if used
+              ]
+            }
+          )
+        '';
       };
 
-      devShells.${system} = {
-        default = pkgs.mkShell {
-          buildInputs = [
-            ags.packages.${system}.agsFull
-          ];
-        };
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [
+          # agsFull includes AGS + all Astal libraries
+          ags.packages.${system}.agsFull
+        ];
       };
     };
 }

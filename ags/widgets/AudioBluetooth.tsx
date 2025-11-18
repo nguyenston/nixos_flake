@@ -1,5 +1,5 @@
 import Wireplumber from "gi://AstalWp"
-import { bind } from "astal"
+import { createBinding } from "ags"
 import { cn, percentage, linCom } from "../utils"
 import { Gtk } from "astal/gtk3"
 import { App, Astal } from "astal/gtk3"
@@ -11,7 +11,7 @@ export default function AudioBluetooth() {
   const speaker = audio?.get_default_speaker()!
   const mic = audio?.get_default_microphone()!
 
-  const audioVolText = bind(speaker, "volume").as(vol => `Speaker volume ${percentage(vol)}`)
+  const audioVolText = createBinding(speaker, "volume").as(vol => `Speaker volume ${percentage(vol)}`)
   const audioIcon2Glyph = {
     "audio-volume-low-symbolic": "󰕿",
     "audio-volume-medium-symbolic": "󰖀",
@@ -27,10 +27,10 @@ export default function AudioBluetooth() {
   }
 
   const bt = AstalBluetooth.get_default()
-  const bluetoothIcon = bind(bt, "is_powered").as(c => c ? "󰂯" : "󰂲")
+  const bluetoothIcon = createBinding(bt, "is_powered").as(c => c ? "󰂯" : "󰂲")
 
   return <eventbox
-    className="AudioBluetooth"
+    class="AudioBluetooth"
     valign={Gtk.Align.CENTER}
     onClick={(_self, click) => {
       if (click.button === Astal.MouseButton.PRIMARY) {
@@ -47,10 +47,10 @@ export default function AudioBluetooth() {
     <box>
       {/* <label */}
       {/*   label={bluetoothIcon} */}
-      {/*   className={cn('bluetooth', 'icon', { connected: bind(bt, 'is_connected') })()} */}
+      {/*   class={cn('bluetooth', 'icon', { connected: bind(bt, 'is_connected') })()} */}
       {/* /> */}
       <MeteringLabel
-        className='icon'
+        class='icon'
         width={29} height={25}
         firstLabel={bind(speaker, 'volume_icon').as(icon => audioIcon2Glyph[icon])}
         secondLabel={bind(speaker, 'volume_icon').as(icon => audioIcon2Glyph[icon])}
@@ -60,7 +60,7 @@ export default function AudioBluetooth() {
         level={bind(speaker, 'volume').as(per => linCom(per, 0.29, 0.82))}
       />
       <MeteringLabel
-        className='icon'
+        class='icon'
         width={29} height={25}
         firstLabel={bind(mic, 'volume_icon').as(icon => micIcon2Glyph[icon])}
         secondLabel={bind(mic, 'volume_icon').as(icon => micIcon2Glyph[icon])}

@@ -1,4 +1,5 @@
-import { Binding, Variable } from "astal"
+import { Binding } from "ags"
+import { createComputed } from "ags"
 
 type StringOrBooleanBinding = string | Record<string, Binding<boolean> | null>
 
@@ -16,10 +17,9 @@ export function cn(...classOrBindings: StringOrBooleanBinding[]): Variable<strin
   const bindings = booleans.flatMap(bindObjects => Object.values(bindObjects).filter(b => b !== null)) as Binding<boolean>[]
 
   // create a variable that listens on all of the bindings, and conditionally adds a class based on whether that binding evaluates to true
-  return Variable.derive(bindings, (...enabled) => {
+  return createComputed(bindings, (...enabled) => {
     const enabledClasses = enabled.flatMap((included, idx) => included ? [idxbindings[idx]] : [])
     const allClasses = classes.concat(enabledClasses)
-
     return allClasses.join(' ')
   })
 }

@@ -1,8 +1,12 @@
-import { Astal, Gtk, Gdk } from "astal/gtk3"
+import { Astal } from "ags/gtk3"
+import Gtk from "gi://Gtk?version=3.0"
+import Gdk from "gi://Gdk?version=3.0"
+import GLib from "gi://GLib?version=2.0"
+import { createState, createBinding } from "ags"
+import { timeout } from "ags/time"
 import Notifd from "gi://AstalNotifd"
 import Notification from "../widgets/Notification"
 import { type Subscribable } from "astal/binding"
-import { GLib, Variable, bind, timeout } from "astal"
 
 // see comment below in constructor
 const TIMEOUT_DELAY = 5000

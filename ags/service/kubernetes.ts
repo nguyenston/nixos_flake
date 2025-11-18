@@ -1,5 +1,5 @@
-import GObject, { register, property } from "astal/gobject"
-import { monitorFile, readFileAsync } from "astal/file"
+import GObject, { register, property } from "ags/gobject"
+import { monitorFile, readFileAsync } from "ags/file"
 import GLib from "gi://GLib"
 
 const home = GLib.getenv('HOME')!

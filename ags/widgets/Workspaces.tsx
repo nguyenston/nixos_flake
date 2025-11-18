@@ -1,21 +1,20 @@
-import { App, Astal, Gdk } from "astal/gtk3"
-import { Variable, bind } from "astal"
+import app from "ags/gtk3/app"  // CHANGED: was { App } from "astal/gtk3"
+import { Astal } from "ags/gtk3"  // CHANGED
+import Gdk from "gi://Gdk?version=3.0"  // CHANGED: separate import
+import { createState, createBinding } from "ags"  // CHANGED: was "astal"
 import Niri, { OutputsWithWorkspacesWithWindows, Window, WorkspaceWithWindows } from "../service/niri"
 
 const niri = Niri.get_default()
 
-// whenever we notice that monitors appear/disappear, make a query to niri to repopulate the monitor information. Niri
-// does not recieve this over its eventbus. Moreover, niri does not get manufacturer names over the event stream. This
-// only happens when you query for outputs explicitly which is what is triggered here.
-App.connect('monitor-added', () => niri.reloadMonitors())
-App.connect('monitor-removed', () => niri.reloadMonitors())
+// CHANGED: App.connect → app.connect
+app.connect('monitor-added', () => niri.reloadMonitors())
+app.connect('monitor-removed', () => niri.reloadMonitors())
 
 function guessAppIcon(window: Window) {
   if (window.title?.endsWith('NVIM')) {
     return 'neovim'
   }
 
-  // Nvim runs in foot, but nvim is checked first
   if (window.app_id === 'foot') {
     return 'foot'
   }
@@ -48,7 +47,6 @@ function guessAppIcon(window: Window) {
     return window.app_id.toLowerCase()
   }
 
-  // default custom icon from lucide
   return 'circle-dashed'
 }
 
@@ -68,13 +66,12 @@ function Workspace(workspace: WorkspaceWithWindows, showInactiveIcons: boolean) 
   return <button
     onClick={() => niri.focusWorkspaceId(workspace.id)}
     onScroll={(_self, scroll) => {
-      // console.log(workspace.is_focused, workspace.is_active)
       if (!workspace.is_focused) { niri.focusWorkspaceId(workspace.id) }
       niri.focusColumn(scroll.delta_y < 0)
     }}
-    className={className}>
+    class={className}>  {/* CHANGED: className → class */}
     <box spacing={showIcons ? 5 : 0}>
-      <label className="ws-idx" label={workspace.idx.toString()} />
+      <label class="ws-idx" label={workspace.idx.toString()} />  {/* CHANGED */}
       {showIcons && workspace.windows.map(win => <icon icon={guessAppIcon(win)} />)}
     </box>
   </button>
@@ -95,7 +92,6 @@ function getMonitorName(gdkmonitor: Gdk.Monitor) {
 }
 
 export default function Workspaces({ forMonitor, showInactiveIcons = false }: WorkspacesProps) {
-  // hacky way to get the connector name (e.g. DP-2)
   const monitorName = getMonitorName(forMonitor)!
 
   const filterWorkspacesForMonitor = (outputs: OutputsWithWorkspacesWithWindows, name: string) => {
@@ -105,16 +101,10 @@ export default function Workspaces({ forMonitor, showInactiveIcons = false }: Wo
       .sort((a, b) => a.idx - b.idx)
   }
 
-  // The two binds with a derived variable are because I noticed that when turning montors off and on, the manufacturer
-  // field was not set. I thought this would emit a signal when it is set afterwards (hence the binds) but that doesn't
-  // happen. I've added a setTimeout workaround in app.ts. Because of this workaround I technically don't need the
-  // bind(forMonitor, 'manufacturer') statement, but I left it in here to remind myself how this works xD
-  const outputs = bind(niri, 'outputs')
-
+  const outputs = createBinding(niri, 'outputs')  // CHANGED: bind → createBinding
   const workspacesForMe = outputs.as(os => filterWorkspacesForMonitor(os, monitorName))
-  /* const workspacesForMe = Variable.derive([outputs, monitorMake], filterWorkspacesForMonitor) */
 
-  return <box className="Workspaces">
+  return <box class="Workspaces">  {/* CHANGED: className → class */}
     {workspacesForMe.as(ws => ws.map(w => Workspace(w, showInactiveIcons)))}
   </box>
 }

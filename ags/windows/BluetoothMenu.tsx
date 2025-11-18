@@ -1,6 +1,9 @@
 import GObject from "gi://GObject"
-import { App, Astal, ConstructProps, Gdk, Gtk, Widget, astalify } from "astal/gtk3"
-import { Binding, Variable, bind } from "astal"
+import app from "ags/gtk3/app"
+import { Astal, ConstructProps, Widget, astalify } from "ags/gtk3"
+import Gtk from "gi://Gtk?version=3.0"
+import Gdk from "gi://Gdk?version=3.0"
+import { Binding, createState, createBinding } from "ags"
 import AstalBluetooth from "gi://AstalBluetooth?version=0.1"
 import AstalWp from "gi://AstalWp?version=0.1"
 import AstalBattery from "gi://AstalBattery?version=0.1"
@@ -39,9 +42,9 @@ class Spinner extends astalify(Gtk.Spinner) {
 function BtStatus() {
   const bt = AstalBluetooth.get_default()
   const upower = new AstalBattery.UPower()
-  const batteries = bind(upower, 'devices')
+  const batteries = createBinding(upower, 'devices')
 
-  const btinfo = Variable.derive([bind(bt, 'devices'), batteries], (devices, batteries) => {
+  const btinfo = createComputed([createBinding(bt, 'devices'), batteries], (devices, batteries) => {
     return devices.map(device => {
       return {
         device,
@@ -51,7 +54,7 @@ function BtStatus() {
   })
 
   return <box vertical>
-    {bind(btinfo).as(devices => devices.map(device => <Device btinfo={device} />))}
+    {createBinding(btinfo).as(devices => devices.map(device => <Device btinfo={device} />))}
   </box>
 }
 
@@ -66,11 +69,11 @@ type DeviceProps = {
 
 function Device({ btinfo: { device, battery } }: DeviceProps) {
   const title = battery
-    ? Variable.derive([bind(device, 'alias'), bind(battery, 'percentage')], (d, p) => `${d} [${Math.floor(p * 100)}%]`)
-    : Variable.derive([bind(device, 'alias')], (a) => a)
-  return <box className="btdevice">
+    ? createComputed([createBinding(device, 'alias'), createBinding(battery, 'percentage')], (d, p) => `${d} [${Math.floor(p * 100)}%]`)
+    : createComputed([createBinding(device, 'alias')], (a) => a)
+  return <box class="btdevice">
     <button
-      className={cn('connect', { 'connected': bind(device, 'connected') })()}
+      class={cn('connect', { 'connected': createBinding(device, 'connected') })()}
       cursor="pointer"
       hexpand
       onClick={() => device.connect_device((result) => console.log(result))}
@@ -79,9 +82,9 @@ function Device({ btinfo: { device, battery } }: DeviceProps) {
         <icon icon={device.icon}></icon>
         <label hexpand xalign={0} label={title()}></label>
         <Spinner
-          visible={bind(device, "connecting")}
+          visible={createBinding(device, "connecting")}
           setup={(self) => {
-            bind(device, "connecting").subscribe(connecting => {
+            createBinding(device, "connecting").subscribe(connecting => {
               connecting ? self.start() : self.stop()
             })
           }}
@@ -89,9 +92,9 @@ function Device({ btinfo: { device, battery } }: DeviceProps) {
       </box>
     </button>
     <button
-      className="disconnect"
+      class="disconnect"
       cursor="pointer"
-      visible={bind(device, "connected")}
+      visible={createBinding(device, "connected")}
       onClick={() => device.disconnect_device((result) => console.log(result))}
     >
       <icon icon="window-close-symbolic"></icon>
@@ -100,7 +103,7 @@ function Device({ btinfo: { device, battery } }: DeviceProps) {
 }
 
 function Endpoint(endpoint: AstalWp.Endpoint) {
-  const iconName = Variable.derive([bind(endpoint, 'mediaClass'), bind(endpoint, 'mute')], (mediaClass, mute) => {
+  const iconName = createComputed([createBinding(endpoint, 'mediaClass'), createBinding(endpoint, 'mute')], (mediaClass, mute) => {
     if (mediaClass === AstalWp.MediaClass.AUDIO_SPEAKER) {
       return mute ? 'audio-volume-muted-symbolic' : 'audio-volume-high-symbolic'
     }
@@ -115,12 +118,12 @@ function Endpoint(endpoint: AstalWp.Endpoint) {
   return <box>
     <button
       cursor="pointer"
-      className={cn('endpoint', { 'default': bind(endpoint, 'is_default') })()}
+      class={cn('endpoint', { 'default': createBinding(endpoint, 'is_default') })()}
       onClick={() => endpoint.is_default = true}
     >
       <box hexpand>
         <icon icon={iconName()} />
-        <label label={bind(endpoint, 'description')} />
+        <label label={createBinding(endpoint, 'description')} />
       </box>
     </button>
   </box>
@@ -132,29 +135,29 @@ type EndpointStatusProps = {
 }
 
 function EndpointStatus({ default_endpoint, endpoints }: EndpointStatusProps) {
-  const show = Variable(false)
+  const [show, setShow] = createState(false)
 
-  App.connect('window-toggled', (_app, win) => {
+  app.connect('window-toggled', (_app, win) => {
     if (win.name === 'bluetooth' && win.visible) {
-      show.set(false)
+      setShow(false)
     }
   })
 
-  return <box vertical className="audiostatus">
+  return <box vertical class="audiostatus">
     <eventbox
       onScroll={(_self, scroll) => {
         default_endpoint.volume = scroll.delta_y < 0 ? Math.min(1, default_endpoint.volume + 0.05) : Math.max(0, default_endpoint.volume - 0.05)
       }}>
       <box vertical>
-        <box className="adjuster">
+        <box class="adjuster">
           <button
             cursor="pointer"
-            className={cn('mute', { 'muted': bind(default_endpoint, 'mute') })()}
+            class={cn('mute', { 'muted': createBinding(default_endpoint, 'mute') })()}
             onClick={() => default_endpoint.mute = !default_endpoint.mute}
           >
-            <box className="volume">
-              <icon icon={bind(default_endpoint, 'volumeIcon')} />
-              <label label={bind(default_endpoint, 'volume').as(percentage)} />
+            <box class="volume">
+              <icon icon={createBinding(default_endpoint, 'volumeIcon')} />
+              <label label={createBinding(default_endpoint, 'volume').as(percentage)} />
             </box>
           </button>
           <slider
@@ -164,9 +167,9 @@ function EndpointStatus({ default_endpoint, endpoints }: EndpointStatusProps) {
             // onScroll={(_self, scroll) => {
             //   default_endpoint.volume = scroll.delta_y < 0 ? Math.min(1, default_endpoint.volume + 0.02) : Math.max(0, default_endpoint.volume - 0.02)
             // }}
-            value={bind(default_endpoint, "volume")}
+            value={createBinding(default_endpoint, "volume")}
           />
-          <button cursor="pointer" className="expander" onClick={() => show.set(!show.get())}>
+          <button cursor="pointer" class="expander" onClick={() => show.set(!show())}>
             <icon icon={show(s => s ? 'pan-down-symbolic' : 'pan-end-symbolic')}></icon>
           </button>
         </box>
@@ -184,25 +187,25 @@ export default function BluetoothMenu() {
   const audio = AstalWp.get_default()!.audio
 
   const bt = AstalBluetooth.get_default()
-  const speakers = bind(audio, 'speakers')
-  const microphones = bind(audio, 'microphones')
+  const speakers = createBinding(audio, 'speakers')
+  const microphones = createBinding(audio, 'microphones')
 
 
-  const player = bind(AstalMpris.get_default(), 'players').as(players => players.find(p => p.bus_name === 'org.mpris.MediaPlayer2.spotify'))
+  const player = createBinding(AstalMpris.get_default(), 'players').as(players => players.find(p => p.bus_name === 'org.mpris.MediaPlayer2.spotify'))
 
   return <window
     name="bluetooth"
-    className="BluetoothMenu"
-    setup={(self) => App.add_window(self)}
+    class="BluetoothMenu"
+    setup={(self) => app.add_window(self)}
     keymode={Astal.Keymode.ON_DEMAND}
     visible={false}
-    onFocusOutEvent={(self) => App.toggle_window(self.name)}
+    onFocusOutEvent={(self) => app.toggle_window(self.name)}
     anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}>
-    <box className="AudioBluetoothMenu" clickThrough={false} vertical valign={Gtk.Align.START} halign={Gtk.Align.END}>
+    <box class="AudioBluetoothMenu" clickThrough={false} vertical valign={Gtk.Align.START} halign={Gtk.Align.END}>
       <box spacing={10}>
         <label label="Bluetooth" xalign={0} />
         <overlay passThrough={false}>
-          <switch active={bind(bt, "is_powered")} />
+          <switch active={createBinding(bt, "is_powered")} />
           <eventbox onClick={() => bt.toggle()} cursor="pointer" />
         </overlay>
       </box>

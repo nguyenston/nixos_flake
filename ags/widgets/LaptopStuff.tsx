@@ -1,10 +1,9 @@
 import AstalNetwork from "gi://AstalNetwork?version=0.1"
 import AstalBattery from "gi://AstalBattery?version=0.1"
-import { bind, Binding, Variable } from "astal"
+import { createBinding, createComputed } from "ags"  // CHANGED: was "astal"
 import { cn, percentage, linCom } from "../utils"
 import MeteringLabel from "./MeteringLabel"
 
-// copied this from the docs example
 import AstalBrightness from "../service/brightness"
 import Gtk from "gi://Gtk?version=3.0"
 
@@ -13,20 +12,23 @@ const battery = AstalBattery.get_default()
 const brightness = AstalBrightness.get_default()
 
 function WifiIcon(wifi: AstalNetwork.Wifi) {
-  const notIsoProof = bind(wifi, 'ssid').as(ssid => ssid?.includes('BusinessCenter'))
+  const notIsoProof = createBinding(wifi, 'ssid').as(ssid => ssid?.includes('BusinessCenter'))  // CHANGED: bind → createBinding
 
   return <icon
-    icon={bind(wifi, 'icon_name')}
-    tooltip_text={bind(wifi, 'ssid').as(ssid => ssid ?? 'Not connected')}
-    className={cn({ 'wifi-danger': notIsoProof })()}
+    icon={createBinding(wifi, 'icon_name')}  // CHANGED: bind → createBinding
+    tooltip_text={createBinding(wifi, 'ssid').as(ssid => ssid ?? 'Not connected')}  // CHANGED
+    class={cn({ 'wifi-danger': notIsoProof })()}  // CHANGED: className → class
   />
 }
 
 function WiredIcon() {
-  return <icon icon={bind(network.wired, 'icon_name')} tooltip_text={bind(network.wired, 'speed').as(s => s.toString())} />
+  return <icon 
+    icon={createBinding(network.wired, 'icon_name')}  // CHANGED
+    tooltip_text={createBinding(network.wired, 'speed').as(s => s.toString())}  // CHANGED
+  />
 }
 
-function WifiSection({ reveal }: { reveal: Binding<boolean> }) {
+function WifiSection({ reveal }: { reveal: ReturnType<typeof createBinding<boolean>> }) {  // Type changed
   const wifi = network.wifi
 
   return <box>
@@ -34,9 +36,9 @@ function WifiSection({ reveal }: { reveal: Binding<boolean> }) {
     <revealer
       reveal_child={reveal}
       transition_type={Gtk.RevealerTransitionType.SLIDE_LEFT}
-      visible={bind(wifi, 'ssid').as(ssid => !!ssid)}
+      visible={createBinding(wifi, 'ssid').as(ssid => !!ssid)}  // CHANGED
     >
-      {bind(wifi, 'ssid')}
+      {createBinding(wifi, 'ssid')}  // CHANGED
     </revealer>
   </box>
 }
@@ -50,48 +52,49 @@ const batteryStatetoClass = [
   'pendingCharge',
   'pendingDischarge'
 ]
+
 function BatteryIcon() {
   return <MeteringLabel
-    className="icon"
+    class="icon"  // CHANGED: className → class
     width={29} height={25}
     firstLabel="󰂎" secondLabel="󰁹"
     firstClassName="grey"
-    secondClassName={bind(battery, 'state').as(s => 'battery ' + batteryStatetoClass[s])}
-    tooltip_text={bind(battery, 'state').as(s => batteryStatetoClass[s])}
-    level={bind(battery, 'percentage').as(per => linCom(per, 0.17, 0.88))} />
+    secondClassName={createBinding(battery, 'state').as(s => 'battery ' + batteryStatetoClass[s])}  // CHANGED
+    tooltip_text={createBinding(battery, 'state').as(s => batteryStatetoClass[s])}  // CHANGED
+    level={createBinding(battery, 'percentage').as(per => linCom(per, 0.17, 0.88))}  // CHANGED
+  />
 }
 
-function BatterySection({ reveal }: { reveal: Binding<boolean> }) {
+function BatterySection({ reveal }: { reveal: ReturnType<typeof createBinding<boolean>> }) {
   return <box>
     <BatteryIcon />
     <revealer
       reveal_child={reveal}
       transition_type={Gtk.RevealerTransitionType.SLIDE_LEFT}
     >
-      {bind(battery, 'percentage').as(percentage)}
+      {createBinding(battery, 'percentage').as(percentage)}  // CHANGED
     </revealer>
   </box>
 }
 
 function BrightnessIcon() {
   return <MeteringLabel
-    className="icon"
+    class="icon"  // CHANGED
     width={29} height={25}
     firstLabel="󰃞" secondLabel="󰃠"
     firstClassName="grey" secondClassName="brightness"
-    level={bind(brightness, 'screen').as(per => linCom(per, 0.17, 0.88))}
+    level={createBinding(brightness, 'screen').as(per => linCom(per, 0.17, 0.88))}  // CHANGED
   />
-  return <icon icon="display-brightness-symbolic" tooltip_text={bind(brightness, 'screen').as(percentage)} />
 }
 
-function BrightnessSection(brightness: AstalBrightness, hovered: Variable<boolean>) {
+function BrightnessSection(brightness: AstalBrightness, hovered: ReturnType<typeof createState<boolean>>[0]) {  // Type changed
   return <box>
     <BrightnessIcon />
     <revealer
-      reveal_child={hovered()}
+      reveal_child={hovered()}  // Still works the same
       transition_type={Gtk.RevealerTransitionType.SLIDE_LEFT}
     >
-      <label label={bind(brightness, 'screen').as(percentage)} css="margin-right: 0.8rem" />
+      <label label={createBinding(brightness, 'screen').as(percentage)} css="margin-right: 0.8rem" />  // CHANGED
     </revealer>
   </box>
 }
@@ -100,38 +103,30 @@ const batteryLevels: [number, string][] = [
   [0.1, 'battery-critical'],
   [0.25, 'battery-low'],
   [0.5, 'battery-needs-juice'],
-  [100, ''] // positive infinity --- no special class added
+  [100, '']
 ]
 
 export default function LaptopStuff() {
-  const batteryLevelClass = bind(battery, 'percentage').as(perc => batteryLevels.find(([level, _]) => level >= perc)![1])
-  const batteryCharging = bind(battery, 'charging')
-  const batteryClass = Variable.derive([batteryLevelClass, batteryCharging], (level, charging) => charging ? '' : level)
+  // CHANGED: Variable.derive → createComputed
+  const batteryLevelClass = createBinding(battery, 'percentage').as(perc => 
+    batteryLevels.find(([level, _]) => level >= perc)![1]
+  )
+  const batteryCharging = createBinding(battery, 'charging')
+  const batteryClass = createComputed([batteryLevelClass, batteryCharging], (level, charging) => 
+    charging ? '' : level
+  )
 
-  const hoverReveal = Variable(false)
+  const [hoverReveal, setHoverReveal] = createState(false)  // CHANGED: Variable → createState
 
-  // define the class here so that CSS can be applied to the entire widget instead of just the battery icon
   return <eventbox
     onScroll={(_self, scroll) => {
       brightness.screen = scroll.delta_y < 0 ? Math.min(1, brightness.screen + 0.02) : Math.max(0, brightness.screen - 0.02)
     }}
-    onHover={() => hoverReveal.set(true)}
-    onHoverLost={() => hoverReveal.set(false)}>
-    <box className={batteryClass(cls => `LaptopStuff ${cls}`)}>
-      {/* {bind(network, 'primary').as(primary => { */}
-      {/*   if (primary === AstalNetwork.Primary.WIFI) { */}
-      {/*     return <WifiSection reveal={hoverReveal()} /> */}
-      {/*   } */}
-      {/**/}
-      {/*   if (primary === AstalNetwork.Primary.WIRED) { */}
-      {/*     return <WiredIcon /> */}
-      {/*   } */}
-      {/**/}
-      {/*   return <icon icon="unavailable" /> */}
-      {/* })} */}
-      <BatterySection reveal={hoverReveal()} />
+    onHover={() => setHoverReveal(true)}  // CHANGED: hoverReveal.set(true) → setHoverReveal(true)
+    onHoverLost={() => setHoverReveal(false)}>  // CHANGED
+    <box class={batteryClass(cls => `LaptopStuff ${cls}`)}>  // CHANGED: className → class
+      <BatterySection reveal={hoverReveal} />  // Note: hoverReveal is now an accessor, not Variable
       {BrightnessSection(brightness, hoverReveal)}
     </box>
   </eventbox>
-
 }

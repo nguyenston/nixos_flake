@@ -1,6 +1,6 @@
-import GObject, { register, property } from "astal/gobject";
-import { Gtk, Gdk, Widget, astalify, type ConstructProps } from "astal/gtk3";
-import { bind } from "astal";
+import GObject, { register, property } from "ags/gobject";
+import { Gtk, Gdk, Widget, astalify, type ConstructProps } from "ags/gtk3";
+import { createBinding } from "ags";
 
 @register()
 export default class MeteringLabel extends astalify(Gtk.Overlay) {
@@ -40,12 +40,12 @@ export default class MeteringLabel extends astalify(Gtk.Overlay) {
     this._height = height
 
     const first_half = <label
-      className={bind(this, "firstClassName")}
+      class={createBinding(this, "firstClassName")}
       widthRequest={this.width}
       heightRequest={this.height}
       valign={Gtk.Align.CENTER}
       halign={Gtk.Align.CENTER}
-      label={bind(this, "firstLabel")}
+      label={createBinding(this, "firstLabel")}
     />
     const second_half = <overlay
       valign={Gtk.Align.END}
@@ -53,12 +53,12 @@ export default class MeteringLabel extends astalify(Gtk.Overlay) {
     >
       <box widthRequest={this.width}></box>
       <label
-        className={bind(this, "secondClassName")}
+        class={createBinding(this, "secondClassName")}
         widthRequest={this.width}
         heightRequest={this.height}
         valign={Gtk.Align.END}
         halign={Gtk.Align.CENTER}
-        label={bind(this, "secondLabel")}
+        label={createBinding(this, "secondLabel")}
       />
     </overlay> as Widget.Overlay
 

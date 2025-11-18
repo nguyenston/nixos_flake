@@ -1,14 +1,13 @@
-import { GLib, Variable } from "astal"
-import { Gtk } from "astal/gtk3"
+import GLib from "gi://GLib?version=2.0"
+import { createPoll } from "ags"
 
 export default function DateTime({ timefmt = "%H:%M", datefmt = "%a %d %b" }) {
-  const time = Variable<string>("").poll(1000, () => GLib.DateTime.new_now_local().format(timefmt)!)
-  const date = Variable<string>("").poll(1000, () => GLib.DateTime.new_now_local().format(datefmt)!)
+  const time = createPoll("", 1000, () => GLib.DateTime.new_now_local().format(timefmt)!)
+  const date = createPoll("", 1000, () => GLib.DateTime.new_now_local().format(datefmt)!)
 
-  return <box className="DateTime" spacing={3}>
-    <label className="date" onDestroy={() => date.drop()} label={date()} />
-    <label className="dot" label="•"></label>
-    {/* <icon icon="dot" halign={Gtk.Align.CENTER} valign={Gtk.Align.CENTER} /> */}
-    <label className="time" onDestroy={() => time.drop()} label={time()} />
+  return <box class="DateTime" spacing={3}>
+    <label class="date" label={date()} />
+    <label class="dot" label="•"></label>
+    <label class="time" label={time()} />
   </box>
 }

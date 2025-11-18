@@ -1,45 +1,84 @@
 import style from "./style.scss"
-import { App, Gdk, Gtk } from "astal/gtk3"
+import app from "ags/gtk3/app"
+import Gtk from "gi://Gtk?version=3.0"
+import Gdk from "gi://Gdk?version=3.0"
 import Bar from "./windows/Bar"
 import BluetoothMenu from "./windows/BluetoothMenu"
 import Applauncher from "./windows/Applauncher"
 import NotificationPopups from "./windows/Notifications"
 
-App.start({
+app.start({
   icons: "./icons",
   css: style,
   main() {
-    const bars = new Map<Gdk.Monitor, Gtk.Widget>()
+    const niri = Niri.get_default()
+    const bars = new Map<string, Gtk.Widget>()
 
-    for (const gdkmonitor of App.get_monitors()) {
-      bars.set(gdkmonitor, Bar(gdkmonitor))
+    // Helper to find GDK monitor by Niri connector name
+    const findGdkMonitor = (connectorName: string): Gdk.Monitor | null => {
+      const display = Gdk.Display.get_default()!
+      const screen = display.get_default_screen()
+      
+      for (let i = 0; i < display.get_n_monitors(); i++) {
+        const monitor = display.get_monitor(i)
+        const name = screen.get_monitor_plug_name(i)
+        if (name === connectorName) {
+          return monitor
+        }
+      }
+      return null
     }
 
-    App.connect("monitor-added", (_, gdkmonitor) => {
-      const addLater = () => {
-        if (gdkmonitor.manufacturer) {
-          bars.set(gdkmonitor, Bar(gdkmonitor))
-          return
-        }
+    // Reconcile bars with current monitor state
+    const reconcileBars = () => {
+      const currentOutputs = Object.keys(niri.outputs)
+      const trackedOutputs = Array.from(bars.keys())
 
-        // I've noticed that the manufacturer is not set after turning on a monitor. This is a nasty workaround
-        // because signals do not seem to work here. I think it could have something to do with niri only
-        // setting this information after a little while
-        console.log('Manufacturer was null, checking again in 500ms')
-        setTimeout(addLater, 500)
+      // Remove bars for disconnected monitors
+      for (const name of trackedOutputs) {
+        if (!currentOutputs.includes(name)) {
+          bars.get(name)?.destroy()
+          bars.delete(name)
+          console.log(`[Monitor] Removed bar for ${name}`)
+        }
       }
 
-      addLater()
-    })
+      // Add bars for newly connected monitors
+      for (const [name, output] of Object.entries(niri.outputs)) {
+        if (!bars.has(name) && output.monitor) {
+          const gdkMonitor = findGdkMonitor(output.monitor.name)
+          if (gdkMonitor) {
+            bars.set(name, Bar(gdkMonitor))
+            console.log(`[Monitor] Added bar for ${name}`)
+          } else {
+            console.warn(`[Monitor] Could not find GDK monitor for ${output.monitor.name}`)
+          }
+        }
+      }
+    }
 
-    App.connect("monitor-removed", (_, gdkmonitor) => {
-      bars.get(gdkmonitor)?.destroy()
-      bars.delete(gdkmonitor)
-    })
+    // Initial setup
+    reconcileBars()
 
-    App.get_monitors().map(NotificationPopups)
+    // Listen to Niri's output changes (primary solution)
+    niri.connect('notify::outputs', reconcileBars)
 
-    const applauncher = Applauncher()
-    const btmenu = BluetoothMenu()
+    // Fallback: also listen to GDK events (debounced)
+    let updateTimeout: number | null = null
+    const scheduleUpdate = () => {
+      if (updateTimeout) clearTimeout(updateTimeout)
+      updateTimeout = setTimeout(() => {
+        reconcileBars()
+        updateTimeout = null
+      }, 500) as any
+    }
+
+    app.connect("monitor-added", scheduleUpdate)
+    app.connect("monitor-removed", scheduleUpdate)
+
+    // Create other windows
+    app.get_monitors().map(NotificationPopups)
+    applauncher()
+    BluetoothMenu()
   },
 })
