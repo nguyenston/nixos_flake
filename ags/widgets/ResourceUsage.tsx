@@ -1,5 +1,6 @@
 import Gtk from "gi://Gtk?version=3.0"
-import { createState, createBinding, createPoll, createComputed } from "ags"
+import { createState, createBinding, createComputed } from "ags"
+import { createPoll } from "ags/time"
 import Usage from "../service/usage"
 import { cn, percentage, linCom } from "../utils"
 import MeteringLabel from "./MeteringLabel"

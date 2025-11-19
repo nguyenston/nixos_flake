@@ -1,11 +1,11 @@
 import GObject from "gi://GObject"
 import app from "ags/gtk3/app"
-import { ConstructProps, Gtk, astalify } from "ags/gtk3"
+import { ConstructProps, Gtk } from "ags/gtk3"
 import { createBinding } from "ags"
 import AstalBluetooth from "gi://AstalBluetooth?version=0.1"
 
 // subclass, register, define constructor props
-class Popover extends astalify(Gtk.Popover) {
+class Popover extends Gtk.Popover {
   static { GObject.registerClass(this) }
 
   constructor(props: ConstructProps<

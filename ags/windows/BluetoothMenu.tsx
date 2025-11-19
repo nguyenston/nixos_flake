@@ -1,6 +1,6 @@
 import GObject from "gi://GObject"
 import app from "ags/gtk3/app"
-import { Astal, ConstructProps, Widget, astalify } from "ags/gtk3"
+import { Astal, ConstructProps, Widget } from "ags/gtk3"
 import Gtk from "gi://Gtk?version=3.0"
 import Gdk from "gi://Gdk?version=3.0"
 import { Binding, createState, createBinding, createComputed } from "ags"
@@ -13,7 +13,7 @@ import MediaPlayer from "../widgets/MediaPlayer"
 import AstalMpris from "gi://AstalMpris?version=0.1"
 
 // this stuff is massively annoying to implement, so I'll just use buttons for each audio option
-class ComboBox extends astalify(Gtk.ComboBox) {
+class ComboBox extends Gtk.ComboBox {
   static { GObject.registerClass(this) }
 
   constructor(props: ConstructProps<
@@ -26,7 +26,7 @@ class ComboBox extends astalify(Gtk.ComboBox) {
 }
 
 // subclass, register, define constructor props
-class Spinner extends astalify(Gtk.Spinner) {
+class Spinner extends Gtk.Spinner {
   static { GObject.registerClass(this) }
 
   constructor(props: ConstructProps<

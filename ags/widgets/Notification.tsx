@@ -1,4 +1,4 @@
-import { GLib } from "ags"
+import GLib from "gi://GLib?version=2.0"
 import { Gtk, Astal } from "ags/gtk3"
 import { type EventBox } from "ags/gtk3/widget"
 import Notifd from "gi://AstalNotifd"
