@@ -11,7 +11,6 @@
 }:
 let
   user = (import ./global-params.nix).user;
-  system = (import ./global-params.nix).system;
   fenix = inputs.fenix;
 in
 {
@@ -20,7 +19,6 @@ in
     ./hardware-configuration.nix
     ./filesystems.nix
     ./home-manager.nix
-    inputs.niri.nixosModules.niri
   ];
 
   # Bootloader.
@@ -198,6 +196,7 @@ in
     percentageAction = 4;
     criticalPowerAction = "PowerOff";
   };
+  services.tuned.enable = true;
 
   # Some udev rules
   services.udev.packages = with pkgs; [
@@ -219,9 +218,10 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Icky but let obsidian work
+  # Icky but let obsidian and webcord work
   nixpkgs.config.permittedInsecurePackages = [
     "libsoup-2.74.3"
+    "electron-36.9.5"
   ];
 
   programs.steam = {
@@ -266,7 +266,7 @@ in
       pulseaudioFull
       lm_sensors
 
-      glxinfo
+      mesa-demos
       clinfo
       tomlplusplus
       pkg-configUpstream
@@ -408,7 +408,7 @@ in
     # driSupport = true; # deprecated
     enable32Bit = true;
     extraPackages = with pkgs; [
-      mesa.drivers
+      mesa
       rocmPackages.clr.icd
     ];
   };
@@ -438,9 +438,9 @@ in
     };
   };
 
-  services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchExternalPower = "suspend";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
   };
   services.tailscale = {
     enable = true;
@@ -460,14 +460,9 @@ in
     '';
   };
 
-  programs.niri = {
-    enable = true;
-    package = pkgs.niri;
-  };
-  niri-flake.cache.enable = true;
-  services.xserver = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+  services = {
+    # displayManager.gdm.enable = true;
+    xserver.desktopManager.gnome.enable = true;
   };
 
   # Enable the OpenSSH daemon.

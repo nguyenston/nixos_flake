@@ -9,6 +9,7 @@
 let
   global_params = import ./global-params.nix;
   user = global_params.user;
+  system = global_params.system;
 
   dotfiles_directories = with builtins; attrNames (readDir ./dotfiles);
   import_dir = root: (dir: import (./. + (root + dir)));
@@ -25,20 +26,12 @@ in
 {
   home-manager.users.${user} = {
     imports = [
+      inputs.niri.homeModules.niri
     ];
     programs.home-manager.enable = true;
-
-    # wayland.windowManager.hyprland = {
-    #   enable = false;
-    #   package = inputs.hyprland.packages.${pkgs.system}.hyprland.overrideAttrs (prev: {
-    #     patches = (prev.patches or []) ++ [ ];
-    #   });
-    #   xwayland.enable = true;
-    #   plugins = [
-    #   ];
-    #   extraConfig = builtins.readFile ./dotfiles/hypr/hyprland.conf;
-    # };
-    # programs.hyprlock.enable = false;
+    programs.niri = {
+      enable = true;
+    };
 
     home.username = "${user}";
     home.homeDirectory = "/home/${user}";
@@ -46,9 +39,10 @@ in
     home.packages =
       with pkgs;
       [
-        inputs.agsbar.packages.${pkgs.system}.default
-        inputs.ags.packages.${system}.agsFull
-        # hyprland stuff
+        inputs.noctalia.packages.${system}.default
+        # niri stuff
+        kdePackages.qtwayland
+        qt6.qtbase
         maxfetch # fetch program
         # alacritty # terminal
         kitty
@@ -127,13 +121,12 @@ in
         telegram-desktop
         grive2
         gnome-text-editor
-        masterpdfeditor
         zathura # vim-based pdf viewer
         xarchiver
         mpv
         haruna
         zoom-us
-        obsidian
+        # obsidian
         rclone
         zotero
         fragments # torrent client
@@ -145,13 +138,11 @@ in
         synergy
         gparted
         waybar
-        localsend # p2p file share
-        krita # drawing program
         ipe # editor for drawing latex figures
         pdfpc
 
         # programming languages
-        micromamba # conda but newer
+        mamba-cpp # conda but newer
         git
         julia-bin
         gcc
@@ -165,6 +156,7 @@ in
         # nodejs # included in npm
         nodePackages.npm
         typescript
+        vtsls # lsp server
         nodePackages.typescript-language-server
 
         # lsp stuff
